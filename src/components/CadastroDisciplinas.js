@@ -17,11 +17,14 @@ const CadDisciplina = () => {
         {id:4, numero:4}
     ]
     
+    const professores = [
+        {id: 1, nome: 'José ribeiro'}
+    ]
+    
     const [nome, setNome] = useState('');
     const [cargaHoraria, setCargaHoraria] = useState('');
     const [fase, setFase] = useState('');
     const [sala, setSala] = useState('');
-    const [professores, setProfessores] = useState([]);
     const [selectedProfessor, setSelectedProfessor] = useState('');
     
     const [OptionsSalas, setSalas] = useState([]);

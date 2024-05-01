@@ -6,6 +6,7 @@ import CadProfessor from './components/CadastroProfessores';
 import Routes from './Routes/Routes';
 import CadCurso from './components/Curso';
 import CadDisciplina from './components/CadastroDisciplinas';
+import CadCoordenador from './components/Coordenador';
 function App() {
  /* const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -40,7 +41,7 @@ function App() {
   */
   return (
     <div className="App">
-      <CadDisciplina/>
+      <CadCoordenador/>
     </div>
   );
 }
