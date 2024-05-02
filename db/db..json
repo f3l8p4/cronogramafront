@@ -1,0 +1,18 @@
+{
+    "professores": [
+      {
+        "id": 1,
+        "nome": "Jose",
+        "email": "www",
+        "aulasSemanais": 2,
+        "diasLecionados": 1
+      },
+      {
+        "id": "5265",
+        "nome": "Felipe",
+        "email": "www",
+        "aulasSemanais": "1",
+        "diasLecionados": "3"
+      }
+    ]
+  }
