@@ -2,9 +2,24 @@ import logo from './logo.svg';
 import './App.css';
 import { useForm } from 'react-hook-form';
 import React, { useState } from 'react';
+import CadProfessores from './components/CadastroProfessores';
+import CadCurso from './components/Curso';
+import api from './services/Api_professores/Api';
 
 function App() {
+
+  const [nome, setNome] = useState('');
+  const handleChangeNome = (event) => {
+    setNome(event.target.value);
+  };
+  const [email, setEmail] = useState('');
+  const [aulasSemanais, setaulasSemanais] = useState('');
+  const [diasLecionados, setdiasLecionados] = useState('');
+  
   const { register, handleSubmit, formState: { errors } } = useForm();
+
+  api.getProfessores()
+
 
   const DaysOfWeek  = [
     { id: 1, name: 'Segunda-feira' },
@@ -32,6 +47,7 @@ function App() {
 
   const onSubmit = (data) => {
    console.log(data)
+   api.addProfessores(nome,email,aulasSemanais,diasLecionados);
   };
   return (
     <div className="App">
@@ -39,27 +55,17 @@ function App() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="name">Nome: </label>
-          <input type="text" id="name" {...register('name', { required: 'Por favor, insira um nome.' })} />
+          <input type="text" id="name" value={nome} onChange={(e) => setNome(e.target.value)} />
           {errors.name && <div>{errors.name.message}</div>}
         </div>
         <div>
           <label htmlFor="email">E-mail: </label>
-          <input type="email" id="email" {...register('email', { required: 'Por favor, insira um e-mail.' })} />
+          <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)}  />
           {errors.email && <div>{errors.email.message}</div>}
         </div>
         <div>
         <label htmlFor="number">Quantidade de aulas semanais: </label>
-          <input type="number" id="number" {...register('number', {
-            required: 'Por favor, insira um número.',
-            min: {
-              value: 1,
-              message: 'O professor deve dar ao minimo 1 aula por semana'
-            },
-            max: {
-              value: 6,
-              message: 'O professor não pode dar mais de 6 dias de aula por semana.'
-            }
-          })} />
+          <input type="number" id="number" value={aulasSemanais} onChange={(e) => setaulasSemanais(e.target.value)} />
           {errors.number && <div>{errors.number.message}</div>}
         </div>
 
