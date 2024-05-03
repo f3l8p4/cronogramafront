@@ -1,11 +1,19 @@
 import React,{useState} from "react";
 import { useForm } from 'react-hook-form';
+import api from "../services/apiProfessores.js/Api";
 
 
 const CadProfessor = () => {
-    
-    const { register, handleSubmit, formState: { errors } } = useForm();
+  
+    const [id, setId] = useState('')
+    const [nome, setNome] = useState('');
+    const [email, setEmail] = useState('');
+    const [aulasSemanais, setAulasSemanais] = useState('');
+    const [diasLecionados, setdiasLecionados] = useState('');
+  
+    const {handleSubmit, formState: { errors } } = useForm();
 
+    
     const DaysOfWeek  = [
       { id: 1, name: 'Segunda-feira' },
       { id: 2, name: 'Terça-feira' },
@@ -26,62 +34,47 @@ const CadProfessor = () => {
       } else {
         setSelectedDays(selectedDays.filter(dayId => dayId !== selectedDayId));
       }
-    };
-  
-  
-  
-    const onSubmit = (data) => {
-     console.log(data)
-    };
+      
+     console.log('teste')
+    };  
     
+    const onSubmit = (data) => {
+      console.log(data)
+      api.addProfessores(nome,email,aulasSemanais,diasLecionados);
+     };
     return (   
-    <div className="App">
+    <div className="App" onLoad={api.getProfessores()}>
     <h1>Cadastro de professores</h1>
    <form onSubmit={handleSubmit(onSubmit)}>
      <div>
        <label htmlFor="name">Nome: </label>
-       <input type="text" id="name" {...register('name', { required: 'Por favor, insira um nome.' })} />
-       {errors.name && <div>{errors.name.message}</div>}
+       <input type="text" id="name" value={nome} onChange={(e) => setNome(e.target.value)} />
      </div>
      <div>
        <label htmlFor="email">E-mail: </label>
-       <input type="email" id="email" {...register('email', { required: 'Por favor, insira um e-mail.' })} />
-       {errors.email && <div>{errors.email.message}</div>}
+       <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
      </div>
      <div>
-     <label htmlFor="number">Quantidade de aulas semanais: </label>
-       <input type="number" id="number" {...register('number', {
-         required: 'Por favor, insira um número.',
-         min: {
-           value: 1,
-           message: 'O professor deve dar ao minimo 1 aula por semana'
-         },
-         max: {
-           value: 6,
-           message: 'O professor não pode dar mais de 6 dias de aula por semana.'
-         }
-       })} />
-       {errors.number && <div>{errors.number.message}</div>}
+      <label htmlFor="number">Quantidade de aulas semanais: </label>
+      <input type="number" id="number" value={aulasSemanais} onChange={(e) => setAulasSemanais(e.target.value)}/>
      </div>
-
      <div>
-       <label htmlFor='DaysOfWeek'> Dias Da Semana </label>
-       {DaysOfWeek.map(day => (
-     <div key={day.id}>
-       <input
-         type="checkbox"
-         id={`day-${day.id}`}
-         value={day.id}
-         checked={selectedDays.includes(day.id)}
-         onChange={handleDayChange}
-         defaultChecked
-         {...register('DaysOfWeek[day-${day.id}]', {required: "É necessário ao menos um dia preenchido"})}
-       />
-       <label htmlFor={`day-${day.id}`}>{day.name}</label>
-     </div>
-   ))}
-   {errors.DaysOfWeek && <p>{errors.DaysOfWeek.message}</p>}
-     </div>
+        <label htmlFor='DaysOfWeek'> Dias Da Semana </label>
+          {DaysOfWeek.map(day => (
+        <div key={day.id}>
+          <input
+            type="checkbox"
+            id={`day-${day.id}`}
+            value={day.id}
+            checked={selectedDays.includes(day.id)}
+            onChange={handleDayChange}
+          
+          />
+          <label htmlFor={`day-${day.id}`}>{day.name}</label>
+        </div>
+        ))}
+        {errors.DaysOfWeek && <p>{errors.DaysOfWeek.message}</p>}
+      </div>
      <button type="submit">Enviar</button>
    </form>
  </div>

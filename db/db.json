@@ -1,7 +1,7 @@
 {
   "professores": [
     {
-      "id": 1,
+      "id": "1",
       "nome": "Jose",
       "email": "www",
       "aulasSemanais": 2,
@@ -13,6 +13,13 @@
       "email": "www",
       "aulasSemanais": "1",
       "diasLecionados": "3"
+    },
+    {
+      "id": "3fae",
+      "nome": "felipe",
+      "email": "felipe210603@hotmail.com",
+      "aulasSemanais": "3",
+      "diasLecionados": ""
     }
   ]
 }
