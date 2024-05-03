@@ -8,10 +8,8 @@ import api from './services/Api_professores/Api';
 
 function App() {
 
+  const [id, setId] = useState('')
   const [nome, setNome] = useState('');
-  const handleChangeNome = (event) => {
-    setNome(event.target.value);
-  };
   const [email, setEmail] = useState('');
   const [aulasSemanais, setaulasSemanais] = useState('');
   const [diasLecionados, setdiasLecionados] = useState('');
@@ -19,7 +17,6 @@ function App() {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   api.getProfessores()
-
 
   const DaysOfWeek  = [
     { id: 1, name: 'Segunda-feira' },
@@ -86,8 +83,12 @@ function App() {
       ))}
       {errors.DaysOfWeek && <p>{errors.DaysOfWeek.message}</p>}
         </div>
+
         <button type="submit">Enviar</button>
       </form>
+      
+      <input type='text' value={id} onChange={(e) => setId(e.target.value)}/>
+      <button type='submit' onSubmit={api.excludeProfessores(parseInt(id))}>Excluir</button>
     </div>
   );
 }
