@@ -6,6 +6,7 @@ const getProfessores = async () => {
     
     try {
       const response = await axios.get(`${apiUrl}/professores`);
+      return response.data
       console.log('professores:', response.data);
     } catch (error) {
       console.error('Erro ao obter professores:', error);

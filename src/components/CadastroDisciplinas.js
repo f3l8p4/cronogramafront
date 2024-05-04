@@ -2,6 +2,7 @@ import React,{useState,useEffect} from "react";
 import { useForm } from 'react-hook-form';
 import apiSalas from "../services/apiSalas/apiSalas";
 import apiFases from "../services/apiFases/apiFases";
+import apiProfessores from "../services/apiProfessores.js/ApiProfessores";
 
 const CadDisciplina = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -9,6 +10,7 @@ const CadDisciplina = () => {
   const [cargaHoraria, setCargaHoraria] = useState('');
   const [fase, setFase] = useState('');
   const [sala, setSala] = useState('');
+  const [professor, setProfessor] = useState('');
   const [selectedProfessor, setSelectedProfessor] = useState('');
   const [selectedSala, setSelectedSala] = useState('');
   const [selectedFase, setSelectedFase] = useState('');
@@ -31,15 +33,21 @@ const CadDisciplina = () => {
           console.error("Ocorreu um erro:",error);
         }
       };
+      
+      const carregarProfessores = async () => {
+        try{
+          const professoresData = await apiProfessores.getProfessores()
+          setProfessor(professoresData)
+        }catch(error){
+          console.log(error)
+        }
+      }
   
       carregarSalas()
       carregarFases()
+      carregarProfessores()
     }, [setValue]);
   
-    
-    const professores = [
-        {id: 1, nome: 'José ribeiro'}
-    ];
     return (
       <div>
         <h2>Cadastro de Disciplina</h2>
@@ -62,7 +70,6 @@ const CadDisciplina = () => {
             <option key={sala.id} value={sala.numero}>{sala.numero}</option>
         ))}
       </select>
-
           <br />
           <label>Fase:</label>
           <select id="selectedFase" {...register("selectedFase")}>
@@ -73,10 +80,10 @@ const CadDisciplina = () => {
       </select>
           <br />
           <label>Professor:</label>
-          <select value={selectedProfessor} >
-            <option value="">Selecione...</option>
-            {professores.map((professor) => (
-              <option key={professor.id} value={professor.id}>
+          <select id="selectedProfessor" {...register("selectedProfessor")} >
+            <option>Selecione...</option>
+            {Array.isArray(professor) && professor.map((professor) => (
+              <option key={professor.id} value={professor.nome}>
                 {professor.nome}
               </option>
             ))}
