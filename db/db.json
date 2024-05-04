@@ -1,7 +1,7 @@
 {
   "professores": [
     {
-      "nome": "Jos1",
+      "nome": "Pedro",
       "email": "www@dd",
       "aulasSemanais": "3",
       "id": "1"
@@ -27,33 +27,55 @@
         "email": "dd#@dd",
         "aulasSemanais": "2"
       }
+    },
+    {
+      "id": "eb8c",
+      "nome": {
+        "nome": "fefe",
+        "email": "feff@dd",
+        "aulasSemanais": "5"
+      }
     }
   ],
-  
-  "salas":[
+  "salas": [
     {
       "id": 1,
-      "numero":101
+      "numero": 101
     },
     {
-      "id":2,
-      "numero":102
+      "id": 2,
+      "numero": 102
     }
   ],
-  
-  "fases":[
+  "fases": [
     {
-      "id":1,
-      "numero":1
+      "id": 1,
+      "numero": 1
     },
     {
-      "id":2,
-      "numero":2
+      "id": 2,
+      "numero": 2
     },
     {
-      "id":3,
-      "numero":3
+      "id": 3,
+      "numero": 3
+    }
+  ],
+  "disciplinas": [
+    {
+      "id": 1,
+      "nome": "Analise de requisitos"
+    }
+  ],
+  "coordenadores": [
+    {
+      "id": 1,
+      "nome": "Pedro",
+      "curso": "ADS",
+      "email": "123as",
+      "senha": "12345678",
+      "fotoPerfil": "perfil.jpg",
+      "status": true
     }
   ]
-  
 }
