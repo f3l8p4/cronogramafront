@@ -3,7 +3,7 @@
     {
       "nome": "Jos1",
       "email": "www@dd",
-      "aulasSemanais": "2",
+      "aulasSemanais": "3",
       "id": "1"
     },
     {
@@ -19,6 +19,14 @@
       "email": "felipe210603@hotmail.com",
       "aulasSemanais": "3",
       "diasLecionados": ""
+    },
+    {
+      "id": "3542",
+      "nome": {
+        "nome": "ddd",
+        "email": "dd#@dd",
+        "aulasSemanais": "2"
+      }
     }
   ]
 }
