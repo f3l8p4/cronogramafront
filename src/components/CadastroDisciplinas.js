@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from "react";
 import { useForm } from 'react-hook-form';
 import apiSalas from "../services/apiSalas/apiSalas";
+import apiFases from "../services/apiFases/apiFases";
 
 const CadDisciplina = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -10,9 +11,7 @@ const CadDisciplina = () => {
   const [sala, setSala] = useState('');
   const [selectedProfessor, setSelectedProfessor] = useState('');
   const [selectedSala, setSelectedSala] = useState('');
-  
-  const [optionsFases, setFases] = useState([]);
-
+  const [selectedFase, setSelectedFase] = useState('');
   
     useEffect(() => {
       const carregarSalas = async () => {
@@ -23,8 +22,18 @@ const CadDisciplina = () => {
           console.error("Ocorreu um erro:",error);
         }
       };
+      
+      const carregarFases= async () => {
+        try {
+          const fasesData = await apiFases.getFases();
+          setFase(fasesData);
+        } catch (error) {
+          console.error("Ocorreu um erro:",error);
+        }
+      };
   
-      carregarSalas();
+      carregarSalas()
+      carregarFases()
     }, [setValue]);
   
     
@@ -56,11 +65,12 @@ const CadDisciplina = () => {
 
           <br />
           <label>Fase:</label>
-          <select value={fase} >
-            {optionsFases.map(optionsFases => (
-                <option key={optionsFases.id} value={optionsFases.numero}>{optionsFases.numero}</option>
-            ))}
-          </select>
+          <select id="selectedFase" {...register("selectedFase")}>
+            <option value="">Selecione uma fase</option>
+              {Array.isArray(fase) && fase.map((fase) => (
+            <option key={fase.id} value={fase.numero}>{fase.numero}</option>
+        ))}
+      </select>
           <br />
           <label>Professor:</label>
           <select value={selectedProfessor} >
