@@ -52,6 +52,7 @@ const getProfessor = async (id) => {
     getProfessores,
     getProfessor,
     addProfessores,
+    updateProfessores,
     excludeProfessores
   }
   export default api;

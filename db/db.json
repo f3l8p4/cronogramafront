@@ -1,11 +1,10 @@
 {
   "professores": [
     {
-      "id": "1",
-      "nome": "Jose",
-      "email": "www",
-      "aulasSemanais": 2,
-      "diasLecionados": 1
+      "nome": "Jos1",
+      "email": "www@dd",
+      "aulasSemanais": "2",
+      "id": "1"
     },
     {
       "id": "5265",

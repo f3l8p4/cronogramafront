@@ -5,7 +5,7 @@ import DiasSemana from "./DiasDaSemana";
 
 const CadProfessor2 = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-  
+  api.getProfessor(1)
   const [professor, setProfessor] = useState({
     id: '',
     nome: '',
@@ -20,8 +20,8 @@ const CadProfessor2 = () => {
       // Simula o ID do professor a ser editado (substitua por uma lógica real)
       const idProfessor = 1;
       const response = await api.getProfessor(idProfessor);
-      const dadosProfessor = response.data;
-
+      const dadosProfessor = response;
+      console.log(dadosProfessor)
       // Define os valores dos campos do formulário com os dados do professor
       setProfessor(dadosProfessor);
       // Define os valores dos campos do formulário usando setValue do react-hook-form
@@ -33,13 +33,13 @@ const CadProfessor2 = () => {
 
     // Carrega os dados do professor se estivermos em modo de edição
     carregarProfessor();
-  }, []);
+  }, [setValue]);
 
   const onSubmit = async (data) => {
     try {
       // Se o professor tiver um ID, significa que estamos atualizando
       if (professor.id) {
-        await api.atualizarProfessor(professor.id, data);
+        await api.updateProfessores(professor.id, data);
         console.log('Professor atualizado com sucesso');
       } else {
         // Caso contrário, estamos criando um novo professor
