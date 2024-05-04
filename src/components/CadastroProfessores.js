@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
-import api from "../services/apiProfessores.js/Api";
+import apiProfessores from "../services/apiProfessores.js/ApiProfessores";
 import DiasSemana from "./DiasDaSemana";
 
 const CadProfessor = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-  api.getProfessor(1)
+  apiProfessores.getProfessor(1)
   const [professor, setProfessor] = useState({
     id: '',
     nome: '',
@@ -19,7 +19,7 @@ const CadProfessor = () => {
     const carregarProfessor = async () => {
       // Simula o ID do professor a ser editado (substitua por uma lógica real)
       const idProfessor = '';
-      const response = await api.getProfessor(idProfessor);
+      const response = await apiProfessores.getProfessor(idProfessor);
       const dadosProfessor = response;
       console.log(dadosProfessor)
       // Define os valores dos campos do formulário com os dados do professor
@@ -39,11 +39,11 @@ const CadProfessor = () => {
     try {
       // Se o professor tiver um ID, significa que estamos atualizando
       if (professor.id) {
-        await api.updateProfessores(professor.id, data);
+        await apiProfessores.updateProfessores(professor.id, data);
         console.log('Professor atualizado com sucesso');
       } else {
         // Caso contrário, estamos criando um novo professor
-        await api.addProfessores(data)
+        await apiProfessores.addProfessores(data)
         console.log('Professor cadastrado com sucesso');
       }
     } catch (error) {

@@ -1,71 +1,36 @@
 import React,{useState,useEffect} from "react";
 import { useForm } from 'react-hook-form';
+import apiSalas from "../services/apiSalas/apiSalas";
 
 const CadDisciplina = () => {
-    
-    const salas = [
-        {id:1, numero: 101},
-        {id:2, numero: 102},
-        {id:3, numero: 103},
-        {id:4, numero: 201}
-    ]
-    
-    const fases = [
-        {id:1, numero:1},
-        {id:2, numero:2},
-        {id:3, numero:3},
-        {id:4, numero:4}
-    ]
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  const [nome, setNome] = useState('');
+  const [cargaHoraria, setCargaHoraria] = useState('');
+  const [fase, setFase] = useState('');
+  const [sala, setSala] = useState('');
+  const [selectedProfessor, setSelectedProfessor] = useState('');
+  const [selectedSala, setSelectedSala] = useState('');
+  
+  const [optionsFases, setFases] = useState([]);
+
+  
+    useEffect(() => {
+      const carregarSalas = async () => {
+        try {
+          const salasData = await apiSalas.getSalas();
+          setSala(salasData);
+        } catch (error) {
+          console.error("Ocorreu um erro:",error);
+        }
+      };
+  
+      carregarSalas();
+    }, [setValue]);
+  
     
     const professores = [
         {id: 1, nome: 'José ribeiro'}
-    ]
-    
-    const [nome, setNome] = useState('');
-    const [cargaHoraria, setCargaHoraria] = useState('');
-    const [fase, setFase] = useState('');
-    const [sala, setSala] = useState('');
-    const [selectedProfessor, setSelectedProfessor] = useState('');
-    
-    const [OptionsSalas, setSalas] = useState([]);
-    const [optionsFases, setFases] = useState([]);
-    useEffect(() => {
-      // Simula a carga dos dados JSON
-      setSalas(salas)
-      setFases(fases)
-    }, []);
-  
-    /*useEffect(() => {
-      fetchProfessores();
-    }, []);
-  */
-   /* const fetchProfessores = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/professores'); // END POINT dos professores 
-        setProfessores(response.data);
-      } catch (error) {
-        console.error('Erro ao buscar professores:', error);
-      }
-    };
-  */
-  /*  const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        const response = await axios.post('http://localhost:3001/disciplinas', {
-          nome,
-          cargaHoraria,
-          sala,
-          fase,
-          professor: selectedProfessor,
-        });
-        console.log('Disciplina cadastrada:', response.data);
-        //colocar mensagem de sucesso
-      } catch (error) {
-        console.error('Erro ao cadastrar disciplina:', error);
-          //colocar mensagem de erro
-      }
-    };
-  */
+    ];
     return (
       <div>
         <h2>Cadastro de Disciplina</h2>
@@ -81,12 +46,14 @@ const CadDisciplina = () => {
             <option value="90">90 horas</option>
           </select>
           <br />
-          <label>Sala:</label>
-          <select value={sala} >
-            {OptionsSalas.map(optionSalas => (
-                <option key={optionSalas.id} value={optionSalas.numero}>{optionSalas.numero}</option>
-            ))}
-          </select>
+          <label htmlFor="selectedSala">Selecione a sala:</label>
+          <select id="selectedSala" {...register("selectedSala")}>
+            <option value="">Selecione uma sala</option>
+              {Array.isArray(sala) && sala.map((sala) => (
+            <option key={sala.id} value={sala.numero}>{sala.numero}</option>
+        ))}
+      </select>
+
           <br />
           <label>Fase:</label>
           <select value={fase} >

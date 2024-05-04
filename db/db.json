@@ -28,5 +28,32 @@
         "aulasSemanais": "2"
       }
     }
+  ],
+  
+  "salas":[
+    {
+      "id": 1,
+      "numero":101
+    },
+    {
+      "id":2,
+      "numero":102
+    }
+  ],
+  
+  "fases":[
+    {
+      "id":1,
+      "numero":1
+    },
+    {
+      "id":2,
+      "numero":2
+    },
+    {
+      "id":3,
+      "numero":3
+    }
   ]
+  
 }

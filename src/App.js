@@ -12,6 +12,8 @@ function App() {
   return (
     <div className="App">
       <CadProfessor/>
+      <br/>
+      <CadDisciplina/>
     </div>
   );
 }

@@ -48,11 +48,11 @@ const getProfessor = async (id) => {
     }
   }
 
-  const api = {
+  const apiProfessores = {
     getProfessores,
     getProfessor,
     addProfessores,
     updateProfessores,
     excludeProfessores
   }
-  export default api;
+  export default apiProfessores;

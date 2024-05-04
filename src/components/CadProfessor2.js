@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
-import api from "../services/apiProfessores.js/Api";
+import api from "../services/apiProfessores.js/ApiProfessores";
 import DiasSemana from "./DiasDaSemana";
 
 const CadProfessor2 = () => {
