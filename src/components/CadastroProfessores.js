@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import apiProfessores from "../services/apiProfessores.js/ApiProfessores";
 import DiasSemana from "./DiasDaSemana";
 
@@ -54,7 +54,7 @@ const CadProfessor = () => {
   return (   
     <div className="App">
       <h1>Cadastro de professores 2</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="nome">Nome:</label>
           <input type="text" id="nome" {...register('nome', {required:"O campo não pode estar vazio"})} />

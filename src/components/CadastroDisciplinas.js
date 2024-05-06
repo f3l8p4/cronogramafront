@@ -10,7 +10,7 @@ const CadDisciplina = () => {
   const [cargaHoraria, setCargaHoraria] = useState('');
   const [fase, setFase] = useState('');
   const [sala, setSala] = useState('');
-  const [professor, setProfessor] = useState('');
+  const setProfessor = useState;
   const [selectedProfessor, setSelectedProfessor] = useState('');
   const [selectedSala, setSelectedSala] = useState('');
   const [selectedFase, setSelectedFase] = useState('');
@@ -47,7 +47,11 @@ const CadDisciplina = () => {
       carregarFases()
       carregarProfessores()
     }, [setValue]);
-  
+    
+    const professor = {
+      id:1,
+      numero: 101
+    }
     return (
       <div>
         <h2>Cadastro de Disciplina</h2>

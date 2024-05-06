@@ -1,10 +1,10 @@
 {
   "professores": [
     {
+      "id": "1",
       "nome": "Pedro",
       "email": "www@dd",
-      "aulasSemanais": "3",
-      "id": "1"
+      "aulasSemanais": "3"
     },
     {
       "id": "5265",
@@ -35,6 +35,14 @@
         "email": "feff@dd",
         "aulasSemanais": "5"
       }
+    },
+    {
+      "id": "6212",
+      "nome": {
+        "nome": "f",
+        "email": "d@s",
+        "aulasSemanais": "1"
+      }
     }
   ],
   "salas": [
@@ -64,7 +72,9 @@
   "disciplinas": [
     {
       "id": 1,
-      "nome": "Analise de requisitos"
+      "nome": "Analise de requisitos",
+      "fase": "",
+      "professor":""
     }
   ],
   "coordenadores": [
