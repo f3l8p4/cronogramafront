@@ -1,6 +1,15 @@
 {
   "professores": [
     {
+<<<<<<< HEAD
+=======
+      "id": "1",
+      "nome": "Pedro",
+      "email": "www@dd",
+      "aulasSemanais": "3"
+    },
+    {
+>>>>>>> main
       "id": "5265",
       "nome": "Felipe",
       "email": "www",
@@ -8,6 +17,7 @@
       "diasLecionados": "3"
     },
     {
+<<<<<<< HEAD
       "id": "3cbc",
       "nome": "Felipe",
       "email": "as@sdd",
@@ -27,6 +37,80 @@
       "email": "",
       "aulasSemanais": "",
       "diasLecionados": ""
+=======
+      "id": "3fae",
+      "nome": "felipe",
+      "email": "felipe210603@hotmail.com",
+      "aulasSemanais": "3",
+      "diasLecionados": ""
+    },
+    {
+      "id": "3542",
+      "nome": {
+        "nome": "ddd",
+        "email": "dd#@dd",
+        "aulasSemanais": "2"
+      }
+    },
+    {
+      "id": "eb8c",
+      "nome": {
+        "nome": "fefe",
+        "email": "feff@dd",
+        "aulasSemanais": "5"
+      }
+    },
+    {
+      "id": "6212",
+      "nome": {
+        "nome": "f",
+        "email": "d@s",
+        "aulasSemanais": "1"
+      }
+    }
+  ],
+  "salas": [
+    {
+      "id": 1,
+      "numero": 101
+    },
+    {
+      "id": 2,
+      "numero": 102
+    }
+  ],
+  "fases": [
+    {
+      "id": 1,
+      "numero": 1
+    },
+    {
+      "id": 2,
+      "numero": 2
+    },
+    {
+      "id": 3,
+      "numero": 3
+    }
+  ],
+  "disciplinas": [
+    {
+      "id": 1,
+      "nome": "Analise de requisitos",
+      "fase": "",
+      "professor":""
+    }
+  ],
+  "coordenadores": [
+    {
+      "id": 1,
+      "nome": "Pedro",
+      "curso": "ADS",
+      "email": "123as",
+      "senha": "12345678",
+      "fotoPerfil": "perfil.jpg",
+      "status": true
+>>>>>>> main
     }
   ]
 }
