@@ -81,7 +81,7 @@ const CadProfessor = () => {
           {errors.aulasSemanais && <div>{errors.aulasSemanais.message}</div>}
         </div>
         <div>
-          <DiasSemana />
+          <DiasSemana register={register}/>
         </div>
         <button type="submit">Enviar</button>
       </form>
