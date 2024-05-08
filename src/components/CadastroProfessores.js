@@ -5,14 +5,16 @@ import DiasSemana from "./DiasDaSemana";
 
 const CadProfessor = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-  apiProfessores.getProfessor(1)
+  apiProfessores.getProfessores()
   const [professor, setProfessor] = useState({
     id: '',
     nome: '',
-    email: '',
+    telefone: '',
     aulasSemanais: '',
     diasLecionados: [],
   });
+  
+  apiProfessores.getProfessores()
 
   useEffect(() => {
     // Função para carregar dados do professor se estivermos em modo de edição
@@ -26,7 +28,7 @@ const CadProfessor = () => {
       setProfessor(dadosProfessor);
       // Define os valores dos campos do formulário usando setValue do react-hook-form
       setValue('nome', dadosProfessor.nome);
-      setValue('email', dadosProfessor.email);
+      setValue('telefone', dadosProfessor.telefone);
       setValue('aulasSemanais', dadosProfessor.aulasSemanais);
       // Se os dias lecionados forem armazenados em um array, você pode definir os valores aqui
     };
@@ -62,7 +64,7 @@ const CadProfessor = () => {
         </div>
         <div>
           <label htmlFor="email">E-mail:</label>
-          <input type="email" id="email" {...register('email',  {required:"O campo não pode estar vazio"})} />
+          <input type="text" id="telefone" {...register('telefone',  {required:"O telefone não pode estar vazio"})} />
           {errors.email && <div>{errors.email.message}</div>}
         </div>
         <div>
