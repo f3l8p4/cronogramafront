@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import apiCoordenadores from "../services/apiCoordenadores.js/ApiCoordenadores";
+import apiCoordenadores from "../services/apiCoordenadores/apiCoordenadores";
 
 const CadCoordenador = () => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -54,7 +54,7 @@ const CadCoordenador = () => {
                     <input type='text' id='emailCoordenador' {...register('emailCoordenador', { required: "O e-mail do coordenador é obrigatório" })} />
                     {errors.emailCoordenador && <div>{errors.emailCoordenador.message}</div>}
                 </div>
-                {/* Não incluímos a senha e a foto de perfil aqui, pois geralmente não são pré-preenchidos em formulários de edição */}
+                {/* Não incluir a senha e a foto de perfil aqui, pois geralmente não são pré-preenchidos em formulários de edição */}
                 <button type='submit'>Enviar</button>
             </form>
         </div>
