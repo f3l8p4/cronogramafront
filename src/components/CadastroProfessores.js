@@ -20,7 +20,7 @@ const CadProfessor = () => {
     // Função para carregar dados do professor se estivermos em modo de edição
     const carregarProfessor = async () => {
       // Simula o ID do professor a ser editado (substitua por uma lógica real)
-      const idProfessor = '';
+      const idProfessor = null;
       const response = await apiProfessores.getProfessor(idProfessor);
       const dadosProfessor = response;
       console.log(dadosProfessor)
