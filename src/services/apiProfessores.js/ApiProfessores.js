@@ -6,8 +6,8 @@ const getProfessores = async () => {
     
     try {
       const response = await axios.get(`${apiUrl}/professor`);
-      return response.data
       console.log(response.data)
+      return response.data
     } catch (error) {
       console.error('Erro ao obter professores:', error);
     }
@@ -23,9 +23,9 @@ const getProfessor = async (id) => {
   };
   
 
-  const addProfessores = async (nome, telefone,aulasSemanais,diasLecionados) => {
+  const addProfessores = async (nomeCompleto, telefone,qtdeDiasDeAula,urlFotoPerfil,status) => {
     try {
-      const response = await axios.post(`${apiUrl}/professor`, { nome, telefone,aulasSemanais,diasLecionados });
+      const response = await axios.post(`${apiUrl}/professor`, { nomeCompleto, telefone,qtdeDiasDeAula, urlFotoPerfil,status });
       console.log('Professor adicionado com sucesso');
     } catch (error) {
       console.error('Erro ao adicionar professor:', error);
