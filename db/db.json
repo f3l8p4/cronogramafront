@@ -5,14 +5,14 @@
 =======
       "id": "1",
       "nome": "Pedro",
-      "email": "www@dd",
+      "telefone": "www@dd",
       "aulasSemanais": "3"
     },
     {
 >>>>>>> main
       "id": "5265",
       "nome": "Felipe",
-      "email": "www",
+      "telefone": "www",
       "aulasSemanais": "1",
       "diasLecionados": "3"
     },
@@ -40,7 +40,7 @@
 =======
       "id": "3fae",
       "nome": "felipe",
-      "email": "felipe210603@hotmail.com",
+      "telefone": "felipe210603@hotmail.com",
       "aulasSemanais": "3",
       "diasLecionados": ""
     },
@@ -48,7 +48,7 @@
       "id": "3542",
       "nome": {
         "nome": "ddd",
-        "email": "dd#@dd",
+        "telefone": "dd#@dd",
         "aulasSemanais": "2"
       }
     },
@@ -56,7 +56,7 @@
       "id": "eb8c",
       "nome": {
         "nome": "fefe",
-        "email": "feff@dd",
+        "telefone": "feff@dd",
         "aulasSemanais": "5"
       }
     },
@@ -64,7 +64,7 @@
       "id": "6212",
       "nome": {
         "nome": "f",
-        "email": "d@s",
+        "telefone": "d@s",
         "aulasSemanais": "1"
       }
     }

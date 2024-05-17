@@ -54,6 +54,14 @@ const CadDisciplina = () => {
   const [selectedSala, setSelectedSala] = useState('');
   const [selectedFase, setSelectedFase] = useState('');
   
+  const [disciplinas, setDisciplinas] = useState({
+    id: '',
+    nome: '',
+    email: '',
+    aulasSemanais: '',
+    diasLecionados: [],
+  });
+  
     useEffect(() => {
       const carregarSalas = async () => {
         try {

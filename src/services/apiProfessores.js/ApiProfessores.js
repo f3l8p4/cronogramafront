@@ -1,11 +1,12 @@
 import axios from "axios";
 
-const apiUrl = 'http://localhost:8000'
+const apiUrl = process.env.REACT_APP_API_URL
 
 const getProfessores = async () => {
     
     try {
-      const response = await axios.get(`${apiUrl}/professores`);
+      const response = await axios.get(`${apiUrl}/professor`);
+      console.log(response.data)
       return response.data
     } catch (error) {
       console.error('Erro ao obter professores:', error);
@@ -14,7 +15,7 @@ const getProfessores = async () => {
   
 const getProfessor = async (id) => {
     try {
-      const response = await axios.get(`${apiUrl}/professores/${id}`);
+      const response = await axios.get(`${apiUrl}/professor/${id}`);
       return response.data
     } catch (error) {
       console.log('Erro ao obter o registro de professor ',error)
@@ -22,9 +23,9 @@ const getProfessor = async (id) => {
   };
   
 
-  const addProfessores = async (nome, email,aulasSemanais,diasLecionados) => {
+  const addProfessores = async (nomeCompleto, telefone,qtdeDiasDeAula,urlFotoPerfil,status) => {
     try {
-      const response = await axios.post(`${apiUrl}/professores`, { nome, email,aulasSemanais,diasLecionados });
+      const response = await axios.post(`${apiUrl}/professor`, { nomeCompleto, telefone,qtdeDiasDeAula, urlFotoPerfil,status });
       console.log('Professor adicionado com sucesso');
     } catch (error) {
       console.error('Erro ao adicionar professor:', error);
@@ -33,7 +34,7 @@ const getProfessor = async (id) => {
 
   const excludeProfessores = async(id) => { 
     try{
-        const response = await axios.delete(`${apiUrl}/professores/${id}`);
+        const response = await axios.delete(`${apiUrl}/professor/${id}`);
         console.log('Usuário excluído com sucesso:', response.data);
     }catch(erro){
         console.error('erro ao excluir o usuário',erro)
@@ -42,9 +43,17 @@ const getProfessor = async (id) => {
 
   const updateProfessores = async(id,dadosAtualizados) => {
     try{
-        const response = await axios.put(`${apiUrl}/professores/${id}`, dadosAtualizados);
+        const response = await axios.put(`${apiUrl}/professor/${id}`, dadosAtualizados);
     }catch(error){
         console.error('Erro ao atualizar coordenador:', error);
+    }
+  }
+  
+  const buscarProfessorNome = async() => {
+    try{
+        const response = await axios.get(`${apiUrl}/professor?nome={nome}`)
+    }catch(error){
+      
     }
   }
 
