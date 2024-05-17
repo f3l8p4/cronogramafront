@@ -64,10 +64,6 @@ const CadProfessor = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const [professor, setProfessor] = useState({
     id: '',
-    nome: '',
-    email: '',
-    aulasSemanais: '',
-    diasLecionados: [],
     nomeCompleto: '',
     telefone: '',
     qtdeDiasDeAula: '',
@@ -86,9 +82,6 @@ const CadProfessor = () => {
       // Define os valores dos campos do formulário com os dados do professor
       setProfessor(dadosProfessor);
       // Define os valores dos campos do formulário usando setValue do react-hook-form
-      setValue('nome', dadosProfessor.nome);
-      setValue('email', dadosProfessor.email);
-      setValue('aulasSemanais', dadosProfessor.aulasSemanais);
       setValue('nome', dadosProfessor.nomeCompleto);
       setValue('telefone', dadosProfessor.telefone);
       setValue('aulasSemanais', dadosProfessor.qtdeDiasDeAula);
@@ -109,7 +102,6 @@ const CadProfessor = () => {
         console.log('Professor atualizado com sucesso');
       } else {
         // Caso contrário, estamos criando um novo professor
-        await apiProfessores.addProfessores(data)
         await apiProfessores.addProfessores({
           nomeCompleto: '', 
           telefone: '', 
@@ -126,18 +118,15 @@ const CadProfessor = () => {
 
   return (   
     <div className="App">
-      <h1>Cadastro de professores 2</h1>
       <h1>Cadastro de professores</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="nome">Nome:</label>
-          <input type="text" id="nome" {...register('nome', {required:"O campo não pode estar vazio"})} />
           <input type="text" id="nome" {...register('nome', {required:"O campo não pode estar vazio"})} defaultValue={professor.nomeCompleto} />
           {errors.nome && <div>{errors.nome.message}</div>}
         </div>
         <div>
           <label htmlFor="email">E-mail:</label>
-          <input type="email" id="email" {...register('email',  {required:"O campo não pode estar vazio"})} />
           <input type="text" id="telefone" {...register('telefone',  {required:"O telefone não pode estar vazio"})} defaultValue={professor.telefone} />
           {errors.email && <div>{errors.email.message}</div>}
         </div>

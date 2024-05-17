@@ -43,14 +43,6 @@ import React from 'react'
 import React, { useState, useEffect } from 'react';
 >>>>>>> main
 import { useForm } from 'react-hook-form';
-const CadCoordenador = () =>{
-    
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = (data) => {
-        console.log(data)
-       };
-       
-    return(
 import apiCoordenadores from "../services/apiCoordenadores/apiCoordenadores";
 
 const CadCoordenador = () => {
@@ -97,21 +89,10 @@ const CadCoordenador = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                     <label htmlFor='nomeCoordenador'>Nome:</label>
-                    <input type='text' id='nomeCoordenador' {...register('nomeCoordenador', {required: "O nome do coordenador é obrigatorio"})}/>
-                </div>
-                <div>
-                    <label htmlFor='emailCoordenador'>email:</label>
-                    <input type='text' id='emailCoordenador' {...register('emailCoordenador', {required: "O email do coordenador é obrigatorio"})}/>
-                </div>
-                <div>
-                    <label>Senha:</label>
-                    <input type='text'/>
                     <input type='text' id='nomeCoordenador' {...register('nomeCoordenador', { required: "O nome do coordenador é obrigatório" })} />
                     {errors.nomeCoordenador && <div>{errors.nomeCoordenador.message}</div>}
                 </div>
                 <div>
-                    <label>Foto de perfil:</label>
-                    <input type='file'/>
                     <label htmlFor='emailCoordenador'>E-mail:</label>
                     <input type='text' id='emailCoordenador' {...register('emailCoordenador', { required: "O e-mail do coordenador é obrigatório" })} />
                     {errors.emailCoordenador && <div>{errors.emailCoordenador.message}</div>}
@@ -120,7 +101,6 @@ const CadCoordenador = () => {
                 <button type='submit'>Enviar</button>
             </form>
         </div>
-    )
     );
 }
 
