@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FormProvider, useForm } from 'react-hook-form';
-import apiProfessores from "../services/apiProfessores.js/ApiProfessores";
-import DiasSemana from "./DiasDaSemana";
+import apiProfessores from "../../services/apiProfessores.js/ApiProfessores";
+import DiasSemana from "../DiasDaSemana";
 
 const CadProfessor = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -45,12 +45,10 @@ const CadProfessor = () => {
         console.log('Professor atualizado com sucesso');
       } else {
         // Caso contrário, estamos criando um novo professor
-        await apiProfessores.addProfessores({
-          nomeCompleto: '', 
-          telefone: '', 
-          qtdeDiasDeAula: '', 
-          urlFotoPerfil: '', 
-          status: ''
+        await apiProfessores.addProfessores(data,{
+          headers: {
+            'Content-Type': 'application/json'
+          }
         })
         console.log('Professor cadastrado com sucesso');
       }

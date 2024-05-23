@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
-import apiCursos from "../services/apiCursos/ApiCursos";
+import apiCursos from "../../services/apiCursos/ApiCursos";
 
 const CadCurso = () => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();

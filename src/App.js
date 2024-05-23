@@ -8,12 +8,11 @@ import CadCurso from './components/Curso';
 import CadDisciplina from './components/CadastroDisciplinas';
 import CadCoordenador from './components/Coordenador';
 import CadProfessor2 from './components/CadProfessor2';
+import Login from './pages/Login';
 function App() {
   return (
     <div className="App">
-      <CadProfessor/>
-      <br/>
-      <CadDisciplina/>
+      <Login/>
     </div>
   );
 }

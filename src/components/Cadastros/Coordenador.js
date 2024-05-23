@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import apiCoordenadores from "../services/apiCoordenadores/apiCoordenadores";
+import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores";
 
 const CadCoordenador = () => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
