@@ -37,9 +37,12 @@ const ListaProfessores = () => {
                   <td>{professor.id}</td>
                   <td>{professor.nomeCompleto}</td>
                   <td>{professor.telefone}</td>
+                  <td>{professor.cpf}</td>
                   <td>{professor.qtdeDiasDeAula}</td>
                   <td>{professor.status}</td>
                   <td><img src={professor.urlFotoPerfil} alt={professor.nomeCompleto} width="50" height="50" /></td>
+                  <td>Editar</td>
+                  <td>Excluir</td>
                 </tr>
               ))}
             </tbody>

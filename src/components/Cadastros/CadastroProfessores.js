@@ -9,6 +9,7 @@ const CadProfessor = () => {
     id: '',
     nomeCompleto: '',
     telefone: '',
+    cpf:'',
     qtdeDiasDeAula: '',
     status:'',
     urlFotoPerfil:''
@@ -27,6 +28,7 @@ const CadProfessor = () => {
       // Define os valores dos campos do formulário usando setValue do react-hook-form
       setValue('nome', dadosProfessor.nomeCompleto);
       setValue('telefone', dadosProfessor.telefone);
+      setValue('cpf',dadosProfessor.cpf)
       setValue('aulasSemanais', dadosProfessor.qtdeDiasDeAula);
       setValue('status', dadosProfessor.status);
       setValue('urlFotoDePerfil', dadosProfessor.urlFotoPerfil);
@@ -61,16 +63,25 @@ const CadProfessor = () => {
     <div className="App">
       <h1>Cadastro de professores</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
+          
         <div>
           <label htmlFor="nome">Nome:</label>
           <input type="text" id="nome" {...register('nome', {required:"O campo não pode estar vazio"})} defaultValue={professor.nomeCompleto} />
           {errors.nome && <div>{errors.nome.message}</div>}
         </div>
+        
         <div>
-          <label htmlFor="email">E-mail:</label>
+          <label htmlFor="email">Telefone:</label>
           <input type="text" id="telefone" {...register('telefone',  {required:"O telefone não pode estar vazio"})} defaultValue={professor.telefone} />
-          {errors.email && <div>{errors.email.message}</div>}
+          {errors.telefone && <div>{errors.telefone.message}</div>}
         </div>
+        
+        <div>
+          <label htmlFor="cpf">CPF:</label>
+          <input type="text" id="cpf" {...register('cpf',  {required:"O cpf não pode estar vazio", maxLength:{value:9,message:"O cpf não pode ultrapassar o valor de 9 digitos"}})} defaultValue={professor.cpf} />
+          {errors.cpf && <div>{errors.cpf.message}</div>}
+        </div>
+        
         <div>
           <label htmlFor="aulasSemanais">Quantidade de aulas semanais:</label>
           <input type="number" id="aulasSemanais" {...register('aulasSemanais' , {
@@ -86,6 +97,7 @@ const CadProfessor = () => {
           })} defaultValue={professor.qtdeDiasDeAula} />
           {errors.aulasSemanais && <div>{errors.aulasSemanais.message}</div>}
         </div>
+        
         <div>
           <DiasSemana register={register}/>
         </div>
