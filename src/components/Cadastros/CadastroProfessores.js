@@ -24,7 +24,7 @@ const CadProfessor = () => {
         try {
           const dadosProfessor = await apiProfessores.getProfessor(id);
           setProfessor(dadosProfessor);
-          setValue('nome', dadosProfessor.nomeCompleto);
+          setValue('nomeCompleto', dadosProfessor.nomeCompleto);
           setValue('telefone', dadosProfessor.telefone);
           setValue('cpf', dadosProfessor.cpf);
           setValue('aulasSemanais', dadosProfessor.qtdeDiasDeAula);
@@ -60,7 +60,7 @@ const CadProfessor = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="nome">Nome:</label>
-          <input type="text" id="nome" {...register('nome', { required: "O campo não pode estar vazio" })} defaultValue={professor.nomeCompleto} />
+          <input type="text" id="nome" {...register('nomeCompleto', { required: "O campo não pode estar vazio" })} defaultValue={professor.nomeCompleto} />
           {errors.nome && <div>{errors.nome.message}</div>}
         </div>
         
