@@ -6,12 +6,14 @@ import Login from './pages/Login';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import CadProfessor from './components/Cadastros/CadastroProfessores';
 import ListaProfessores from './components/views/ListaProfessores';
+import ListaCoordenadores from './components/views/ListaCoordenador';
 function App() {
   return (
     <div className="App">
     <Router>
       <Routes>
         <Route path="/" element={<ListaProfessores />} />
+        <Route path='/coordenadores' element={<ListaCoordenadores/>}/>
         <Route path="/cadastro/" element={<CadProfessor />} />
         <Route path="/editarProfessor/:id" element={<CadProfessor />} />
       </Routes>

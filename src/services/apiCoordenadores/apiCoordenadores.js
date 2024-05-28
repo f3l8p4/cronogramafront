@@ -5,7 +5,7 @@ const apiUrl = process.env.REACT_APP_API_URL
 const getCoordenadores = async () => {
     
     try {
-      const response = await axios.get(`${apiUrl}/usuario`);
+      const response = await axios.get(`${apiUrl}usuario`);
       return response.data
     } catch (error) {
       console.error('Erro ao obter coordenadores:', error);
