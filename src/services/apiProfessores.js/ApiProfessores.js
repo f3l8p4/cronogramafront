@@ -5,7 +5,7 @@ const apiUrl = process.env.REACT_APP_API_URL
 const getProfessores = async () => {
     
     try {
-      const response = await axios.get(`${apiUrl}/professor`);
+      const response = await axios.get(`${apiUrl}professor`);
       return response.data
     } catch (error) {
       console.error('Erro ao obter professores:', error);
