@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { useParams, useNavigate } from 'react-router-dom';
 import apiProfessores from "../../services/apiProfessores.js/ApiProfessores";
 import DiasSemana from "../DiasDaSemana";
 
 const CadProfessor = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const [professor, setProfessor] = useState({
     id: '',
@@ -16,44 +19,36 @@ const CadProfessor = () => {
   });
 
   useEffect(() => {
-    // Função para carregar dados do professor se estivermos em modo de edição
     const carregarProfessor = async () => {
-      // Simula o ID do professor a ser editado (substitua por uma lógica real)
-      const idProfessor = '';
-      const response = await apiProfessores.getProfessor(idProfessor);
-      const dadosProfessor = response;
-      console.log(dadosProfessor)
-      // Define os valores dos campos do formulário com os dados do professor
-      setProfessor(dadosProfessor);
-      // Define os valores dos campos do formulário usando setValue do react-hook-form
-      setValue('nome', dadosProfessor.nomeCompleto);
-      setValue('telefone', dadosProfessor.telefone);
-      setValue('cpf',dadosProfessor.cpf)
-      setValue('aulasSemanais', dadosProfessor.qtdeDiasDeAula);
-      setValue('status', dadosProfessor.status);
-      setValue('urlFotoDePerfil', dadosProfessor.urlFotoPerfil);
-      // Se os dias lecionados forem armazenados em um array, você pode definir os valores aqui
+      if (id) {
+        try {
+          const dadosProfessor = await apiProfessores.getProfessor(id);
+          setProfessor(dadosProfessor);
+          setValue('nome', dadosProfessor.nomeCompleto);
+          setValue('telefone', dadosProfessor.telefone);
+          setValue('cpf', dadosProfessor.cpf);
+          setValue('aulasSemanais', dadosProfessor.qtdeDiasDeAula);
+          setValue('status', dadosProfessor.status);
+          setValue('urlFotoDePerfil', dadosProfessor.urlFotoPerfil);
+        } catch (error) {
+          console.error('Erro ao carregar dados do professor:', error);
+        }
+      }
     };
 
-    // Carrega os dados do professor se estivermos em modo de edição
     carregarProfessor();
-  }, [setValue]);
+  }, [id, setValue]);
 
   const onSubmit = async (data) => {
     try {
-      // Se o professor tiver um ID, significa que estamos atualizando
       if (professor.id) {
         await apiProfessores.updateProfessores(professor.id, data);
         console.log('Professor atualizado com sucesso');
       } else {
-        // Caso contrário, estamos criando um novo professor
-        await apiProfessores.addProfessores(data,{
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
+        await apiProfessores.addProfessores(data);
         console.log('Professor cadastrado com sucesso');
       }
+      navigate('/'); // Navega de volta para a lista de professores após salvar
     } catch (error) {
       console.error('Erro ao salvar professor:', error);
     }
@@ -62,33 +57,32 @@ const CadProfessor = () => {
   return (   
     <div className="App">
       <h1>Cadastro de professores</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="nome">Nome:</label>
-          <input type="text" id="nome" {...register('nome', {required:"O campo não pode estar vazio"})} defaultValue={professor.nomeCompleto} />
+          <input type="text" id="nome" {...register('nome', { required: "O campo não pode estar vazio" })} defaultValue={professor.nomeCompleto} />
           {errors.nome && <div>{errors.nome.message}</div>}
         </div>
         
         <div>
-          <label htmlFor="email">Telefone:</label>
-          <input type="text" id="telefone" {...register('telefone',  {required:"O telefone não pode estar vazio"})} defaultValue={professor.telefone} />
+          <label htmlFor="telefone">Telefone:</label>
+          <input type="text" id="telefone" {...register('telefone', { required: "O telefone não pode estar vazio" })} defaultValue={professor.telefone} />
           {errors.telefone && <div>{errors.telefone.message}</div>}
         </div>
         
         <div>
           <label htmlFor="cpf">CPF:</label>
-          <input type="text" id="cpf" {...register('cpf',  {required:"O cpf não pode estar vazio", maxLength:{value:9,message:"O cpf não pode ultrapassar o valor de 9 digitos"}})} defaultValue={professor.cpf} />
+          <input type="text" id="cpf" {...register('cpf', { required: "O cpf não pode estar vazio", maxLength: { value: 11, message: "O cpf não pode ultrapassar o valor de 11 dígitos" } })} defaultValue={professor.cpf} />
           {errors.cpf && <div>{errors.cpf.message}</div>}
         </div>
         
         <div>
           <label htmlFor="aulasSemanais">Quantidade de aulas semanais:</label>
-          <input type="number" id="aulasSemanais" {...register('aulasSemanais' , {
+          <input type="number" id="aulasSemanais" {...register('aulasSemanais', {
             required: 'Por favor, insira um número.',
             min: {
               value: 1,
-              message: 'O professor deve dar ao minimo 1 aula por semana'
+              message: 'O professor deve dar ao mínimo 1 aula por semana'
             },
             max: {
               value: 6,

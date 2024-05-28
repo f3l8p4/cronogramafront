@@ -12,7 +12,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<ListaProfessores />} />
-        <Route path="/editar/:id" element={<CadProfessor />} />
+        <Route path="/cadastro/" element={<CadProfessor />} />
+        <Route path="/editarProfessor/:id" element={<CadProfessor />} />
       </Routes>
     </Router>
     </div>

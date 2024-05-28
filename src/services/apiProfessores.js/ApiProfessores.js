@@ -14,7 +14,7 @@ const getProfessores = async () => {
   
 const getProfessor = async (id) => {
     try {
-      const response = await axios.get(`${apiUrl}/professor/${id}`);
+      const response = await axios.get(`${apiUrl}professor/${id}`);
       return response.data
     } catch (error) {
       console.log('Erro ao obter o registro de professor ',error)

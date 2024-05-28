@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import  apiProfessores   from "../../services/apiProfessores.js/ApiProfessores";
+import { useNavigate } from 'react-router-dom';
 
 const ListaProfessores = () => {
   const [professores, setProfessores] = useState([]);
+  const navigate = useNavigate()
   
   useEffect(() => {
     const carregarProfessores = async () => {
@@ -21,6 +23,10 @@ const ListaProfessores = () => {
     carregarProfessores();
   }, []);
 
+  const editarProfessor = (id) => {
+    navigate(`/editarProfessor/${id}`);
+  };
+  
   return (
     <div>
       <h2>Lista de Professores</h2>
@@ -49,7 +55,7 @@ const ListaProfessores = () => {
                 <td>
                   <img src={professor.urlFotoPerfil} alt={professor.nomeCompleto} width="50" height="50" />
                 </td>
-                <td>Editar</td>
+                <td><button onClick={() => editarProfessor(professor.id)}>Editar</button></td>
                 <td>Excluir</td>
               </tr>
             ))
