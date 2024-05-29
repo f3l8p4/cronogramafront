@@ -77,8 +77,8 @@ const CadProfessor = () => {
         </div>
         
         <div>
-          <label htmlFor="aulasSemanais">Quantidade de aulas semanais:</label>
-          <input type="number" id="aulasSemanais" {...register('aulasSemanais', {
+          <label htmlFor="qtdeDiasDeAula">Quantidade de aulas semanais:</label>
+          <input type="number" id="aulasSemanais" {...register('qtdeDiasDeAula', {
             required: 'Por favor, insira um número.',
             min: {
               value: 1,

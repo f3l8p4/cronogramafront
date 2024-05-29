@@ -14,7 +14,7 @@ const getCoordenadores = async () => {
   
 const getCoordenador = async (id) => {
     try {
-      const response = await axios.get(`${apiUrl}/usuario/${id}`);
+      const response = await axios.get(`${apiUrl}usuario/${id}`);
       return response.data
     } catch (error) {
       console.log('Erro ao obter o registro de coordenador ',error)
@@ -24,7 +24,7 @@ const getCoordenador = async (id) => {
 
   const addCoordenador = async (nome, email,senha,urlFotoDePerfil,status,nivelPermissao,cursos) => {
     try {
-      const response = await axios.post(`${apiUrl}/disciplinas`, { nome,email,senha,urlFotoDePerfil,status,nivelPermissao,cursos});
+      const response = await axios.post(`${apiUrl}/usuario`, { nome,email,senha,urlFotoDePerfil,status,nivelPermissao,cursos});
       console.log('Coordenador adicionado com sucesso');
     } catch (error) {
       console.error('Erro ao adicionar coordenador:', error);
@@ -33,7 +33,7 @@ const getCoordenador = async (id) => {
 
   const excludeCoordenador = async(id) => { 
     try{
-        const response = await axios.delete(`${apiUrl}/coordenador/${id}`);
+        const response = await axios.delete(`${apiUrl}/usuario/${id}`);
         console.log('coordenador excluído com sucesso:', response.data);
     }catch(erro){
         console.error('erro ao excluir o coordenador',erro)
@@ -42,7 +42,7 @@ const getCoordenador = async (id) => {
 
   const updateCoordenador = async(id,dadosAtualizados) => {
     try{
-        const response = await axios.put(`${apiUrl}/coordenador/${id}`, dadosAtualizados);
+        const response = await axios.put(`${apiUrl}usuario/${id}`, dadosAtualizados);
     }catch(error){
         console.error('Erro ao atualizar coordenador:', error);
     }

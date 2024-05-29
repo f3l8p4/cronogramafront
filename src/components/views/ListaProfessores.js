@@ -9,8 +9,8 @@ const ListaProfessores = () => {
   useEffect(() => {
     const carregarProfessores = async () => {
       try {
-        const data = await apiProfessores.getProfessores();
-       
+        const data = await apiProfessores.getProfessores()
+        console.log(data)
         if (Array.isArray(data)) {
           setProfessores(data);
         } else {
