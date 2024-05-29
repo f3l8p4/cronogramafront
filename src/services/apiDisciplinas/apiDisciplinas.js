@@ -4,8 +4,8 @@ const apiUrl = process.env.REACT_APP_API_URL
 const getDisciplinas = async () => {
     
     try {
-      const response = await axios.get(`${apiUrl}/disciplinas`);
-      return response.data
+      const response = await axios.get(`${apiUrl}disciplinas`);
+      return response
     } catch (error) {
       console.error('Erro ao obter disciplinas:', error);
     }

@@ -5,8 +5,8 @@ const apiUrl = process.env.REACT_APP_API_URL
 const getCursos = async () => {
     
     try {
-      const response = await axios.get(`${apiUrl}/curso`);
-      return response.data
+      const response = await axios.get(`${apiUrl}curso`);
+      return response
     } catch (error) {
       console.error('Erro ao obter cursos:', error);
     }

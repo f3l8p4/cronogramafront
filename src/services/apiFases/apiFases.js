@@ -6,8 +6,8 @@ const apiUrl = process.env.REACT_APP_API_URL
 const getFases = async () => {
     
     try {
-      const response = await axios.get(`${apiUrl}/fase`);
-      return response.data
+      const response = await axios.get(`${apiUrl}fase`);
+      return response
     } catch (error) {
       console.error('erro ao obter:', error);
     }
