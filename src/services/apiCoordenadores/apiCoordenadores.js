@@ -24,7 +24,7 @@ const getCoordenador = async (id) => {
 
   const addCoordenador = async (nome, email,senha,urlFotoDePerfil,status,nivelPermissao,cursos) => {
     try {
-      const response = await axios.post(`${apiUrl}/usuario`, { nome,email,senha,urlFotoDePerfil,status,nivelPermissao,cursos});
+      const response = await axios.post(`${apiUrl}usuario`, { nome,email,senha,urlFotoDePerfil,status,nivelPermissao,cursos});
       console.log('Coordenador adicionado com sucesso');
     } catch (error) {
       console.error('Erro ao adicionar coordenador:', error);

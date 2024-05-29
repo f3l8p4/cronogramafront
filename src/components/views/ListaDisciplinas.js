@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 const ListaDisciplinas = () => {
     const [disciplinas, setDisciplinas] = useState([]);
-    const [coordenadores, setCoordenadores] = useState({});
     const [fases, setFases] = useState({});
     const [cursos, setCursos] = useState({});
     const navigate = useNavigate();

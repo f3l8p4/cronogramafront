@@ -1,110 +1,101 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
-import apiSalas from "../../services/apiSalas/apiSalas";
+import { useParams, useNavigate } from 'react-router-dom';
 import apiFases from "../../services/apiFases/apiFases";
-import apiProfessores from "../../services/apiProfessores.js/ApiProfessores";
+import apiDisciplinas from "../../services/apiDisciplinas/apiDisciplinas";
 
 const CadDisciplina = () => {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-  const [nome, setNome] = useState('');
-  const [cargaHoraria, setCargaHoraria] = useState('');
-  const [fase, setFase] = useState('');
-  const [sala, setSala] = useState('');
-  const setProfessor = useState;
-  const [selectedProfessor, setSelectedProfessor] = useState('');
-  const [selectedSala, setSelectedSala] = useState('');
-  const [selectedFase, setSelectedFase] = useState('');
-  
-  const [disciplinas, setDisciplinas] = useState({
-    id: '',
-    nome: '',
-    email: '',
-    aulasSemanais: '',
-    diasLecionados: [],
-  });
-  
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [fases, setFases] = useState([]);
+    const [disciplina, setDisciplina] = useState({
+        id: '',
+        nome: '',
+        cargaHoraria: '',
+        faseId: ''
+    });
+
     useEffect(() => {
-      const carregarSalas = async () => {
+        const carregarFases = async () => {
+            try {
+                const response = await apiFases.getFases();
+                setFases(response.data);
+            } catch (error) {
+                console.error("Erro ao carregar fases:", error);
+            }
+        };
+
+        const carregarDisciplina = async () => {
+            if (id) { // Verifica se há um ID na URL
+                try {
+                    const response = await apiDisciplinas.getDisciplina(id);
+                    const dadosDisciplina = response.data;
+                    setDisciplina(dadosDisciplina);
+                    setValue('nome', dadosDisciplina.nome);
+                    setValue('cargaHoraria', dadosDisciplina.cargaHoraria);
+                    setValue('faseId', dadosDisciplina.faseId);
+                } catch (error) {
+                    console.error("Erro ao carregar dados da disciplina:", error);
+                }
+            }
+        };
+
+        carregarFases();
+        carregarDisciplina();
+    }, [id, setValue]);
+
+    const onSubmit = async (data) => {
         try {
-          const salasData = await apiSalas.getSalas();
-          setSala(salasData);
+            if (disciplina.id) {
+                await apiDisciplinas.updateDisciplinas(disciplina.id, data);
+                console.log('Disciplina atualizada com sucesso');
+            } else {
+                await apiDisciplinas.addDisciplinas(data);
+                console.log('Disciplina cadastrada com sucesso');
+            }
+            navigate('/disciplinas');
         } catch (error) {
-          console.error("Ocorreu um erro:",error);
+            console.error('Erro ao salvar disciplina:', error);
         }
-      };
-      
-      const carregarFases= async () => {
-        try {
-          const fasesData = await apiFases.getFases();
-          setFase(fasesData);
-        } catch (error) {
-          console.error("Ocorreu um erro:",error);
-        }
-      };
-      
-      const carregarProfessores = async () => {
-        try{
-          const professoresData = await apiProfessores.getProfessores()
-          setProfessor(professoresData)
-        }catch(error){
-          console.log(error)
-        }
-      }
-  
-      carregarSalas()
-      carregarFases()
-      carregarProfessores()
-    }, [setValue]);
-    
-    const professor = {
-      id:1,
-      numero: 101
-    }
+    };
+
     return (
-      <div>
-        <h2>Cadastro de Disciplina</h2>
-        <form /*onSubmit={handleSubmit}*/>
-          <label>Nome da Disciplina:</label>
-          <input type="text" value={nome}  />
-          <br />
-          <label>Carga Horária:</label>
-          <select value={cargaHoraria} >
-            <option value="">Selecione...</option>
-            <option value="30">30 horas</option>
-            <option value="60">60 horas</option>
-            <option value="90">90 horas</option>
-          </select>
-          <br />
-          <label htmlFor="selectedSala">Selecione a sala:</label>
-          <select id="selectedSala" {...register("selectedSala")}>
-            <option value="">Selecione uma sala</option>
-              {Array.isArray(sala) && sala.map((sala) => (
-            <option key={sala.id} value={sala.numero}>{sala.numero}</option>
-        ))}
-      </select>
-          <br />
-          <label>Fase:</label>
-          <select id="selectedFase" {...register("selectedFase")}>
-            <option value="">Selecione uma fase</option>
-              {Array.isArray(fase) && fase.map((fase) => (
-            <option key={fase.id} value={fase.numero}>{fase.numero}</option>
-        ))}
-      </select>
-          <br />
-          <label>Professor:</label>
-          <select id="selectedProfessor" {...register("selectedProfessor")} >
-            <option>Selecione...</option>
-            {Array.isArray(professor) && professor.map((professor) => (
-              <option key={professor.id} value={professor.nome}>
-                {professor.nome}
-              </option>
-            ))}
-          </select>
-          <br />
-          <button type="submit">Cadastrar Disciplina</button>
-        </form>
+        <div>
+            <h2>Cadastro de Disciplina</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                    <label htmlFor="nome">Nome da Disciplina:</label>
+                    <input
+                        type="text"
+                        id="nome"
+                        {...register("nome", { required: "O nome da disciplina é obrigatório" })}
+                    />
+                    {errors.nome && <div>{errors.nome.message}</div>}
+                </div>
+                <div>
+                    <label htmlFor="cargaHoraria">Carga Horária:</label>
+                    <input
+                        type="number"
+                        id="cargaHoraria"
+                        {...register("cargaHoraria", { required: "A carga horária é obrigatória" })}
+                    />
+                    {errors.cargaHoraria && <div>{errors.cargaHoraria.message}</div>}
+                </div>
+                <div>
+                    <label htmlFor="faseId">Fase:</label>
+                    <select id="faseId" {...register("faseId", { required: "A fase é obrigatória" })}>
+                        <option value="">Selecione uma fase</option>
+                        {fases.map((fase) => (
+                            <option key={fase.id} value={fase.id}>{fase.numero}</option>
+                        ))}
+                    </select>
+                    {errors.faseId && <div>{errors.faseId.message}</div>}
+                </div>
+                <button type="submit">Cadastrar Disciplina</button>
+            </form>
         </div>
-    )
+    );
 }
 
 export default CadDisciplina;

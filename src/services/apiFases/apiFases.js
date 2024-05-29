@@ -15,8 +15,8 @@ const getFases = async () => {
   
   const getFase = async (id) => {
     try {
-      const response = await axios.get(`${apiUrl}/fase/${id}`);
-      return response.data
+      const response = await axios.get(`${apiUrl}fase/${id}`);
+      return response
     } catch (error) {
       console.log('Erro ao obter o registro de fase: ',error)
     }
