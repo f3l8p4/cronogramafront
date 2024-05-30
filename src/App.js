@@ -10,6 +10,8 @@ import ListaCoordenadores from './components/views/ListaCoordenador';
 import CadCoordenador from './components/Cadastros/Coordenador';
 import ListaDisciplinas from './components/views/ListaDisciplinas';
 import CadDisciplina from './components/Cadastros/CadastroDisciplinas';
+import ListaFases from './components/views/ListaFases';
+import CadFase from './components/Cadastros/CadastroFase';
 function App() {
   return (
     <div className="App">
@@ -18,12 +20,15 @@ function App() {
         <Route path="/" element={<ListaProfessores />} />
         <Route path='/coordenadores' element={<ListaCoordenadores/>}/>
         <Route path='/disciplinas' element={<ListaDisciplinas/>} />
+        <Route path='/fases' element={<ListaFases/>}/>
         <Route path="/cadastro/" element={<CadProfessor />} />
         <Route path="/editarProfessor/:id" element={<CadProfessor />} />
         <Route path='/cadastroCoordenador' element={<CadCoordenador/>}/>
         <Route path="/editarCoordenador/:id" element={<CadCoordenador />} />
         <Route path='/cadastroDisciplina/' element={<CadDisciplina/>} />
         <Route path='/editarDisciplina/:id' element={<CadDisciplina/>} />
+        <Route path='/cadastroFase' element={<CadFase/>} />
+        <Route path='/editarFase/:id' element={<CadFase/>} />
       </Routes>
     </Router>
     </div>

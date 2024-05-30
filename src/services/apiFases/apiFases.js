@@ -42,7 +42,7 @@ const getFases = async () => {
 
   const updatefase = async(id,dadosAtualizados) => {
     try{
-        const response = await axios.put(`${apiUrl}/fase/${id}`, dadosAtualizados);
+        const response = await axios.put(`${apiUrl}fase/${id}`, dadosAtualizados);
     }catch(error){
         console.error('Erro ao atualizar fase:', error);
     }
