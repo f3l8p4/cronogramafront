@@ -44,7 +44,7 @@ const getProfessor = async (id) => {
     try{
         const response = await axios.put(`${apiUrl}professor/${id}`, dadosAtualizados);
     }catch(error){
-        console.error('Erro ao atualizar coordenador:', error);
+        console.error('Erro ao atualizar professor:', error);
     }
   }
   

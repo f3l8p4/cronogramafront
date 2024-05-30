@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
 import apiFases from "../../services/apiFases/apiFases";
+import apiCursos from "../../services/apiCursos/ApiCursos";
 import apiDisciplinas from "../../services/apiDisciplinas/apiDisciplinas";
 
 const CadDisciplina = () => {
@@ -9,15 +10,29 @@ const CadDisciplina = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [fases, setFases] = useState([]);
+    const [cursos, setCursos] = useState([]);
     const [disciplina, setDisciplina] = useState({
         id: '',
         nome: '',
         cargaHoraria: '',
         fase: '',
-        curso:''
+        curso: ''
     });
 
     useEffect(() => {
+        const carregarDados = async () => {
+            try {
+                const [fasesResponse, cursosResponse] = await Promise.all([
+                    apiFases.getFases(),
+                    apiCursos.getCursos()
+                ]);
+
+                setFases(fasesResponse.data);
+                setCursos(cursosResponse.data);
+            } catch (error) {
+                console.error("Erro ao carregar dados de fases e cursos:", error);
+            }
+        };
 
         const carregarDisciplina = async () => {
             if (id) { // Verifica se há um ID na URL
@@ -27,24 +42,47 @@ const CadDisciplina = () => {
                     setDisciplina(dadosDisciplina);
                     setValue('nome', dadosDisciplina.nome);
                     setValue('cargaHoraria', dadosDisciplina.cargaHoraria);
-                    setValue('faseId', dadosDisciplina.fase.id);
-                    setValue('curso', dadosDisciplina.fase.curso.nome);
+                    setValue('fase', dadosDisciplina.fase.id);
+                    setValue('curso', dadosDisciplina.fase.curso.id);
                 } catch (error) {
                     console.error("Erro ao carregar dados da disciplina:", error);
                 }
             }
         };
-    
+
+        carregarDados();
         carregarDisciplina();
     }, [id, setValue]);
 
     const onSubmit = async (data) => {
+        
+        //codigo necessário para o funcionamento do update 
+        const faseSelecionada = fases.find(fase => fase.id === parseInt(data.fase));
+        const cursoSelecionado = cursos.find(curso => curso.id === parseInt(data.curso));
+
+        const dadosDisciplina = {
+            nome: data.nome,
+            cargaHoraria: data.cargaHoraria,
+            fase: {
+                id: faseSelecionada.id,
+                numero: faseSelecionada.numero,
+                curso: {
+                    id: cursoSelecionado.id,
+                    nome: cursoSelecionado.nome,
+                    usuarioCoordenador: cursoSelecionado.usuarioCoordenador,
+                    qtdeFases: cursoSelecionado.qtdeFases
+                }
+            }
+        }
+        
         try {
+            console.log('Dados enviados:', dadosDisciplina); // Log para depuração
+
             if (disciplina.id) {
-                await apiDisciplinas.updateDisciplinas(disciplina.id, data);
+                await apiDisciplinas.updateDisciplinas(disciplina.id,dadosDisciplina)
                 console.log('Disciplina atualizada com sucesso');
             } else {
-                await apiDisciplinas.addDisciplinas(data);
+                await apiDisciplinas.addDisciplinas(dadosDisciplina);
                 console.log('Disciplina cadastrada com sucesso');
             }
             navigate('/disciplinas');
@@ -76,20 +114,20 @@ const CadDisciplina = () => {
                     {errors.cargaHoraria && <div>{errors.cargaHoraria.message}</div>}
                 </div>
                 <div>
-                    <label htmlFor="faseId">Fase:</label>
-                    <select id="faseId" {...register("faseId", { required: "A fase é obrigatória" })}>
+                    <label htmlFor="fase">Fase:</label>
+                    <select id="fase" {...register("fase", { required: "A fase é obrigatória" })}>
                         <option value="">Selecione uma fase</option>
                         {fases.map((fase) => (
                             <option key={fase.id} value={fase.id}>{fase.numero}</option>
                         ))}
                     </select>
-                    {errors.faseId && <div>{errors.faseId.message}</div>}
+                    {errors.fase && <div>{errors.fase.message}</div>}
                 </div>
                 <div>
                     <label htmlFor="curso">Curso:</label>
                     <select id="curso" {...register("curso", { required: "O curso é obrigatório" })}>
                         <option value="">Selecione um curso</option>
-                        {fases.map((curso) => (
+                        {cursos.map((curso) => (
                             <option key={curso.id} value={curso.id}>{curso.nome}</option>
                         ))}
                     </select>
