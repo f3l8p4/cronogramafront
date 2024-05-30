@@ -5,7 +5,7 @@ const apiUrl = process.env.REACT_APP_API_URL
 const getCursos = async () => {
     
     try {
-      const response = await axios.get(`${apiUrl}curso`);
+      const response = await axios.get(`${apiUrl}curso/`);
       return response
     } catch (error) {
       console.error('Erro ao obter cursos:', error);
@@ -24,7 +24,7 @@ const getCurso = async (id) => {
 
   const addCurso = async (nome, horasTotais,qtdeFases,coordenador) => {
     try {
-      const response = await axios.post(`${apiUrl}/professor`, { nome, horasTotais,qtdeFases,coordenador });
+      const response = await axios.post(`${apiUrl}/curso`, { nome, horasTotais,qtdeFases,coordenador });
       console.log('Curso adicionado com sucesso');
     } catch (error) {
       console.error('Erro ao adicionar Curso:', error);

@@ -4,7 +4,7 @@ const apiUrl = process.env.REACT_APP_API_URL
 const getDisciplinas = async () => {
     
     try {
-      const response = await axios.get(`${apiUrl}disciplinas`);
+      const response = await axios.get(`${apiUrl}disciplina/`);
       return response
     } catch (error) {
       console.error('Erro ao obter disciplinas:', error);
@@ -13,7 +13,7 @@ const getDisciplinas = async () => {
   
 const getDisciplina = async (id) => {
     try {
-      const response = await axios.get(`${apiUrl}disciplinas/${id}`);
+      const response = await axios.get(`${apiUrl}disciplina/${id}`);
       return response
     } catch (error) {
       console.log('Erro ao obter o registro de professor ',error)
@@ -23,7 +23,7 @@ const getDisciplina = async (id) => {
 
   const addDisciplinas = async (nome, cargaHoraria,fase) => {
     try {
-      const response = await axios.post(`${apiUrl}disciplinas`, { nome,cargaHoraria,fase});
+      const response = await axios.post(`${apiUrl}disciplina`, { nome,cargaHoraria,fase});
       console.log('Disciplina adicionada com sucesso');
     } catch (error) {
       console.error('Erro ao adicionar disciplina:', error);
@@ -32,7 +32,7 @@ const getDisciplina = async (id) => {
 
   const excludeDisciplinas = async(id) => { 
     try{
-        const response = await axios.delete(`${apiUrl}/disciplinas/${id}`);
+        const response = await axios.delete(`${apiUrl}/disciplina/${id}`);
         console.log('Disciplinas excluídas com sucesso:', response.data);
     }catch(erro){
         console.error('erro ao excluir a disciplinas',erro)
