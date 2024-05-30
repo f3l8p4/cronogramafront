@@ -13,18 +13,11 @@ const CadDisciplina = () => {
         id: '',
         nome: '',
         cargaHoraria: '',
-        faseId: ''
+        fase: '',
+        curso:''
     });
 
     useEffect(() => {
-        const carregarFases = async () => {
-            try {
-                const response = await apiFases.getFases();
-                setFases(response.data);
-            } catch (error) {
-                console.error("Erro ao carregar fases:", error);
-            }
-        };
 
         const carregarDisciplina = async () => {
             if (id) { // Verifica se há um ID na URL
@@ -34,14 +27,14 @@ const CadDisciplina = () => {
                     setDisciplina(dadosDisciplina);
                     setValue('nome', dadosDisciplina.nome);
                     setValue('cargaHoraria', dadosDisciplina.cargaHoraria);
-                    setValue('faseId', dadosDisciplina.faseId);
+                    setValue('faseId', dadosDisciplina.fase.id);
+                    setValue('curso', dadosDisciplina.fase.curso.nome);
                 } catch (error) {
                     console.error("Erro ao carregar dados da disciplina:", error);
                 }
             }
         };
-
-        carregarFases();
+    
         carregarDisciplina();
     }, [id, setValue]);
 
@@ -91,6 +84,16 @@ const CadDisciplina = () => {
                         ))}
                     </select>
                     {errors.faseId && <div>{errors.faseId.message}</div>}
+                </div>
+                <div>
+                    <label htmlFor="curso">Curso:</label>
+                    <select id="curso" {...register("curso", { required: "O curso é obrigatório" })}>
+                        <option value="">Selecione um curso</option>
+                        {fases.map((curso) => (
+                            <option key={curso.id} value={curso.id}>{curso.nome}</option>
+                        ))}
+                    </select>
+                    {errors.curso && <div>{errors.curso.message}</div>}
                 </div>
                 <button type="submit">Cadastrar Disciplina</button>
             </form>

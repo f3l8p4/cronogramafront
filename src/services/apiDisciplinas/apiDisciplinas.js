@@ -5,7 +5,7 @@ const getDisciplinas = async () => {
     
     try {
       const response = await axios.get(`${apiUrl}disciplina/`);
-      return response
+      return response.data
     } catch (error) {
       console.error('Erro ao obter disciplinas:', error);
     }

@@ -4,6 +4,7 @@ import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores";
 import apiFases from "../../services/apiFases/apiFases";
 import apiCursos from "../../services/apiCursos/ApiCursos";
 import { useNavigate } from 'react-router-dom';
+import apiDisciplina from '../../services/apiDisciplinas/apiDisciplinas';
 
 const ListaDisciplinas = () => {
     const [disciplinas, setDisciplinas] = useState([]);
@@ -12,36 +13,20 @@ const ListaDisciplinas = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const carregarDados = async () => {
+        const carregarDisciplina = async () => {
             try {
-                const [disciplinasResponse, fasesResponse, cursosResponse] = await Promise.all([
-                    apiDisciplinas.getDisciplinas(),
-                    apiFases.getFases(),
-                    apiCursos.getCursos()
-                ]);
-
-                setDisciplinas(disciplinasResponse.data);
-
-
-                const cursosMap = cursosResponse.data.reduce((acc, curso) => {
-                    acc[curso.id] = curso.nome;
-                    return acc;
-                }, {});
-                setCursos(cursosMap);
-
-                const fasesMap = fasesResponse.data.reduce((acc, fase) => {
-                    acc[fase.id] = {
-                        numero: fase.numero,
-                        curso: cursosMap[fase.cursoId]
-                    };
-                    return acc;
-                }, {});
-                setFases(fasesMap);
-            } catch (error) {
-                console.error('Erro ao carregar dados:', error);
-            }
-        };
-        carregarDados();
+                const data = await apiDisciplina.getDisciplinas()
+                console.log(data)
+                if (Array.isArray(data)) {
+                  setDisciplinas(data)
+                } else {
+                  console.error('não há disciplinas cadastrados no sistema:', data);
+                }
+              } catch (error) {
+                console.error('Erro ao carregar disciplinas:', error);
+              }
+            };
+            carregarDisciplina()
     }, []);
 
     const editarDisciplina = (id) => {
@@ -69,8 +54,8 @@ const ListaDisciplinas = () => {
                                 <td>{disciplina.id}</td>
                                 <td>{disciplina.nome}</td>
                                 <td>{disciplina.cargaHoraria}</td>
-                                <td>{fases[disciplina.faseId]?.numero}</td>
-                                <td>{fases[disciplina.faseId]?.curso}</td>
+                                <td>{disciplina.fase.numero}</td>
+                                <td>{disciplina.fase.curso.nome}</td>
                                 <td>
                                     <button onClick={() => editarDisciplina(disciplina.id)}>Editar</button>
                                 </td>
