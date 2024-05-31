@@ -15,6 +15,7 @@ const CadDisciplina = () => {
         id: '',
         nome: '',
         cargaHoraria: '',
+        codigoCor: '',
         fase: '',
         curso: ''
     });
@@ -37,32 +38,34 @@ const CadDisciplina = () => {
         const carregarDisciplina = async () => {
             if (id) { // Verifica se há um ID na URL
                 try {
-                    const response = await apiDisciplinas.getDisciplina(id);
-                    const dadosDisciplina = response.data;
-                    setDisciplina(dadosDisciplina);
-                    setValue('nome', dadosDisciplina.nome);
-                    setValue('cargaHoraria', dadosDisciplina.cargaHoraria);
-                    setValue('fase', dadosDisciplina.fase.id);
-                    setValue('curso', dadosDisciplina.fase.curso.id);
+                    const response = await apiDisciplinas.getDisciplina(id)
+                    const dadosDisciplina = response.data
+                    setDisciplina(dadosDisciplina)
+                    setValue('nome', dadosDisciplina.nome)
+                    setValue('cargaHoraria', dadosDisciplina.cargaHoraria)
+                    setValue('codigoCor',dadosDisciplina.codigoCor)
+                    setValue('fase', dadosDisciplina.fase.id)
+                    setValue('curso', dadosDisciplina.fase.curso.id)
                 } catch (error) {
-                    console.error("Erro ao carregar dados da disciplina:", error);
+                    console.error("Erro ao carregar dados da disciplina:", error)
                 }
             }
         };
 
-        carregarDados();
-        carregarDisciplina();
-    }, [id, setValue]);
+        carregarDados()
+        carregarDisciplina()
+    }, [id, setValue])
 
     const onSubmit = async (data) => {
         
-        //codigo necessário para o funcionamento do update 
-        const faseSelecionada = fases.find(fase => fase.id === parseInt(data.fase));
-        const cursoSelecionado = cursos.find(curso => curso.id === parseInt(data.curso));
+        //codigo necessário para o funcionamento do update e do create
+        const faseSelecionada = fases.find(fase => fase.id === parseInt(data.fase))
+        const cursoSelecionado = cursos.find(curso => curso.id === parseInt(data.curso))
 
         const dadosDisciplina = {
             nome: data.nome,
-            cargaHoraria: data.cargaHoraria,
+            cargaHoraria:  parseInt(data.cargaHoraria),
+            codigoCor : data.codigoCor,
             fase: {
                 id: faseSelecionada.id,
                 numero: faseSelecionada.numero,
@@ -76,14 +79,14 @@ const CadDisciplina = () => {
         }
         
         try {
-            console.log('Dados enviados:', dadosDisciplina); // Log para depuração
+            console.log('Dados enviados:', dadosDisciplina) // Log para depuração
 
             if (disciplina.id) {
                 await apiDisciplinas.updateDisciplinas(disciplina.id,dadosDisciplina)
-                console.log('Disciplina atualizada com sucesso');
+                console.log('Disciplina atualizada com sucesso', dadosDisciplina);
             } else {
-                await apiDisciplinas.addDisciplinas(dadosDisciplina);
-                console.log('Disciplina cadastrada com sucesso');
+                await apiDisciplinas.addDisciplinas(dadosDisciplina)
+                console.log('Disciplina cadastrada com sucesso ',dadosDisciplina);
             }
             navigate('/disciplinas');
         } catch (error) {
@@ -113,6 +116,17 @@ const CadDisciplina = () => {
                     />
                     {errors.cargaHoraria && <div>{errors.cargaHoraria.message}</div>}
                 </div>
+                
+                <div>
+                    <label htmlFor="codigoCor">Codigo da cor</label>
+                    <input
+                        type="text"
+                        id="codigoCor"
+                        {...register("codigoCor", { required: "A cor que irá aparecer na tabela é obrigatoria" })}
+                    />
+                    {errors.codigoCor && <div>{errors.codigoCor.message}</div>}
+                </div>
+                
                 <div>
                     <label htmlFor="fase">Fase:</label>
                     <select id="fase" {...register("fase", { required: "A fase é obrigatória" })}>

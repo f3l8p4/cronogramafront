@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import apiDisciplinas from "../../services/apiDisciplinas/apiDisciplinas";
-import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores";
-import apiFases from "../../services/apiFases/apiFases";
-import apiCursos from "../../services/apiCursos/ApiCursos";
 import { useNavigate } from 'react-router-dom';
 import apiDisciplina from '../../services/apiDisciplinas/apiDisciplinas';
 
@@ -42,6 +39,7 @@ const ListaDisciplinas = () => {
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Carga Horária</th>
+                        <th>Cor</th>
                         <th>Fase</th>
                         <th>Curso</th>
                         <th>Ações</th>
@@ -54,6 +52,7 @@ const ListaDisciplinas = () => {
                                 <td>{disciplina.id}</td>
                                 <td>{disciplina.nome}</td>
                                 <td>{disciplina.cargaHoraria}</td>
+                                <td>{disciplina.codigoCor}</td>
                                 <td>{disciplina.fase.numero}</td>
                                 <td>{disciplina.fase.curso.nome}</td>
                                 <td>
