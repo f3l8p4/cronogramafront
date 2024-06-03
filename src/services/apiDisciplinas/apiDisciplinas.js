@@ -21,10 +21,10 @@ const getDisciplina = async (id) => {
   };
   
 
-  const addDisciplinas = async (nome, cargaHoraria,fase,curso) => {
+  const addDisciplinas = async (data) => {
     try {
-      const response = await axios.post(`${apiUrl}disciplina`, { nome,cargaHoraria,fase,curso});
-      console.log('Disciplina adicionada com sucesso');
+      const response = await axios.post(`${apiUrl}disciplina/`,data);
+      console.log('Disciplina adicionada com sucesso',response);
     } catch (error) {
       console.error('Erro ao adicionar disciplina:', error);
     }

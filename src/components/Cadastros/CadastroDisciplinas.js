@@ -57,7 +57,6 @@ const CadDisciplina = () => {
     }, [id, setValue])
 
     const onSubmit = async (data) => {
-        
         //codigo necessário para o funcionamento do update e do create
         const faseSelecionada = fases.find(fase => fase.id === parseInt(data.fase))
         const cursoSelecionado = cursos.find(curso => curso.id === parseInt(data.curso))
