@@ -36,6 +36,7 @@ const ListaCoordenadores = () => {
             <th>ID</th>
             <th>Nome</th>
             <th>Email</th>
+            <th>CPF</th>
             <th>URL da Foto de Perfil</th>
             <th>Status</th>
             <th>Nível de Permissão</th>
@@ -48,6 +49,7 @@ const ListaCoordenadores = () => {
                 <td>{coordenador.id}</td>
                 <td>{coordenador.nome}</td>
                 <td>{coordenador.email}</td>
+                <td>{coordenador.cpf}</td>
                 <td>
                   <img src={coordenador.urlFotoPerfil} alt={coordenador.nome} width="50" height="50" />
                 </td>

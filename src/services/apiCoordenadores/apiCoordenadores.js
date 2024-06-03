@@ -5,7 +5,7 @@ const apiUrl = process.env.REACT_APP_API_URL
 const getCoordenadores = async () => {
     
     try {
-      const response = await axios.get(`${apiUrl}usuario`);
+      const response = await axios.get(`${apiUrl}usuario/`);
       return response.data
     } catch (error) {
       console.error('Erro ao obter coordenadores:', error);
@@ -22,14 +22,15 @@ const getCoordenador = async (id) => {
   };
   
 
-  const addCoordenador = async (nome, email,senha,urlFotoDePerfil,status,nivelPermissao,cursos) => {
+  const addCoordenador = async (data) => {
     try {
-      const response = await axios.post(`${apiUrl}usuario`, { nome,email,senha,urlFotoDePerfil,status,nivelPermissao,cursos});
-      console.log('Coordenador adicionado com sucesso');
+        const response = await axios.post(`${apiUrl}usuario/`, data);
+        console.log('Coordenador adicionado com sucesso:', response.data);
     } catch (error) {
-      console.error('Erro ao adicionar coordenador:', error);
+        console.error('Erro ao adicionar coordenador:', error);
     }
-  };
+};
+
 
   const excludeCoordenador = async(id) => { 
     try{

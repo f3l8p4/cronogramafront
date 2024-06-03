@@ -10,10 +10,12 @@ const CadCoordenador = () => {
     const [coordenador, setCoordenador] = useState({
         id: '',
         nome: '',
+        cpf:'',
         email: '',
         senha: '',
         urlFotoPerfil: '',
-        nivelPermissao: ''
+        nivelPermissao: '',
+        status: 'ATIVO'
     });
 
     useEffect(() => {
@@ -21,9 +23,10 @@ const CadCoordenador = () => {
             if (id) { // Verifica se há um ID na URL
                 try {
                     const response = await apiCoordenadores.getCoordenador(id)
-                    const dadosCoordenador = response // Supondo que a resposta seja um objeto com os dados do coordenador
+                    const dadosCoordenador = response 
                     setCoordenador(dadosCoordenador);
                     setValue('nome', dadosCoordenador.nome)
+                    setValue('cpf',dadosCoordenador.cpf)
                     setValue('email', dadosCoordenador.email)
                     setValue('senha',dadosCoordenador.senha)
                     setValue('urlFotoPerfil',dadosCoordenador.urlFotoPerfil)
@@ -38,15 +41,16 @@ const CadCoordenador = () => {
     }, [id, setValue]);
 
     const onSubmit = async (data) => {
+        data.status = 'ATIVO'; // Adiciona o status aos dados enviados
         try {
             if (coordenador.id) {
                 await apiCoordenadores.updateCoordenador(coordenador.id, data);
-                console.log('Coordenador atualizado com sucesso');
+                console.log('Coordenador atualizado com sucesso',data);
             } else {
                 await apiCoordenadores.addCoordenador(data);
-                console.log('Coordenador cadastrado com sucesso');
+                console.log('Coordenador cadastrado com sucesso',data);
             }
-            navigate('/coordenadores'); // Redireciona para a lista de coordenadores após o envio do formulário
+            navigate('/coordenadores');
         } catch (error) {
             console.error('Erro ao salvar coordenador:', error);
         }
@@ -61,6 +65,13 @@ const CadCoordenador = () => {
                     <input type='text' id='nome' {...register('nome', { required: "O nome do coordenador é obrigatório" })} />
                     {errors.nome && <div>{errors.nome.message}</div>}
                 </div>
+                
+                <div>
+                <label htmlFor='cpf'>CPF:</label>
+                    <input type='text' id='cpf' {...register('cpf', { required: "O cpf do coordenador é obrigatório", maxLength:{value:11, message:"O cpf não pode ter mais de 11 digitos" }})} />
+                    {errors.cpf && <div>{errors.cpf.message}</div>}
+                </div>
+                
                 <div>
                     <label htmlFor='email'>E-mail:</label>
                     <input type='text' id='email' {...register('email', { required: "O e-mail do coordenador é obrigatório" })} />
