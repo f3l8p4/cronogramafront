@@ -1,65 +1,111 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from "react";
+import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
+import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores"; 
 import apiCursos from "../../services/apiCursos/ApiCursos";
-import { useNavigate } from 'react-router-dom';
 
-const ListaCursos = () => {
-  const [cursos, setCursos] = useState([]);
-  const navigate = useNavigate();
-  
-  useEffect(() => {
-    const carregarCursos = async () => {
-      try {
-        const data = await apiCursos.getCursos();
-       
-        if (Array.isArray(data)) {
-          setCursos(data);
-        } else {
-          console.error('Não há cursos cadastrados no sistema:', data);
+const CadCurso = () => {
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [coordenadores, setCoordenadores] = useState([]);
+    const [curso, setCurso] = useState({
+        id: '',
+        nome: '',
+        qtdeFases: '',
+        usuarioCoordenador: ''
+    });
+
+    useEffect(() => {
+        const carregarDados = async () => {
+            try {
+                const coordenadoresResponse = await apiCoordenadores.getCoordenadores();
+                setCoordenadores(coordenadoresResponse);
+            } catch (error) {
+                console.error("Erro ao carregar dados de coordenadores:", error);
+            }
+        };
+
+        const carregarCurso = async () => {
+            if (id) {
+                try {
+                    const response = await apiCursos.getCurso(id);
+                    const dadosCurso = response;
+                    setCurso(dadosCurso);
+                    setValue('nome', dadosCurso.nome);
+                    setValue('qtdeFases', dadosCurso.qtdeFases);
+                    setValue('usuarioCoordenador', dadosCurso.usuarioCoordenador.id);
+                } catch (error) {
+                    console.error("Erro ao carregar dados do curso:", error);
+                }
+            }
+        };
+
+        carregarDados();
+        carregarCurso();
+    }, [id, setValue]);
+
+    const onSubmit = async (data) => {
+        const coordenadorSelecionado = coordenadores.find(coordenador => coordenador.id === parseInt(data.usuarioCoordenador));
+        
+        const dadosCurso = {
+            nome: data.nome,
+            qtdeFases: parseInt(data.qtdeFases),
+            usuarioCoordenador: coordenadorSelecionado ? { id: coordenadorSelecionado.id } : null
+        };
+
+        try {
+            console.log('Dados enviados:', dadosCurso); // Log para depuração
+
+            if (curso.id) {
+                await apiCursos.updateCurso(curso.id, dadosCurso);
+                console.log('Curso atualizado com sucesso', dadosCurso);
+            } else {
+                await apiCursos.addCurso(dadosCurso);
+                console.log('Curso cadastrado com sucesso', dadosCurso);
+            }
+            navigate('/cursos');
+        } catch (error) {
+            console.error('Erro ao salvar curso:', error);
         }
-      } catch (error) {
-        console.error('Erro ao carregar cursos:', error);
-      }
     };
-    carregarCursos();
-  }, []);
 
-  const editarCurso = (id) => {
-    navigate(`/editarCurso/${id}`);
-  };
-  
-  return (
-    <div>
-      <h2>Lista de Cursos</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Horas Totais</th>
-            <th>Usuário Coordenador</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cursos.length > 0 ? (
-            cursos.map((curso) => (
-              <tr key={curso.id}>
-                <td>{curso.id}</td>
-                <td>{curso.nomeDisciplina}</td>
-                <td>{curso.horasTotais}</td>
-                <td>{curso.usuarioCoordenador}</td>
-                <td><button onClick={() => editarCurso(curso.id)}>Editar</button></td>
-                <td>Excluir</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4">Nenhum curso encontrado.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
-  );
+    return (
+        <div>
+            <h2>Cadastro de Curso</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                    <label htmlFor="nome">Nome do Curso:</label>
+                    <input
+                        type="text"
+                        id="nome"
+                        {...register("nome", { required: "O nome do curso é obrigatório" })}
+                    />
+                    {errors.nome && <div>{errors.nome.message}</div>}
+                </div>
+                <div>
+                    <label htmlFor="qtdeFases">Quantidade de Fases:</label>
+                    <input
+                        type="number"
+                        id="qtdeFases"
+                        {...register("qtdeFases", { required: "A quantidade de fases é obrigatória" })}
+                    />
+                    {errors.qtdeFases && <div>{errors.qtdeFases.message}</div>}
+                </div>
+                <div>
+                    <label htmlFor="usuarioCoordenador">Coordenador:</label>
+                    <select id="usuarioCoordenador" {...register("usuarioCoordenador", { required: "O coordenador é obrigatório" })}>
+                        <option value="">Selecione um coordenador</option>
+                        {coordenadores.map(coordenador => (
+                            <option key={coordenador.id} value={coordenador.id}>{coordenador.nome}</option>
+                        ))}
+                    </select>
+                    {errors.usuarioCoordenador && <div>{errors.usuarioCoordenador.message}</div>}
+                </div>
+                <button type="submit">Cadastrar Curso</button>
+            </form>
+        </div>
+    );
 }
 
-export default ListaCursos;
+export default CadCurso;

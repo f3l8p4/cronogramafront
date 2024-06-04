@@ -14,7 +14,7 @@ const getCursos = async () => {
   
 const getCurso = async (id) => {
     try {
-      const response = await axios.get(`${apiUrl}/curso/${id}`);
+      const response = await axios.get(`${apiUrl}curso/${id}`);
       return response.data
     } catch (error) {
       console.log('Erro ao obter o registro de curso ',error)
@@ -22,9 +22,9 @@ const getCurso = async (id) => {
   };
   
 
-  const addCurso = async (nome, horasTotais,qtdeFases,coordenador) => {
+  const addCurso = async (data) => {
     try {
-      const response = await axios.post(`${apiUrl}/curso`, { nome, horasTotais,qtdeFases,coordenador });
+      const response = await axios.post(`${apiUrl}curso/`, data);
       console.log('Curso adicionado com sucesso');
     } catch (error) {
       console.error('Erro ao adicionar Curso:', error);
@@ -42,7 +42,7 @@ const getCurso = async (id) => {
 
   const updateCurso = async(id,dadosAtualizados) => {
     try{
-        const response = await axios.put(`${apiUrl}/curso/${id}`, dadosAtualizados);
+        const response = await axios.put(`${apiUrl}curso/${id}`, dadosAtualizados);
     }catch(error){
         console.error('Erro ao atualizar curso:', error);
     }
@@ -50,7 +50,7 @@ const getCurso = async (id) => {
 
   const apiCurso = {
     getCursos,
-    getCursos,
+    getCurso,
     addCurso,
     updateCurso,
     excludeCurso
