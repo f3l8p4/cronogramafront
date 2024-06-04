@@ -17,7 +17,7 @@ const ListaFases = () => {
                 ]);
 
                 setFases(fasesResponse.data);
-
+                console.log(fasesResponse)
                 const cursosMap = cursosResponse.data.reduce((acc, curso) => {
                     acc[curso.id] = curso.nome;
                     return acc;
@@ -52,7 +52,7 @@ const ListaFases = () => {
                             <tr key={fase.id}>
                                 <td>{fase.id}</td>
                                 <td>{fase.numero}</td>
-                                <td>{cursos[fase.cursoId]}</td>
+                                <td>{fase.curso.nome}</td>
                                 <td>
                                     <button onClick={() => editarFase(fase.id)}>Editar</button>
                                 </td>

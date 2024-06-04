@@ -22,9 +22,9 @@ const getFases = async () => {
     }
   };
   
-  const addFase = async (numero,disciplinas,curso) => {
+  const addFase = async (data) => {
     try {
-      const response = await axios.post(`${apiUrl}/fase`, { numero, disciplinas,curso });
+      const response = await axios.post(`${apiUrl}fase/`,data);
       console.log('fase adicionado com sucesso');
     } catch (error) {
       console.error('Erro ao adicionar fase:', error);

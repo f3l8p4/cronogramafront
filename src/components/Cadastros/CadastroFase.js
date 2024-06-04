@@ -11,7 +11,7 @@ const CadFase = () => {
     const [fase, setFase] = useState({
         id: '',
         numero: '',
-        cursoId: ''
+        curso: ''
     });
     const [cursos, setCursos] = useState([]);
     
@@ -23,7 +23,7 @@ const CadFase = () => {
                     const dadosFase = response.data;
                     setFase(dadosFase);
                     setValue('numero', dadosFase.numero);
-                    setValue('cursoId', dadosFase.cursoId);
+                    setValue('curso', dadosFase.curso);
                 } catch (error) {
                     console.error('Erro ao carregar dados da fase:', error);
                 }
@@ -69,8 +69,8 @@ const CadFase = () => {
                     {errors.numero && <div>{errors.numero.message}</div>}
                 </div>
                 <div>
-                    <label htmlFor='cursoId'>Curso:</label>
-                    <select id='cursoId' {...register('cursoId', { required: "O curso é obrigatório" })}>
+                    <label htmlFor='curso'>Curso:</label>
+                    <select id='curso' {...register('curso', { required: "O curso é obrigatório" })}>
                         <option value=''>Selecione...</option>
                         {cursos.map(curso => (
                             <option key={curso.id} value={curso.id}>{curso.nome}</option>
