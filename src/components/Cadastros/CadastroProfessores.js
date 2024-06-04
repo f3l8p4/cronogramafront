@@ -40,11 +40,13 @@ const CadProfessor = () => {
   }, [id, setValue]);
 
   const onSubmit = async (data) => {
+    
     try {
       if (professor.id) {
         await apiProfessores.updateProfessores(professor.id, data);
         console.log('Professor atualizado com sucesso');
       } else {
+        data.status = 'ATIVO'
         await apiProfessores.addProfessores(data);
         console.log('Professor cadastrado com sucesso');
       }
