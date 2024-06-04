@@ -41,12 +41,12 @@ const CadCoordenador = () => {
     }, [id, setValue]);
 
     const onSubmit = async (data) => {
-        data.status = 'ATIVO'; // Adiciona o status aos dados enviados
         try {
             if (coordenador.id) {
                 await apiCoordenadores.updateCoordenador(coordenador.id, data);
                 console.log('Coordenador atualizado com sucesso',data);
             } else {
+                data.status = 'ATIVO'
                 await apiCoordenadores.addCoordenador(data);
                 console.log('Coordenador cadastrado com sucesso',data);
             }
