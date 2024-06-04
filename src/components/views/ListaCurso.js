@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import apiCursos from "../../services/apiCursos/ApiCursos";
-import apiCoordenador from "../../services/apiCoordenadores/apiCoordenadores";
+import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores";
 import { useNavigate } from 'react-router-dom';
 
 const ListaCursos = () => {
@@ -11,15 +11,15 @@ const ListaCursos = () => {
     useEffect(() => {
         const carregarDados = async () => {
             try {
-                const [cursosResponse, CoordenadoresResponse] = await Promise.all([
+                const [cursosResponse, coordenadoresResponse] = await Promise.all([
                     apiCursos.getCursos(),
-                    apiCoordenador.getCoordenadores()
+                    apiCoordenadores.getCoordenadores()
                 ]);
 
                 setCursos(cursosResponse.data);
-
-                const coordenadoresMap = CoordenadoresResponse.data.reduce((acc, usuario) => {
-                    acc[usuario.id] = usuario.nome;
+                console.log(cursosResponse)
+                const coordenadoresMap = coordenadoresResponse.data.reduce((acc, coordenador) => {
+                    acc[coordenador.id] = coordenador.nome;
                     return acc;
                 }, {});
                 console.log('Coordenadores Map:', coordenadoresMap);
@@ -43,7 +43,6 @@ const ListaCursos = () => {
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
-                        <th>Horas Totais</th>
                         <th>Coordenador</th>
                         <th>Ações</th>
                     </tr>
@@ -54,8 +53,7 @@ const ListaCursos = () => {
                             <tr key={curso.id}>
                                 <td>{curso.id}</td>
                                 <td>{curso.nome}</td>
-                                <td>{curso.horasTotais}</td>
-                                <td>{coordenadores[curso.coordenadorId]}</td>
+                                <td>{curso.usuarioCoordenador.nome}</td>
                                 <td>
                                     <button onClick={() => editarCurso(curso.id)}>Editar</button>
                                 </td>

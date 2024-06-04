@@ -12,6 +12,7 @@ import ListaDisciplinas from './components/views/ListaDisciplinas';
 import CadDisciplina from './components/Cadastros/CadastroDisciplinas';
 import ListaFases from './components/views/ListaFases';
 import CadFase from './components/Cadastros/CadastroFase';
+import CadCurso from './components/Cadastros/cadCurso'
 import ListaCurso from './components/views/ListaCurso';
 function App() {
   return (
@@ -28,9 +29,11 @@ function App() {
         <Route path='/cadastroCoordenador' element={<CadCoordenador/>}/>
         <Route path="/editarCoordenador/:id" element={<CadCoordenador />} />
         <Route path='/cadastroDisciplina/' element={<CadDisciplina/>} />
+        <Route path='/cadastroCurso/' element={<CadCurso/>} />
         <Route path='/editarDisciplina/:id' element={<CadDisciplina/>} />
         <Route path='/cadastroFase' element={<CadFase/>} />
         <Route path='/editarFase/:id' element={<CadFase/>} />
+        <Route path='/editarCurso/:id' element={<CadCurso/>} />
       </Routes>
     </Router>
     </div>
