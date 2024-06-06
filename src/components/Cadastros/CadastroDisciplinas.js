@@ -84,7 +84,6 @@ const CadDisciplina = () => {
                 await apiDisciplinas.addDisciplinas(dadosDisciplina);
                 console.log('Disciplina cadastrada com sucesso', dadosDisciplina);
             }
-            // Atualizar o estado local após a resposta da API
             setDisciplina(dadosDisciplina);
             navigate('/disciplinas');
         } catch (error) {
