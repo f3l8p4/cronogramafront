@@ -1,33 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import apiFases from "../../services/apiFases/apiFases";
-import apiCursos from "../../services/apiCursos/ApiCursos";
 import { useNavigate } from 'react-router-dom';
 
 const ListaFases = () => {
     const [fases, setFases] = useState([]);
-    const [cursos, setCursos] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
-        const carregarDados = async () => {
+        const carregarFases = async () => {
             try {
-                const [fasesResponse, cursosResponse] = await Promise.all([
-                    apiFases.getFases(),
-                    apiCursos.getCursos()
-                ]);
-
-                setFases(fasesResponse.data);
-                console.log(fasesResponse)
-                const cursosMap = cursosResponse.data.reduce((acc, curso) => {
-                    acc[curso.id] = curso.nome;
-                    return acc;
-                }, {});
-                setCursos(cursosMap);
+                const response = await apiFases.getFases();
+                const data = response.data;
+                console.log(data.curso)
+                if (Array.isArray(data)) {
+                    setFases(data);
+                } else {
+                    console.error('Não há fases cadastradas no sistema:', data);
+                }
             } catch (error) {
-                console.error('Erro ao carregar dados:', error);
+                console.error('Erro ao carregar fases:', error);
             }
         };
-        carregarDados();
+        carregarFases();
     }, []);
 
     const editarFase = (id) => {
@@ -52,7 +46,7 @@ const ListaFases = () => {
                             <tr key={fase.id}>
                                 <td>{fase.id}</td>
                                 <td>{fase.numero}</td>
-                                <td>{fase.curso.nome}</td>
+                                
                                 <td>
                                     <button onClick={() => editarFase(fase.id)}>Editar</button>
                                 </td>
