@@ -5,8 +5,6 @@ import apiFases from "../../services/apiFases/apiFases";
 import apiCursos from "../../services/apiCursos/ApiCursos";
 import { useNavigate } from 'react-router-dom';
 
-//Adicionar ao front o vinculo de professor a disciplina quando for cadastrar a disciplina
-// primeiro a disciplina será cadastrada pela api disciplina depois ela será vinculada ao professor por um cadastro feito pela api agenda professor 
 
 const ListaDisciplinas = () => {
     const [disciplinas, setDisciplinas] = useState([]);
