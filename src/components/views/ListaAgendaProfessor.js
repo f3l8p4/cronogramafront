@@ -11,7 +11,6 @@ const ListaAgendaProfessor = () => {
             try {
                 const agendasResponse = await apiAgendas.getAgendaProfessores(); 
                 setAgendas(agendasResponse);
-                console.log(agendasResponse)
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
             }
@@ -20,7 +19,7 @@ const ListaAgendaProfessor = () => {
     }, []);
 
     const editarAgenda = (id) => {
-        console.log("indo pra edição")
+        navigate(`/editarAgendaProfessor/${id}`);
     };
 
     return (
