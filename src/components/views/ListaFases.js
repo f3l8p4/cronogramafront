@@ -46,7 +46,7 @@ const ListaFases = () => {
                             <tr key={fase.id}>
                                 <td>{fase.id}</td>
                                 <td>{fase.numero}</td>
-                                
+                                <td>{fase.curso.nome}</td>
                                 <td>
                                     <button onClick={() => editarFase(fase.id)}>Editar</button>
                                 </td>
