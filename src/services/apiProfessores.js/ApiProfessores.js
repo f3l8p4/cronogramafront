@@ -48,6 +48,17 @@ const getProfessor = async (id) => {
     }
   }
   
+  const updateProfessorStatus = async (id, status) => {
+    try {
+        const response = await axios.patch(`${apiUrl}atualizarstatus/${id}`, status)
+        return response;
+    } catch (error) {
+        console.error('Erro ao atualizar status do professor:', error);
+        throw error;
+    }
+};
+
+  
   const buscarProfessorNome = async() => {
     try{
         const response = await axios.get(`${apiUrl}/professor?nome={nome}`)
