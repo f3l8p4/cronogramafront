@@ -34,7 +34,7 @@ const getCoordenador = async (id) => {
 
   const excludeCoordenador = async(id) => { 
     try{
-        const response = await axios.delete(`${apiUrl}/usuario/${id}`);
+        const response = await axios.delete(`${apiUrl}usuario/${id}`);
         console.log('coordenador excluído com sucesso:', response.data);
     }catch(erro){
         console.error('erro ao excluir o coordenador',erro)

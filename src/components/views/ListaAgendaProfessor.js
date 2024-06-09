@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import apiAgendas from "../../services/apiAgendaProfessor/apiAgendaProfessor"; 
 import { useNavigate } from 'react-router-dom';
+import apiAgendaProfessor from '../../services/apiAgendaProfessor/apiAgendaProfessor';
 
 const ListaAgendaProfessor = () => {
     const [agendas, setAgendas] = useState([]);
@@ -17,6 +18,14 @@ const ListaAgendaProfessor = () => {
         };
         carregarDados();
     }, []);
+    
+    const excluirAgendaProfessor = (id) => {
+        try{
+            apiAgendaProfessor.excludeAgendaProfessor(id)
+        }catch(erro){
+            console.log('houve um erro na exclusão', erro)
+        }
+    }
 
     const editarAgenda = (id) => {
         navigate(`/editarAgendaProfessor/${id}`);
@@ -45,6 +54,9 @@ const ListaAgendaProfessor = () => {
                                 <td>{agenda.disciplina.nome}</td>
                                 <td>
                                     <button onClick={() => editarAgenda(agenda.id)}>Editar</button>
+                                </td>
+                                <td>
+                                    <button onClick={() => excluirAgendaProfessor(agenda.id)}>Excluir</button>
                                 </td>
                             </tr>
                         ))

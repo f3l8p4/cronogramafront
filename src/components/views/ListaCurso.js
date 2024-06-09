@@ -31,6 +31,15 @@ const ListaCursos = () => {
         carregarDados();
     }, []);
 
+    const excluirCurso = (id) => {
+        try{
+            apiCursos.excludeCurso(id)
+            console.log('curso excluído com sucesso', id)
+        }catch(erro){
+            
+        }
+    }
+    
     const editarCurso = (id) => {
         navigate(`/editarCurso/${id}`);
     };
@@ -56,6 +65,9 @@ const ListaCursos = () => {
                                 <td>{curso.usuarioCoordenador.nome}</td>
                                 <td>
                                     <button onClick={() => editarCurso(curso.id)}>Editar</button>
+                                </td>
+                                <td>
+                                    <button onClick={() => excluirCurso(curso.id)}>Excluir</button>
                                 </td>
                             </tr>
                         ))

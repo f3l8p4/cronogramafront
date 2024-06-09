@@ -44,6 +44,14 @@ const ListaDisciplinas = () => {
         };
         carregarDados();
     }, []);
+    
+    const excluirDisciplina = (id) => {
+        try{
+            apiCoordenadores.excludeCoordenador(id)
+        }catch(erro){
+            console.log('Erro ao excluir registro', id, erro)
+        }
+    }
 
     const editarDisciplina = (id) => {
         navigate(`/editarDisciplina/${id}`);
@@ -74,6 +82,9 @@ const ListaDisciplinas = () => {
                                 <td>{disciplina.fase.curso.nome}</td>
                                 <td>
                                     <button onClick={() => editarDisciplina(disciplina.id)}>Editar</button>
+                                </td>
+                                <td>
+                                    <button onClick={() => excluirDisciplina(disciplina.id)}>Excluir</button>
                                 </td>
                             </tr>
                         ))

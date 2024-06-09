@@ -33,7 +33,7 @@ const getFases = async () => {
 
   const excludeFase = async(id) => { 
     try{
-        const response = await axios.delete(`${apiUrl}/fase/${id}`);
+        const response = await axios.delete(`${apiUrl}fase/${id}`);
         console.log('fase excluída com sucesso:', response.data);
     }catch(erro){
         console.error('erro ao excluir fase',erro)

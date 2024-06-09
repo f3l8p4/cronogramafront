@@ -33,7 +33,7 @@ const getCurso = async (id) => {
 
   const excludeCurso = async(id) => { 
     try{
-        const response = await axios.delete(`${apiUrl}/curso/${id}`);
+        const response = await axios.delete(`${apiUrl}curso/${id}`);
         console.log('Curso excluído com sucesso:', response.data);
     }catch(erro){
         console.error('erro ao excluir o Curso',erro)

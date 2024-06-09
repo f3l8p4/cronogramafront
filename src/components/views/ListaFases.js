@@ -24,6 +24,14 @@ const ListaFases = () => {
         carregarFases();
     }, []);
 
+    const excluirFase = (id) => {
+        try{
+            apiFases.excludeFase(id)
+        }catch(erro){
+            console.log('erro na exclusão de fases', erro)
+        }
+    }
+    
     const editarFase = (id) => {
         navigate(`/editarFase/${id}`);
     };
@@ -49,6 +57,9 @@ const ListaFases = () => {
                                 <td>{fase.curso.nome}</td>
                                 <td>
                                     <button onClick={() => editarFase(fase.id)}>Editar</button>
+                                </td>
+                                <td>
+                                    <button onClick={() => excluirFase(fase.id)}>Excluir</button>
                                 </td>
                             </tr>
                         ))
