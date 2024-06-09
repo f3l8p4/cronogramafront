@@ -23,6 +23,15 @@ const ListaCoordenadores = () => {
     carregarCoordenadores();
   }, []);
 
+  const atualizarStatusCoordenador = async (id, novoStatus) => {
+    try {
+        await apiCoordenadores.updateCoordenadorStatus(id, novoStatus);
+        setCoordenadores(coordenadores.map(cod => cod.id === id ? { ...cod, status: novoStatus } : cod));
+    } catch (error) {
+        console.error(`Erro ao atualizar status do coordenador para ${novoStatus}:`, error);
+    }
+};
+  
   const editarCoordenador = (id) => {
     navigate(`/editarCoordenador/${id}`);
   };
@@ -56,7 +65,13 @@ const ListaCoordenadores = () => {
                 <td>{coordenador.status}</td>
                 <td>{coordenador.nivelPermissao}</td>
                 <td><button onClick={() => editarCoordenador(coordenador.id)}>Editar</button></td>
-                <td>Excluir</td>
+                <td>
+                {coordenador.status === 'ATIVO' ? (
+                  <button onClick={() => atualizarStatusCoordenador(coordenador.id, 'INATIVO')}>Desativar</button>
+                  ) : (
+                  <button onClick={() => atualizarStatusCoordenador(coordenador.id, 'ATIVO')}>Ativar</button>
+                  )}
+                </td>
               </tr>
             ))
           ) : (

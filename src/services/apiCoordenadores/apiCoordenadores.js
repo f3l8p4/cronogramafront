@@ -48,12 +48,26 @@ const getCoordenador = async (id) => {
         console.error('Erro ao atualizar coordenador:', error);
     }
   }
-
+  
+  const updateCoordenadorStatus = async (id, status) => {
+    try {
+        const response = await axios.patch(`${apiUrl}usuario/atualizarstatus/${id}`, { status: status }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error('Erro ao atualizar status do coordenador:', error);
+        throw error;
+    }
+};
   const apiCoordenador = {
     getCoordenadores,
     getCoordenador,
     excludeCoordenador,
     updateCoordenador,
+    updateCoordenadorStatus,
     addCoordenador
   }
   export default apiCoordenador;
