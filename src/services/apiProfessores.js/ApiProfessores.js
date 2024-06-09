@@ -50,13 +50,18 @@ const getProfessor = async (id) => {
   
   const updateProfessorStatus = async (id, status) => {
     try {
-        const response = await axios.patch(`${apiUrl}atualizarstatus/${id}`, status)
+        const response = await axios.patch(`${apiUrl}professor/atualizarstatus/${id}`, { status: status }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
         return response;
     } catch (error) {
         console.error('Erro ao atualizar status do professor:', error);
         throw error;
     }
 };
+
 
   
   const buscarProfessorNome = async() => {
@@ -72,6 +77,7 @@ const getProfessor = async (id) => {
     getProfessor,
     addProfessores,
     updateProfessores,
+    updateProfessorStatus,
     excludeProfessores
   }
   export default apiProfessores;

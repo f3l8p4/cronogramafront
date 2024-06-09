@@ -27,6 +27,16 @@ const ListaProfessores = () => {
     navigate(`/editarProfessor/${id}`);
   };
   
+  const atualizarStatusProfessor = async (id, novoStatus) => {
+    try {
+        await apiProfessores.updateProfessorStatus(id, novoStatus);
+        setProfessores(professores.map(prof => prof.id === id ? { ...prof, status: novoStatus } : prof));
+    } catch (error) {
+        console.error(`Erro ao atualizar status do professor para ${novoStatus}:`, error);
+    }
+  };
+
+
   return (
     <div>
       <h2>Lista de Professores</h2>
@@ -56,7 +66,13 @@ const ListaProfessores = () => {
                   <img src={professor.urlFotoPerfil} alt={professor.nomeCompleto} width="50" height="50" />
                 </td>
                 <td><button onClick={() => editarProfessor(professor.id)}>Editar</button></td>
-                <td>Excluir</td>
+                <td>
+                {professor.status === 'ATIVO' ? (
+                  <button onClick={() => atualizarStatusProfessor(professor.id, 'INATIVO')}>Desativar</button>
+                  ) : (
+                  <button onClick={() => atualizarStatusProfessor(professor.id, 'ATIVO')}>Ativar</button>
+                  )}
+                </td>
               </tr>
             ))
           ) : (
