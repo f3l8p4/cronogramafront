@@ -60,9 +60,9 @@ const ListaDisciplinas = () => {
     return (
         <div>
             <h2>Lista de Disciplinas</h2>
-            <table>
-                <thead>
-                    <tr>
+            <table className='table table-sm'>
+                <thead className=''>
+                    <tr className='fs-5 mb-2'>
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Carga Horária</th>
@@ -71,20 +71,19 @@ const ListaDisciplinas = () => {
                         <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className=' table-group-divider '>
                     {disciplinas.length > 0 ? (
                         disciplinas.map((disciplina) => (
-                            <tr key={disciplina.id}>
+                            <tr key={disciplina.id} className='fs-6'>
                                 <td>{disciplina.id}</td>
                                 <td>{disciplina.nome}</td>
                                 <td>{disciplina.cargaHoraria}</td>
                                 <td>{disciplina.fase.numero}</td>
                                 <td>{disciplina.fase.curso.nome}</td>
-                                <td>
-                                    <button onClick={() => editarDisciplina(disciplina.id)}>Editar</button>
-                                </td>
-                                <td>
-                                    <button onClick={() => excluirDisciplina(disciplina.id)}>Excluir</button>
+                                <td className=''>
+                                    <button onClick={() => editarDisciplina(disciplina.id)} className='btn btn-warning btn-sm text-white px-2 mr-2'>Editar</button>
+                                    
+                                    <button onClick={() => excluirDisciplina(disciplina.id)} className='btn btn-sm btn-danger'>Excluir</button>
                                 </td>
                             </tr>
                         ))
