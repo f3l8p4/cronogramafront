@@ -6,7 +6,7 @@ const apiUrl = process.env.REACT_APP_API_URL
 const getDiaExcecoes = async () => {
     
     try {
-      const response = await axios.get(`${apiUrl}/diaexcecao`);
+      const response = await axios.get(`${apiUrl}diaexcecao/`);
       return response.data
     
     } catch (error) {
@@ -15,7 +15,7 @@ const getDiaExcecoes = async () => {
   };
   const getDiaExcecao = async (id) => {
     try {
-      const response = await axios.get(`${apiUrl}/diaexcecao/${id}`);
+      const response = await axios.get(`${apiUrl}diaexcecao/${id}`);
       return response.data
     } catch (error) {
       console.log('Erro ao obter o registro de dia de excecao: ',error)
@@ -24,7 +24,7 @@ const getDiaExcecoes = async () => {
   
   const addDiaExcecao = async (data,motivo) => {
     try {
-      const response = await axios.post(`${apiUrl}/diaexcecao`, { data,motivo });
+      const response = await axios.post(`${apiUrl}diaexcecao`, { data,motivo });
       console.log('dia de excecao adicionado com sucesso');
     } catch (error) {
       console.error('Erro ao adicionar diaexcecao:', error);
@@ -33,7 +33,7 @@ const getDiaExcecoes = async () => {
 
   const excludeDiaExcecao = async(id) => { 
     try{
-        const response = await axios.delete(`${apiUrl}/diaexcecao/${id}`);
+        const response = await axios.delete(`${apiUrl}diaexcecao/${id}`);
         console.log('dia de excecao excluído com sucesso:', response.data);
     }catch(erro){
         console.error('erro ao excluir diaexcecao',erro)

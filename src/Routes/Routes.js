@@ -13,6 +13,7 @@ import CadDisciplina from '../components/Cadastros/CadastroDisciplinas';
 import CadCurso from '../components/Cadastros/cadCurso';
 import CadAgendaProfessor from '../components/Cadastros/CadastroAgendaProfessor';
 import CadFase from '../components/Cadastros/CadastroFase';
+import ListaDiaExcecao from '../components/views/listaDiaDeExcecao';
 
 const Routers = () => {
   return (
@@ -22,9 +23,10 @@ const Routers = () => {
       <Route path='/disciplinas' element={<ListaDisciplinas/>} />
       <Route path='/fases' element={<ListaFases/>}/>
       <Route path='/cursos' element = {<ListaCurso/>}/>
-      <Route path='/diaExcecao' element = {<CadDiaExcecao/>}/>
+      <Route path='/diaExcecao' element = {<ListaDiaExcecao/>}/>
       <Route path='/agendaprofessores' element = {<ListaAgendaProfessor/>}/>
       <Route path="/cadastro/" element={<CadProfessor />} />
+      <Route path="/cadastroDiaExcecao/" element={<CadProfessor />} />
       <Route path="/editarProfessor/:id" element={<CadProfessor />} />
       <Route path='/cadastroCoordenador' element={<CadCoordenador/>}/>
       <Route path="/editarCoordenador/:id" element={<CadCoordenador />} />
@@ -34,6 +36,7 @@ const Routers = () => {
       <Route path='/editarDisciplina/:id' element={<CadDisciplina/>} />
       <Route path='/cadastroFase' element={<CadFase/>} />
       <Route path='/editarFase/:id' element={<CadFase/>} />
+      <Route path="/editarDiaExcecao/:id" element={<CadDiaExcecao />} />
       <Route path='/editarCurso/:id' element={<CadCurso/>} />
       <Route path='/editarAgendaProfessor/:id' element={<CadAgendaProfessor/>} />
     </Routes>
