@@ -40,7 +40,7 @@ const ListaProfessores = () => {
   return (
     <div>
       <h2>Lista de Professores</h2>
-      <table>
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>ID</th>
@@ -50,6 +50,7 @@ const ListaProfessores = () => {
             <th>Quantidade de Dias de Aula</th>
             <th>Status</th>
             <th>Foto de Perfil</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -65,12 +66,12 @@ const ListaProfessores = () => {
                 <td>
                   <img src={professor.urlFotoPerfil} alt={professor.nomeCompleto} width="50" height="50" />
                 </td>
-                <td><button onClick={() => editarProfessor(professor.id)}>Editar</button></td>
                 <td>
-                {professor.status === 'ATIVO' ? (
-                  <button onClick={() => atualizarStatusProfessor(professor.id, 'INATIVO')}>Desativar</button>
+                  <button onClick={() => editarProfessor(professor.id)} className="btn btn-sm btn-warning px-2 me-2">Editar</button>
+                  {professor.status === 'ATIVO' ? (
+                  <button onClick={() => atualizarStatusProfessor(professor.id, 'INATIVO')} className='btn btn-sm btn-danger'>Desativar</button>
                   ) : (
-                  <button onClick={() => atualizarStatusProfessor(professor.id, 'ATIVO')}>Ativar</button>
+                  <button onClick={() => atualizarStatusProfessor(professor.id, 'ATIVO')} className='btn btn-sm btn-sucess'>Ativar</button>
                   )}
                 </td>
               </tr>
