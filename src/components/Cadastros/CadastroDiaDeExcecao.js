@@ -45,7 +45,7 @@ const CadDiaExcecao = () => {
                 await apiDiaExcecao.addDiaExcecao(dadosDiaExcecao);
                 console.log('Dia de Exceção cadastrado com sucesso', dadosDiaExcecao);
             }
-            navigate('/diasExcecao');
+            navigate('/diaExcecao');
         } catch (error) {
             console.error('Erro ao salvar dia de exceção:', error);
         }
