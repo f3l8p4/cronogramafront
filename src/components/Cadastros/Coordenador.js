@@ -57,44 +57,47 @@ const CadCoordenador = () => {
     };
 
     return (
-        <div>
-            <h1>Cadastro de Coordenador</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <label htmlFor='nome'>Nome:</label>
-                    <input type='text' id='nome' {...register('nome', { required: "O nome do coordenador é obrigatório" })} />
-                    {errors.nome && <div>{errors.nome.message}</div>}
-                </div>
-                
-                <div>
-                <label htmlFor='cpf'>CPF:</label>
-                    <input type='text' id='cpf' {...register('cpf', { required: "O cpf do coordenador é obrigatório", maxLength:{value:11, message:"O cpf não pode ter mais de 11 digitos" }})} />
-                    {errors.cpf && <div>{errors.cpf.message}</div>}
-                </div>
-                
-                <div>
-                    <label htmlFor='email'>E-mail:</label>
-                    <input type='text' id='email' {...register('email', { required: "O e-mail do coordenador é obrigatório" })} />
-                    {errors.email && <div>{errors.email.message}</div>}
-                </div>
-                
-                <div>
-                    <label htmlFor='senha'>Senha:</label>
-                    <input type='password' id='senha' {...register('senha', { required: "A senha é obrigatória" })} />
-                    {errors.senha && <div>{errors.senha.message}</div>}
-                </div>
-                <div>
-                    <label htmlFor='fotoPerfil'>Foto de Perfil:</label>
-                    <input type='text' id='fotoPerfil' {...register('urlFotoPerfil')} />
-                </div>
-                <div>
-                    <label htmlFor='nivelPermissao'>Nível de Permissão:</label>
-                    <input type='text' id='nivelPermissao' {...register('nivelPermissao', { required: "O nível de permissão é obrigatório" })} />
-                    {errors.nivelPermissao && <div>{errors.nivelPermissao.message}</div>}
-                </div>
-                <button type='submit'>Enviar</button>
-            </form>
-        </div>
+        <div className="container mt-5">
+        <h1 className="mb-4">Cadastro de Coordenador</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="mb-3">
+                <label htmlFor="nome" className="form-label">Nome:</label>
+                <input type="text" id="nome" className={`form-control ${errors.nome ? 'is-invalid' : ''}`} {...register('nome', { required: "O nome do coordenador é obrigatório" })} />
+                {errors.nome && <div className="invalid-feedback">{errors.nome.message}</div>}
+            </div>
+            
+            <div className="mb-3">
+                <label htmlFor="cpf" className="form-label">CPF:</label>
+                <input type="text" id="cpf" className={`form-control ${errors.cpf ? 'is-invalid' : ''}`} {...register('cpf', { required: "O CPF do coordenador é obrigatório", maxLength: { value: 11, message: "O CPF não pode ter mais de 11 dígitos" } })} />
+                {errors.cpf && <div className="invalid-feedback">{errors.cpf.message}</div>}
+            </div>
+            
+            <div className="mb-3">
+                <label htmlFor="email" className="form-label">E-mail:</label>
+                <input type="email" id="email" className={`form-control ${errors.email ? 'is-invalid' : ''}`} {...register('email', { required: "O e-mail do coordenador é obrigatório" })} />
+                {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
+            </div>
+            
+            <div className="mb-3">
+                <label htmlFor="senha" className="form-label">Senha:</label>
+                <input type="password" id="senha" className={`form-control ${errors.senha ? 'is-invalid' : ''}`} {...register('senha', { required: "A senha é obrigatória" })} />
+                {errors.senha && <div className="invalid-feedback">{errors.senha.message}</div>}
+            </div>
+            
+            <div className="mb-3">
+                <label htmlFor="fotoPerfil" className="form-label">Foto de Perfil:</label>
+                <input type="text" id="fotoPerfil" className="form-control" {...register('urlFotoPerfil')} />
+            </div>
+            
+            <div className="mb-3">
+                <label htmlFor="nivelPermissao" className="form-label">Nível de Permissão:</label>
+                <input type="text" id="nivelPermissao" className={`form-control ${errors.nivelPermissao ? 'is-invalid' : ''}`} {...register('nivelPermissao', { required: "O nível de permissão é obrigatório" })} />
+                {errors.nivelPermissao && <div className="invalid-feedback">{errors.nivelPermissao.message}</div>}
+            </div>
+            
+            <button type="submit" className="btn btn-primary">Enviar</button>
+        </form>
+    </div>
     );
 }
 
