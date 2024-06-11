@@ -11,7 +11,6 @@ const ListaFases = () => {
             try {
                 const response = await apiFases.getFases();
                 const data = response.data;
-                console.log(data.curso)
                 if (Array.isArray(data)) {
                     setFases(data);
                 } else {
