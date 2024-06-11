@@ -27,7 +27,7 @@ const CadProfessor = () => {
           setValue('nomeCompleto', dadosProfessor.nomeCompleto);
           setValue('telefone', dadosProfessor.telefone);
           setValue('cpf', dadosProfessor.cpf);
-          setValue('aulasSemanais', dadosProfessor.qtdeDiasDeAula);
+          setValue('qtdeDiasDeAula', dadosProfessor.qtdeDiasDeAula);
           setValue('status', dadosProfessor.status);
           setValue('urlFotoDePerfil', dadosProfessor.urlFotoPerfil);
         } catch (error) {
@@ -57,45 +57,48 @@ const CadProfessor = () => {
   };
 
   return (   
-    <div className="App">
-      <h1>Cadastro de professores</h1>
+    <div className="container mt-5">
+      <h1 className="mb-4">Cadastro de Professores</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="nome">Nome:</label>
-          <input type="text" id="nome" {...register('nomeCompleto', { required: "O campo não pode estar vazio" })} defaultValue={professor.nomeCompleto} />
-          {errors.nome && <div>{errors.nome.message}</div>}
+        <div className="row mb-3">
+          <div className="col">
+            <label htmlFor="nome" className="form-label">Nome:</label>
+            <input type="text" id="nome" className={`form-control ${errors.nomeCompleto ? 'is-invalid' : ''}`} {...register('nomeCompleto', { required: "O campo não pode estar vazio" })} />
+            {errors.nomeCompleto && <div className="invalid-feedback">{errors.nomeCompleto.message}</div>}
+          </div>
         </div>
-        
-        <div>
-          <label htmlFor="telefone">Telefone:</label>
-          <input type="text" id="telefone" {...register('telefone', { required: "O telefone não pode estar vazio" })} defaultValue={professor.telefone} />
-          {errors.telefone && <div>{errors.telefone.message}</div>}
+        <div className="row mb-3">
+          <div className="col">
+            <label htmlFor="telefone" className="form-label">Telefone:</label>
+            <input type="text" id="telefone" className={`form-control ${errors.telefone ? 'is-invalid' : ''}`} {...register('telefone', { required: "O telefone não pode estar vazio" })} />
+            {errors.telefone && <div className="invalid-feedback">{errors.telefone.message}</div>}
+          </div>
         </div>
-        
-        <div>
-          <label htmlFor="cpf">CPF:</label>
-          <input type="text" id="cpf" {...register('cpf', { required: "O cpf não pode estar vazio", maxLength: { value: 11, message: "O cpf não pode ultrapassar o valor de 11 dígitos" } })} defaultValue={professor.cpf} />
-          {errors.cpf && <div>{errors.cpf.message}</div>}
+        <div className="row mb-3">
+          <div className="col">
+            <label htmlFor="cpf" className="form-label">CPF:</label>
+            <input type="text" id="cpf" className={`form-control ${errors.cpf ? 'is-invalid' : ''}`} {...register('cpf', { required: "O cpf não pode estar vazio", maxLength: { value: 11, message: "O cpf não pode ultrapassar o valor de 11 dígitos" } })} />
+            {errors.cpf && <div className="invalid-feedback">{errors.cpf.message}</div>}
+          </div>
         </div>
-        
-        <div>
-          <label htmlFor="qtdeDiasDeAula">Quantidade de aulas semanais:</label>
-          <input type="number" id="aulasSemanais" {...register('qtdeDiasDeAula', {
-            required: 'Por favor, insira um número.',
-            min: {
-              value: 1,
-              message: 'O professor deve dar ao mínimo 1 aula por semana'
-            },
-            max: {
-              value: 6,
-              message: 'O professor não pode dar mais de 6 dias de aula por semana.'
-            }
-          })} defaultValue={professor.qtdeDiasDeAula} />
-          {errors.aulasSemanais && <div>{errors.aulasSemanais.message}</div>}
+        <div className="row mb-3">
+          <div className="col">
+            <label htmlFor="qtdeDiasDeAula" className="form-label">Quantidade de Aulas Semanais:</label>
+            <input type="number" id="qtdeDiasDeAula" className={`form-control ${errors.qtdeDiasDeAula ? 'is-invalid' : ''}`} {...register('qtdeDiasDeAula', {
+              required: 'Por favor, insira um número.',
+              min: {
+                value: 1,
+                message: 'O professor deve dar ao mínimo 1 aula por semana'
+              },
+              max: {
+                value: 6,
+                message: 'O professor não pode dar mais de 6 dias de aula por semana.'
+              }
+            })} />
+            {errors.qtdeDiasDeAula && <div className="invalid-feedback">{errors.qtdeDiasDeAula.message}</div>}
+          </div>
         </div>
-        
-      
-        <button type="submit">Enviar</button>
+        <button type="submit" className="btn btn-primary">Enviar</button>
       </form>
     </div>
   );
