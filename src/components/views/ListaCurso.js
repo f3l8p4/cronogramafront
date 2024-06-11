@@ -45,10 +45,10 @@ const ListaCursos = () => {
     };
 
     return (
-        <div>
-            <h2>Lista de Cursos</h2>
-            <table>
-                <thead>
+        <div className="container mt-5">
+            <h2 className="mb-4">Lista de Cursos</h2>
+            <table className="table table-striped">
+                <thead className="thead-dark">
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
@@ -64,16 +64,24 @@ const ListaCursos = () => {
                                 <td>{curso.nome}</td>
                                 <td>{curso.usuarioCoordenador.nome}</td>
                                 <td>
-                                    <button onClick={() => editarCurso(curso.id)}>Editar</button>
-                                </td>
-                                <td>
-                                    <button onClick={() => excluirCurso(curso.id)}>Excluir</button>
+                                    <button
+                                        className="btn btn-warning btn-sm me-2"
+                                        onClick={() => editarCurso(curso.id)}
+                                    >
+                                        Editar
+                                    </button>
+                                    <button
+                                        className="btn btn-danger btn-sm"
+                                        onClick={() => excluirCurso(curso.id)}
+                                    >
+                                        Excluir
+                                    </button>
                                 </td>
                             </tr>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="5">Nenhum curso encontrado.</td>
+                            <td colSpan="4" className="text-center">Nenhum curso encontrado.</td>
                         </tr>
                     )}
                 </tbody>

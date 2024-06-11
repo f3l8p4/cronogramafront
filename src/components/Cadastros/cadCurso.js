@@ -71,38 +71,47 @@ const CadCurso = () => {
     };
 
     return (
-        <div>
-            <h2>Cadastro de Curso</h2>
+        <div className="container mt-5">
+            <h2 className="mb-4">Cadastro de Curso</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <label htmlFor="nome">Nome do Curso:</label>
+                <div className="mb-3">
+                    <label htmlFor="nome" className="form-label">Nome do Curso:</label>
                     <input
                         type="text"
                         id="nome"
+                        className={`form-control ${errors.nome ? 'is-invalid' : ''}`}
                         {...register("nome", { required: "O nome do curso é obrigatório" })}
                     />
-                    {errors.nome && <div>{errors.nome.message}</div>}
+                    {errors.nome && <div className="invalid-feedback">{errors.nome.message}</div>}
                 </div>
-                <div>
-                    <label htmlFor="qtdeFases">Quantidade de Fases:</label>
+
+                <div className="mb-3">
+                    <label htmlFor="qtdeFases" className="form-label">Quantidade de Fases:</label>
                     <input
                         type="number"
                         id="qtdeFases"
+                        className={`form-control ${errors.qtdeFases ? 'is-invalid' : ''}`}
                         {...register("qtdeFases", { required: "A quantidade de fases é obrigatória" })}
                     />
-                    {errors.qtdeFases && <div>{errors.qtdeFases.message}</div>}
+                    {errors.qtdeFases && <div className="invalid-feedback">{errors.qtdeFases.message}</div>}
                 </div>
-                <div>
-                    <label htmlFor="usuarioCoordenador">Coordenador:</label>
-                    <select id="usuarioCoordenador" {...register("usuarioCoordenador", { required: "O coordenador é obrigatório" })}>
+
+                <div className="mb-3">
+                    <label htmlFor="usuarioCoordenador" className="form-label">Coordenador:</label>
+                    <select
+                        id="usuarioCoordenador"
+                        className={`form-select ${errors.usuarioCoordenador ? 'is-invalid' : ''}`}
+                        {...register("usuarioCoordenador", { required: "O coordenador é obrigatório" })}
+                    >
                         <option value="">Selecione um coordenador</option>
                         {coordenadores.map(coordenador => (
                             <option key={coordenador.id} value={coordenador.id}>{coordenador.nome}</option>
                         ))}
                     </select>
-                    {errors.usuarioCoordenador && <div>{errors.usuarioCoordenador.message}</div>}
+                    {errors.usuarioCoordenador && <div className="invalid-feedback">{errors.usuarioCoordenador.message}</div>}
                 </div>
-                <button type="submit">Cadastrar Curso</button>
+
+                <button type="submit" className="btn btn-primary">Cadastrar Curso</button>
             </form>
         </div>
     );
