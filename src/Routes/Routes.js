@@ -14,11 +14,13 @@ import CadCurso from '../components/Cadastros/cadCurso';
 import CadAgendaProfessor from '../components/Cadastros/CadastroAgendaProfessor';
 import CadFase from '../components/Cadastros/CadastroFase';
 import ListaDiaExcecao from '../components/views/listaDiaDeExcecao';
+import Home from '../components/views/TelaHome';
 
 const Routers = () => {
   return (
     <Routes>
-      <Route path="/" element={<ListaProfessores />} />
+      <Route path="/" element={<Home/>} />
+      <Route path='/professores' element={<ListaProfessores/>} />
       <Route path='/coordenadores' element={<ListaCoordenadores/>}/>
       <Route path='/disciplinas' element={<ListaDisciplinas/>} />
       <Route path='/fases' element={<ListaFases/>}/>
