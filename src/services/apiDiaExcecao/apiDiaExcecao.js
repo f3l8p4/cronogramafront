@@ -22,9 +22,9 @@ const getDiaExcecoes = async () => {
     }
   };
   
-  const addDiaExcecao = async (data,motivo) => {
+  const addDiaExcecao = async (data) => {
     try {
-      const response = await axios.post(`${apiUrl}diaexcecao`, { data,motivo });
+      const response = await axios.post(`${apiUrl}diaexcecao/`,data);
       console.log('dia de excecao adicionado com sucesso');
     } catch (error) {
       console.error('Erro ao adicionar diaexcecao:', error);
@@ -42,7 +42,7 @@ const getDiaExcecoes = async () => {
 
   const updateDiaExcecao = async(id,dadosAtualizados) => {
     try{
-        const response = await axios.put(`${apiUrl}/diaexcecao/${id}`, dadosAtualizados);
+        const response = await axios.put(`${apiUrl}diaexcecao/${id}`, dadosAtualizados);
     }catch(error){
         console.error('Erro ao atualizar dia de excecao:', error);
     }

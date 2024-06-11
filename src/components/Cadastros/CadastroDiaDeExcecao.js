@@ -18,9 +18,9 @@ const CadDiaExcecao = () => {
             if (id) {
                 try {
                     const response = await apiDiaExcecao.getDiaExcecao(id);
-                    const dadosDiaExcecao = response.data;
+                    const dadosDiaExcecao = response;
                     setDiaExcecao(dadosDiaExcecao);
-                    setValue('data', dadosDiaExcecao.data);
+                    setValue('data', new Date(dadosDiaExcecao.data).toISOString().substr(0, 10));
                     setValue('motivo', dadosDiaExcecao.motivo);
                 } catch (error) {
                     console.error("Erro ao carregar dados do dia de exceção:", error);
@@ -52,27 +52,29 @@ const CadDiaExcecao = () => {
     };
 
     return (
-        <div>
-            <h2>Cadastro de Dia de Exceção</h2>
+        <div className="container mt-5">
+            <h2 className="mb-4">Cadastro de Dia de Exceção</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <label htmlFor="data">Data:</label>
+                <div className="mb-3">
+                    <label htmlFor="data" className="form-label">Data:</label>
                     <input
                         type="date"
                         id="data"
+                        className={`form-control ${errors.data ? 'is-invalid' : ''}`}
                         {...register("data", { required: "A data é obrigatória" })}
                     />
-                    {errors.data && <div>{errors.data.message}</div>}
+                    {errors.data && <div className="invalid-feedback">{errors.data.message}</div>}
                 </div>
-                <div>
-                    <label htmlFor="motivo">Motivo:</label>
+                <div className="mb-3">
+                    <label htmlFor="motivo" className="form-label">Motivo:</label>
                     <textarea
                         id="motivo"
+                        className={`form-control ${errors.motivo ? 'is-invalid' : ''}`}
                         {...register("motivo", { required: "O motivo é obrigatório" })}
                     ></textarea>
-                    {errors.motivo && <div>{errors.motivo.message}</div>}
+                    {errors.motivo && <div className="invalid-feedback">{errors.motivo.message}</div>}
                 </div>
-                <button type="submit">Salvar</button>
+                <button type="submit" className="btn btn-primary">Salvar</button>
             </form>
         </div>
     );

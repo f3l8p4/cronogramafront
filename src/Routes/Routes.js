@@ -28,7 +28,7 @@ const Routers = () => {
       <Route path='/diaExcecao' element = {<ListaDiaExcecao/>}/>
       <Route path='/agendaprofessores' element = {<ListaAgendaProfessor/>}/>
       <Route path="/cadastro/" element={<CadProfessor />} />
-      <Route path="/cadastroDiaExcecao/" element={<CadProfessor />} />
+      <Route path="/cadastroDiaExcecao/" element={<CadDiaExcecao />} />
       <Route path="/editarProfessor/:id" element={<CadProfessor />} />
       <Route path='/cadastroCoordenador' element={<CadCoordenador/>}/>
       <Route path="/editarCoordenador/:id" element={<CadCoordenador />} />

@@ -23,13 +23,21 @@ const ListaDiaExcecao = () => {
         };
         carregarDiasExcecao();
     }, []);
+    
+    
+    const formatarData = (data) => {
+        const dataObj = new Date(data);
+        const dia = String(dataObj.getDate()).padStart(2, '0');
+        const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+        const ano = dataObj.getFullYear();
+        return `${dia}/${mes}/${ano}`;
+    };
 
     const editarDiaExcecao = (id) => {
         navigate(`/editarDiaExcecao/${id}`);
     };
 
     const excluirDiaExcecao = async (id) => {
-        // Implementar a função para excluir o dia de exceção
         try {
             await apiDiaExcecao.deleteDiaExcecao(id);
             setDiasExcecao(diasExcecao.filter(dia => dia.id !== id));
@@ -55,7 +63,7 @@ const ListaDiaExcecao = () => {
                         diasExcecao.map((dia) => (
                             <tr key={dia.id}>
                                 <td>{dia.id}</td>
-                                <td>{dia.data}</td>
+                                <td>{new Date(dia.data).toLocaleDateString('pt-BR', {timeZone: 'UTC'})}</td>
                                 <td>{dia.motivo}</td>
                                 <td>
                                     <button 
