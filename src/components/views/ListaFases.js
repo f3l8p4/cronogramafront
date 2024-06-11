@@ -37,10 +37,10 @@ const ListaFases = () => {
     };
 
     return (
-        <div>
-            <h2>Lista de Fases</h2>
-            <table>
-                <thead>
+        <div className="container mt-5">
+            <h2 className="mb-4">Lista de Fases</h2>
+            <table className="table table-striped">
+                <thead className="thead-dark">
                     <tr>
                         <th>ID</th>
                         <th>Número</th>
@@ -56,10 +56,8 @@ const ListaFases = () => {
                                 <td>{fase.numero}</td>
                                 <td>{fase.curso.nome}</td>
                                 <td>
-                                    <button onClick={() => editarFase(fase.id)}>Editar</button>
-                                </td>
-                                <td>
-                                    <button onClick={() => excluirFase(fase.id)}>Excluir</button>
+                                    <button className="btn btn-warning btn-sm me-2" onClick={() => editarFase(fase.id)}>Editar</button>
+                                    <button className="btn btn-danger btn-sm" onClick={() => excluirFase(fase.id)}>Excluir</button>
                                 </td>
                             </tr>
                         ))
