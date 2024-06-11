@@ -15,7 +15,7 @@ const CadDisciplina = () => {
         id: '',
         nome: '',
         cargaHoraria: '',
-        codigoCor: '',
+        codigoCor: '#000000',
         fase: '',
         curso: ''
     });
@@ -80,6 +80,7 @@ const CadDisciplina = () => {
             if (disciplina.id) {
                 await apiDisciplinas.updateDisciplinas(disciplina.id, dadosDisciplina);
                 console.log('Disciplina atualizada com sucesso', dadosDisciplina);
+                console.log('cor escolhida', dadosDisciplina.codigoCor)
             } else {
                 await apiDisciplinas.addDisciplinas(dadosDisciplina);
                 console.log('Disciplina cadastrada com sucesso', dadosDisciplina);
@@ -117,7 +118,7 @@ const CadDisciplina = () => {
                 <div>
                     <label htmlFor="codigoCor">Codigo da cor:</label>
                     <input
-                        type="text"
+                        type="color"
                         id="codigoCor"
                         {...register("codigoCor", { required: "A cor que irá aparecer na tabela é obrigatória" })}
                     />
