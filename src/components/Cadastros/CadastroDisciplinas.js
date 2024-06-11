@@ -79,8 +79,7 @@ const CadDisciplina = () => {
         try {
             if (disciplina.id) {
                 await apiDisciplinas.updateDisciplinas(disciplina.id, dadosDisciplina);
-                console.log('Disciplina atualizada com sucesso', dadosDisciplina);
-                console.log('cor escolhida', dadosDisciplina.codigoCor)
+                console.log('Disciplina atualizada com sucesso', dadosDisciplina)
             } else {
                 await apiDisciplinas.addDisciplinas(dadosDisciplina);
                 console.log('Disciplina cadastrada com sucesso', dadosDisciplina);
