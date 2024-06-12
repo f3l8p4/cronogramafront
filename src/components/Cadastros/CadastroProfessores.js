@@ -2,12 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
 import apiProfessores from "../../services/apiProfessores.js/ApiProfessores";
-import DiasSemana from "../DiasDaSemana";
+import ModalCadastros from "../modals/ModalCadastros";
 
 const CadProfessor = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  
+      //Funcionamentos dos modal
+      const [showModal, setShowModal] = useState(false);
+      const [modalMessage, setModalMessage] = useState('');
+      const [success, setSuccess] = useState(false);
+      //
+  
   const [professor, setProfessor] = useState({
     id: '',
     nomeCompleto: '',
@@ -40,22 +47,30 @@ const CadProfessor = () => {
   }, [id, setValue]);
 
   const onSubmit = async (data) => {
-    
+    setShowModal(true)
     try {
       if (professor.id) {
         await apiProfessores.updateProfessores(professor.id, data);
-        console.log('Professor atualizado com sucesso');
+        setSuccess(true);
+        setModalMessage('professor atualizado com sucesso');
       } else {
         data.status = 'ATIVO'
         await apiProfessores.addProfessores(data);
-        console.log('Professor cadastrado com sucesso');
+        setSuccess(true);
+        setModalMessage('professor cadastrado com sucesso');
       }
-      navigate('/'); // Navega de volta para a lista de professores após salvar
     } catch (error) {
-      console.error('Erro ao salvar professor:', error);
+      setSuccess(false);
+      setModalMessage('Erro ao salvar o professor',error);
     }
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+    if (success) {
+        navigate('/professores');
+    }
+};
   return (   
     <div className="container mt-5">
       <h1 className="mb-4">Cadastro de Professores</h1>
@@ -100,6 +115,8 @@ const CadProfessor = () => {
         </div>
         <button type="submit" className="btn btn-primary">Enviar</button>
       </form>
+      
+      <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
     </div>
   );
 };
