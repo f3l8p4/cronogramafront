@@ -2,11 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import apiDiaExcecao from "../../services/apiDiaExcecao/apiDiaExcecao";
+import ModalCadastros from "../modals/ModalCadastros";
 
 const CadDiaExcecao = () => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const { id } = useParams();
     const navigate = useNavigate();
+    
+    //Funcionamentos dos modal
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+    const [success, setSuccess] = useState(false);
+    //
+    
     const [diaExcecao, setDiaExcecao] = useState({
         id: '',
         data: '',
@@ -36,21 +44,32 @@ const CadDiaExcecao = () => {
             data: data.data,
             motivo: data.motivo
         };
-
+        setShowModal(true)
         try {
             if (diaExcecao.id) {
                 await apiDiaExcecao.updateDiaExcecao(diaExcecao.id, dadosDiaExcecao);
-                console.log('Dia de Exceção atualizado com sucesso', dadosDiaExcecao);
+                setSuccess(true);
+                setModalMessage('Dia de Exceção atualizado com sucesso');
             } else {
                 await apiDiaExcecao.addDiaExcecao(dadosDiaExcecao);
-                console.log('Dia de Exceção cadastrado com sucesso', dadosDiaExcecao);
+                setSuccess(true);
+                setModalMessage('Dia de Exceção cadastrado com sucesso');
+                
             }
-            navigate('/diaExcecao');
         } catch (error) {
             console.error('Erro ao salvar dia de exceção:', error);
+            setSuccess(false);
+            setModalMessage('Erro ao salvar dia de exceção');
         }
+        
     };
 
+    const handleCloseModal = () => {
+        setShowModal(false);
+        if (success) {
+            navigate('/diaExcecao');
+        }
+    };
     return (
         <div className="container mt-5">
             <h2 className="mb-4">Cadastro de Dia de Exceção</h2>
@@ -76,6 +95,7 @@ const CadDiaExcecao = () => {
                 </div>
                 <button type="submit" className="btn btn-primary">Salvar</button>
             </form>
+            <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
         </div>
     );
 }
