@@ -2,11 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
 import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores";
-
+import ModalCadastros from '../modals/ModalCadastros';
 const CadCoordenador = () => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const { id } = useParams();
     const navigate = useNavigate();
+    
+          //Funcionamentos dos modal
+          const [showModal, setShowModal] = useState(false);
+          const [modalMessage, setModalMessage] = useState('');
+          const [success, setSuccess] = useState(false);
+          //
+    
     const [coordenador, setCoordenador] = useState({
         id: '',
         nome: '',
@@ -41,21 +48,31 @@ const CadCoordenador = () => {
     }, [id, setValue]);
 
     const onSubmit = async (data) => {
+        setShowModal(true)
         try {
             if (coordenador.id) {
                 await apiCoordenadores.updateCoordenador(coordenador.id, data);
-                console.log('Coordenador atualizado com sucesso',data);
+                setSuccess(true)
+                setModalMessage('usuario atualizado com sucesso');
             } else {
                 data.status = 'ATIVO'
                 await apiCoordenadores.addCoordenador(data);
-                console.log('Coordenador cadastrado com sucesso',data);
+                setSuccess(true)
+                setModalMessage('Usuario adicionado com sucesso')
             }
-            navigate('/coordenadores');
+
         } catch (error) {
-            console.error('Erro ao salvar coordenador:', error);
+            setSuccess(false)
+            
         }
     };
 
+    const handleCloseModal = () => {
+        setShowModal(false);
+        if (success) {
+            navigate('/coordenadores');
+        }
+    };
     return (
         <div className="container mt-5">
         <h1 className="mb-4">Cadastro de Coordenador</h1>
@@ -97,6 +114,7 @@ const CadCoordenador = () => {
             
             <button type="submit" className="btn btn-primary">Enviar</button>
         </form>
+        <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
     </div>
     );
 }

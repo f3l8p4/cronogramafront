@@ -23,7 +23,7 @@ const ListaDisciplinas = () => {
                 ]);
 
                 setDisciplinas(disciplinasResponse);
-                console.log(disciplinasResponse)
+
                 const cursosMap = cursosResponse.data.reduce((acc, curso) => {
                     acc[curso.id] = curso.nome;
                     return acc;
