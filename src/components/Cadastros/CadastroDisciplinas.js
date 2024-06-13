@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import apiFases from "../../services/apiFases/apiFases";
 import apiCursos from "../../services/apiCursos/ApiCursos";
 import apiDisciplinas from "../../services/apiDisciplinas/apiDisciplinas";
+import ModalCadastros from "../modals/ModalCadastros";
 
 const CadDisciplina = () => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -11,6 +12,13 @@ const CadDisciplina = () => {
     const navigate = useNavigate();
     const [fases, setFases] = useState([]);
     const [cursos, setCursos] = useState([]);
+    
+    //Funcionamentos dos modal
+        const [showModal, setShowModal] = useState(false);
+        const [modalMessage, setModalMessage] = useState('');
+        const [success, setSuccess] = useState(false);
+    //
+    
     const [disciplina, setDisciplina] = useState({
         id: '',
         nome: '',
@@ -79,15 +87,23 @@ const CadDisciplina = () => {
         try {
             if (disciplina.id) {
                 await apiDisciplinas.updateDisciplinas(disciplina.id, dadosDisciplina);
-                console.log('Disciplina atualizada com sucesso', dadosDisciplina)
+                setSuccess(true)
+                setModalMessage('Disciplina atualizada com sucesso')
             } else {
                 await apiDisciplinas.addDisciplinas(dadosDisciplina);
-                console.log('Disciplina cadastrada com sucesso', dadosDisciplina);
+                setModalMessage('Disciplina registrada com sucesso')
             }
-            setDisciplina(dadosDisciplina);
-            navigate('/disciplinas');
         } catch (error) {
-            console.error('Erro ao salvar disciplina:', error);
+            setSuccess(false)
+            setModalMessage('Houve um erro ao salvar a disciplina', error)        
+        }
+        setShowModal(true)
+    };
+    
+    const handleCloseModal = () => {
+        setShowModal(false);
+        if (success) {
+            navigate('/disciplinas');
         }
     };
 
@@ -146,6 +162,7 @@ const CadDisciplina = () => {
                 </div>
                 <button type="submit">Cadastrar Disciplina</button>
             </form>
+            <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
         </div>
     );
 }

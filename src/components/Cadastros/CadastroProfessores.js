@@ -47,7 +47,6 @@ const CadProfessor = () => {
   }, [id, setValue]);
 
   const onSubmit = async (data) => {
-    setShowModal(true)
     try {
       if (professor.id) {
         await apiProfessores.updateProfessores(professor.id, data);
@@ -63,6 +62,7 @@ const CadProfessor = () => {
       setSuccess(false);
       setModalMessage('Erro ao salvar o professor',error);
     }
+    setShowModal(true)
   };
 
   const handleCloseModal = () => {
