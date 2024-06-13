@@ -3,12 +3,20 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores"; 
 import apiCursos from "../../services/apiCursos/ApiCursos";
+import ModalCadastros from "../modals/ModalCadastros";
 
 const CadCurso = () => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const { id } = useParams();
     const navigate = useNavigate();
     const [coordenadores, setCoordenadores] = useState([]);
+    
+    //Funcionamentos dos modal
+        const [showModal, setShowModal] = useState(false);
+        const [modalMessage, setModalMessage] = useState('');
+        const [success, setSuccess] = useState(false);
+    //
+    
     const [curso, setCurso] = useState({
         id: '',
         nome: '',
@@ -55,21 +63,28 @@ const CadCurso = () => {
         };
 
         try {
-            console.log('Dados enviados:', dadosCurso); // Log para depuração
-
             if (curso.id) {
                 await apiCursos.updateCurso(curso.id, dadosCurso);
-                console.log('Curso atualizado com sucesso', dadosCurso);
+                setSuccess(true)
+                setModalMessage('curso atualizado com sucesso')
             } else {
                 await apiCursos.addCurso(dadosCurso);
-                console.log('Curso cadastrado com sucesso', dadosCurso);
+                setSuccess(true)
+                setModalMessage('curso registrado com sucesso')
             }
-            navigate('/cursos');
         } catch (error) {
-            console.error('Erro ao salvar curso:', error);
+            setSuccess(false)
+            setModalMessage('erro ao salvar curso', error)
         }
+        setShowModal(true)
     };
 
+    const handleCloseModal = () => {
+        setShowModal(false);
+        if (success) {
+            navigate('/cursos');
+        }
+    };
     return (
         <div className="container mt-5">
             <h2 className="mb-4">Cadastro de Curso</h2>
@@ -113,6 +128,7 @@ const CadCurso = () => {
 
                 <button type="submit" className="btn btn-primary">Cadastrar Curso</button>
             </form>
+            <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
         </div>
     );
 }
