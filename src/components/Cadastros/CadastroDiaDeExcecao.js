@@ -44,7 +44,6 @@ const CadDiaExcecao = () => {
             data: data.data,
             motivo: data.motivo
         };
-        setShowModal(true)
         try {
             if (diaExcecao.id) {
                 await apiDiaExcecao.updateDiaExcecao(diaExcecao.id, dadosDiaExcecao);
@@ -61,7 +60,7 @@ const CadDiaExcecao = () => {
             setSuccess(false);
             setModalMessage('Erro ao salvar dia de exceção');
         }
-        
+        setShowModal(true)
     };
 
     const handleCloseModal = () => {

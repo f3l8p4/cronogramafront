@@ -48,7 +48,6 @@ const CadCoordenador = () => {
     }, [id, setValue]);
 
     const onSubmit = async (data) => {
-        setShowModal(true)
         try {
             if (coordenador.id) {
                 await apiCoordenadores.updateCoordenador(coordenador.id, data);
@@ -63,8 +62,9 @@ const CadCoordenador = () => {
 
         } catch (error) {
             setSuccess(false)
-            
+            setModalMessage('Erro no salvamento de coordenador',error)
         }
+        setShowModal(true)
     };
 
     const handleCloseModal = () => {
