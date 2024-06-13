@@ -32,42 +32,42 @@ const ListaAgendaProfessor = () => {
     };
 
     return (
-        <div>
-            <h2>Lista de Agenda de Professores</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome do Professor</th>
-                        <th>Dia da Semana</th>
-                        <th>Disciplina</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {agendas.length > 0 ? (
-                        agendas.map((agenda) => (
-                            <tr key={agenda.id}>
-                                <td>{agenda.id}</td>
-                                <td>{agenda.professor.nomeCompleto}</td>
-                                <td>{agenda.diaDaSemana.descricao}</td>
-                                <td>{agenda.disciplina.nome}</td>
-                                <td>
-                                    <button onClick={() => editarAgenda(agenda.id)}>Editar</button>
-                                </td>
-                                <td>
-                                    <button onClick={() => excluirAgendaProfessor(agenda.id)}>Excluir</button>
-                                </td>
-                            </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="5">Nenhuma agenda encontrada.</td>
+        <div className="container mt-5">
+        <h2 className="mb-4">Lista de Agenda de Professores</h2>
+        <table className="table table-striped table-bordered">
+            <thead className="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome do Professor</th>
+                    <th>Dia da Semana</th>
+                    <th>Disciplina</th>
+                    <th colSpan="2">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {agendas.length > 0 ? (
+                    agendas.map((agenda) => (
+                        <tr key={agenda.id}>
+                            <td>{agenda.id}</td>
+                            <td>{agenda.professor.nomeCompleto}</td>
+                            <td>{agenda.diaDaSemana.descricao}</td>
+                            <td>{agenda.disciplina.nome}</td>
+                            <td>
+                                <button className="btn btn-primary" onClick={() => editarAgenda(agenda.id)}>Editar</button>
+                            </td>
+                            <td>
+                                <button className="btn btn-danger" onClick={() => excluirAgendaProfessor(agenda.id)}>Excluir</button>
+                            </td>
                         </tr>
-                    )}
-                </tbody>
-            </table>
-        </div>
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan="6" className="text-center">Nenhuma agenda encontrada.</td>
+                    </tr>
+                )}
+            </tbody>
+        </table>
+    </div>
     );
 }
 
