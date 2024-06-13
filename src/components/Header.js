@@ -50,6 +50,9 @@ const Header = () => {
             <li className="nav-item">
               <Link className="nav-link" to="/diaexcecao">Dias Especiais</Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/agendaprofessores">Agenda professores</Link>
+            </li>
           </ul>
         </div>
       </div>

@@ -47,7 +47,7 @@ const ListaCursos = () => {
     return (
         <div className="container mt-5">
             <h2 className="mb-4">Lista de Cursos</h2>
-            <table className="table table-striped">
+            <table className="table table-striped table-bordered">
                 <thead className="thead-dark">
                     <tr>
                         <th>ID</th>

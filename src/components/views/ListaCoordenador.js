@@ -39,7 +39,7 @@ const ListaCoordenadores = () => {
   return (
     <div className="container mt-5">
     <h2 className="mb-4">Lista de Coordenadores</h2>
-    <table className="table table-striped table-hover">
+    <table className="table table-striped table-bordered">
       <thead className="thead-dark">
         <tr>
           <th>ID</th>

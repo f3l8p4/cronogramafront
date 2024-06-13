@@ -49,7 +49,7 @@ const ListaDiaExcecao = () => {
     return (
         <div>
             <h2>Lista de Dias de Exceção</h2>
-            <table className="table table-striped">
+            <table className="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>ID</th>

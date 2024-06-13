@@ -60,7 +60,7 @@ const ListaDisciplinas = () => {
     return (
         <div>
             <h2>Lista de Disciplinas</h2>
-            <table className='table table-sm'>
+            <table className='table table-striped table-bordered'>
                 <thead className=''>
                     <tr className='fs-5 mb-2'>
                         <th>ID</th>
