@@ -110,7 +110,7 @@ const ListaCursos = () => {
                 show={showModal} 
                 handleClose={handleClose} 
                 handleConfirm={handleConfirm} 
-                item={`Disciplina ${selectedItem}`} 
+                item={`curso ${selectedItem}`} 
             />
         </div>
     );

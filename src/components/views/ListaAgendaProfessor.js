@@ -2,9 +2,14 @@ import React, { useEffect, useState } from 'react';
 import apiAgendas from "../../services/apiAgendaProfessor/apiAgendaProfessor"; 
 import { useNavigate } from 'react-router-dom';
 import apiAgendaProfessor from '../../services/apiAgendaProfessor/apiAgendaProfessor';
+import ExclusaoModal from '../modals/ExclusaoModal';
 
 const ListaAgendaProfessor = () => {
     const [agendas, setAgendas] = useState([]);
+    
+    const [showModal, setShowModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -19,13 +24,28 @@ const ListaAgendaProfessor = () => {
         carregarDados();
     }, []);
     
-    const excluirAgendaProfessor = (id) => {
-        try{
-            apiAgendaProfessor.excludeAgendaProfessor(id)
-        }catch(erro){
-            console.log('houve um erro na exclusão', erro)
+    const excluirAgendaProfessor = async (id) => {
+        try {
+            await apiAgendaProfessor.excludeAgendaProfessor(id);
+            setAgendas(agendas.filter(agenda => agenda.id !== id));
+        } catch (erro) {
+            console.log('erro na exclusão de agenda do professor', erro);
         }
-    }
+        setShowModal(false); 
+    };
+
+    const confirmarExclusao = (id) => {
+        setSelectedItem(id);
+        setShowModal(true);
+    };
+
+    const handleConfirm = () => {
+        excluirAgendaProfessor(selectedItem);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+    };
 
     const editarAgenda = (id) => {
         navigate(`/editarAgendaProfessor/${id}`);
@@ -56,7 +76,7 @@ const ListaAgendaProfessor = () => {
                                 <button className="btn btn-primary" onClick={() => editarAgenda(agenda.id)}>Editar</button>
                             </td>
                             <td>
-                                <button className="btn btn-danger" onClick={() => excluirAgendaProfessor(agenda.id)}>Excluir</button>
+                                <button className="btn btn-danger" onClick={() => confirmarExclusao(agenda.id)}>Excluir</button>
                             </td>
                         </tr>
                     ))
@@ -67,6 +87,12 @@ const ListaAgendaProfessor = () => {
                 )}
             </tbody>
         </table>
+        <ExclusaoModal 
+                show={showModal} 
+                handleClose={handleClose} 
+                handleConfirm={handleConfirm} 
+                item={`agendaProfessor ${selectedItem}`} 
+            />
     </div>
     );
 }

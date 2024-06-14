@@ -109,7 +109,7 @@ const ListaDiaExcecao = () => {
                 show={showModal} 
                 handleClose={handleClose} 
                 handleConfirm={handleConfirm} 
-                item={`Disciplina ${selectedItem}`} 
+                item={`DiaExcecao ${selectedItem}`} 
             />
         </div>
     );
