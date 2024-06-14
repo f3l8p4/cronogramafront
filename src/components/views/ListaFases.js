@@ -38,7 +38,7 @@ const ListaFases = () => {
     return (
         <div className="container">
             <h2 className="mb-4">Lista de Fases</h2>
-            <table className="table-striped table-bordered">
+            <table className="table table-striped table-bordered">
                 <thead className="thead-dark">
                     <tr>
                         <th>ID</th>

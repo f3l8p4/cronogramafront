@@ -3,11 +3,20 @@ import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
 import apiFases from '../../services/apiFases/apiFases';
 import apiCursos from '../../services/apiCursos/ApiCursos';
+import ModalCadastros from '../modals/ModalCadastros';
 
 const CadFase = () => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const { id } = useParams();
     const navigate = useNavigate();
+    
+    //Funcionamentos dos modal
+        const [showModal, setShowModal] = useState(false);
+        const [modalMessage, setModalMessage] = useState('');
+        const [success, setSuccess] = useState(false);
+    //
+    
+    
     const [fase, setFase] = useState({
         id: '',
         numero: '',
@@ -46,20 +55,33 @@ const CadFase = () => {
     }, [id, setValue]);
 
     const onSubmit = async (data) => {
+        const dadosFase = {
+            numero: data.numero,
+            curso: { id: data.curso }  // Ajuste aqui para enviar o curso como um objeto com id
+        };
         try {
             if (fase.id) {
-                await apiFases.updatefase(fase.id,data);
-                console.log('Fase atualizada com sucesso');
+                await apiFases.updatefase(fase.id,dadosFase);
+                setSuccess(true)
+                setModalMessage('Fase atualizada com sucesso')
             } else {
-                await apiFases.addFase(data);
-                console.log('Fase cadastrada com sucesso');
+                await apiFases.addFase(dadosFase);
+                setSuccess(true)
+                setModalMessage('fase registrada com sucesso')
             }
-            navigate('/fases');
         } catch (error) {
-            console.error('Erro ao salvar fase:', error);
+            setSuccess(false)
+            setModalMessage('Erro ao registrar fase:', error);
         }
+        setShowModal(true)
     };
 
+    const handleCloseModal = () => {
+        setShowModal(false);
+        if (success) {
+            navigate('/fases');
+        }
+    };
     return (
         <div className="container mt-5">
             <h1 className="mb-4">Cadastro de Fase</h1>
@@ -92,6 +114,7 @@ const CadFase = () => {
 
                 <button type="submit" className="btn btn-primary">Enviar</button>
             </form>
+            <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
         </div>
     );
 }
