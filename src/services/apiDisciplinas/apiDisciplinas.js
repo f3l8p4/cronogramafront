@@ -32,7 +32,7 @@ const getDisciplina = async (id) => {
 
   const excludeDisciplinas = async(id) => { 
     try{
-        const response = await axios.delete(`${apiUrl}/disciplina/${id}`);
+        const response = await axios.delete(`${apiUrl}disciplina/${id}`);
         console.log('Disciplinas excluídas com sucesso:', response.data);
     }catch(erro){
         console.error('erro ao excluir a disciplinas',erro)

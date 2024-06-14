@@ -4,6 +4,7 @@ import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores";
 import apiFases from "../../services/apiFases/apiFases";
 import apiCursos from "../../services/apiCursos/ApiCursos";
 import { useNavigate } from 'react-router-dom';
+import ExclusaoModal from '../modals/ExclusaoModal';
 
 
 const ListaDisciplinas = () => {
@@ -11,6 +12,10 @@ const ListaDisciplinas = () => {
     const [coordenadores, setCoordenadores] = useState({});
     const [fases, setFases] = useState({});
     const [cursos, setCursos] = useState({});
+    
+    const [showModal, setShowModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -45,14 +50,29 @@ const ListaDisciplinas = () => {
         carregarDados();
     }, []);
     
-    const excluirDisciplina = (id) => {
-        try{
-            apiCoordenadores.excludeCoordenador(id)
-        }catch(erro){
-            console.log('Erro ao excluir registro', id, erro)
+    const excluirDisciplina = async (id) => {
+        try {
+            await apiDisciplinas.excludeDisciplinas(id);
+            setDisciplinas(disciplinas.filter(disciplina => disciplina.id !== id));
+        } catch (erro) {
+            console.log('erro na exclusão de disicplinas', erro);
         }
-    }
+        setShowModal(false); // Fecha o modal após a exclusão
+    };
 
+    const confirmarExclusao = (id) => {
+        setSelectedItem(id);
+        setShowModal(true);
+    };
+
+    const handleConfirm = () => {
+        excluirDisciplina(selectedItem);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+    };
+    
     const editarDisciplina = (id) => {
         navigate(`/editarDisciplina/${id}`);
     };
@@ -83,7 +103,7 @@ const ListaDisciplinas = () => {
                                 <td className=''>
                                     <button onClick={() => editarDisciplina(disciplina.id)} className='btn btn-warning btn-sm text-white px-2 me-'>Editar</button>
                                     
-                                    <button onClick={() => excluirDisciplina(disciplina.id)} className='btn btn-sm btn-danger'>Excluir</button>
+                                    <button onClick={() => confirmarExclusao(disciplina.id)} className='btn btn-sm btn-danger'>Excluir</button>
                                 </td>
                             </tr>
                         ))
@@ -94,6 +114,12 @@ const ListaDisciplinas = () => {
                     )}
                 </tbody>
             </table>
+            <ExclusaoModal 
+                show={showModal} 
+                handleClose={handleClose} 
+                handleConfirm={handleConfirm} 
+                item={`Disciplina ${selectedItem}`} 
+            />
         </div>
     );
 }

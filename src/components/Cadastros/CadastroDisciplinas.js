@@ -86,11 +86,12 @@ const CadDisciplina = () => {
         };
         try {
             if (disciplina.id) {
-                await apiDisciplinas.updateDisciplinas(disciplina.id, dadosDisciplina);
+                await apiDisciplinas.updateDisciplinas(disciplina.id, dadosDisciplina)
                 setSuccess(true)
                 setModalMessage('Disciplina atualizada com sucesso')
             } else {
-                await apiDisciplinas.addDisciplinas(dadosDisciplina);
+                await apiDisciplinas.addDisciplinas(dadosDisciplina)
+                setSuccess(true)
                 setModalMessage('Disciplina registrada com sucesso')
             }
         } catch (error) {
