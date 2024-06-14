@@ -2,9 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import apiDiaExcecao from '../../services/apiDiaExcecao/apiDiaExcecao';
 import { useNavigate } from 'react-router-dom';
+import ExclusaoModal from '../modals/ExclusaoModal';
 
 const ListaDiaExcecao = () => {
     const [diasExcecao, setDiasExcecao] = useState([]);
+    
+    const [showModal, setShowModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -39,11 +44,25 @@ const ListaDiaExcecao = () => {
 
     const excluirDiaExcecao = async (id) => {
         try {
-            await apiDiaExcecao.deleteDiaExcecao(id);
-            setDiasExcecao(diasExcecao.filter(dia => dia.id !== id));
-        } catch (error) {
-            console.error('Erro ao excluir dia de exceção:', error);
+            await apiDiaExcecao.excludeDiaExcecao(id);
+            setDiasExcecao(diasExcecao.filter(diaExcecao => diaExcecao.id !== id));
+        } catch (erro) {
+            console.log('erro na exclusão de dia de exceção', erro);
         }
+        setShowModal(false); // Fecha o modal após a exclusão
+    };
+
+    const confirmarExclusao = (id) => {
+        setSelectedItem(id);
+        setShowModal(true);
+    };
+
+    const handleConfirm = () => {
+        excluirDiaExcecao(selectedItem);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
     };
 
     return (
@@ -72,7 +91,7 @@ const ListaDiaExcecao = () => {
                                         Editar
                                     </button>
                                     <button 
-                                        onClick={() => excluirDiaExcecao(dia.id)} 
+                                        onClick={() => confirmarExclusao(dia.id)} 
                                         className='btn btn-sm btn-danger'>
                                         Excluir
                                     </button>
@@ -86,6 +105,12 @@ const ListaDiaExcecao = () => {
                     )}
                 </tbody>
             </table>
+            <ExclusaoModal 
+                show={showModal} 
+                handleClose={handleClose} 
+                handleConfirm={handleConfirm} 
+                item={`Disciplina ${selectedItem}`} 
+            />
         </div>
     );
 }
