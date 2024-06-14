@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import apiFases from "../../services/apiFases/apiFases";
 import { useNavigate } from 'react-router-dom';
+import ExclusaoModal from '../modals/ExclusaoModal';
 
 const ListaFases = () => {
     const [fases, setFases] = useState([]);
+    
+    const [showModal, setShowModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -22,14 +27,28 @@ const ListaFases = () => {
         };
         carregarFases();
     }, []);
-
-    const excluirFase = (id) => {
-        try{
-            apiFases.excludeFase(id)
-        }catch(erro){
-            console.log('erro na exclusão de fases', erro)
+    const excluirFase = async (id) => {
+        try {
+            await apiFases.excludeFase(id);
+            setFases(fases.filter(fase => fase.id !== id));
+        } catch (erro) {
+            console.log('erro na exclusão de fases', erro);
         }
-    }
+        setShowModal(false); // Fecha o modal após a exclusão
+    };
+
+    const confirmarExclusao = (id) => {
+        setSelectedItem(id);
+        setShowModal(true);
+    };
+
+    const handleConfirm = () => {
+        excluirFase(selectedItem);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+    };
     
     const editarFase = (id) => {
         navigate(`/editarFase/${id}`);
@@ -56,7 +75,7 @@ const ListaFases = () => {
                                 <td>{fase.curso.nome}</td>
                                 <td>
                                     <button className="btn btn-warning btn-sm me-2" onClick={() => editarFase(fase.id)}>Editar</button>
-                                    <button className="btn btn-danger btn-sm" onClick={() => excluirFase(fase.id)}>Excluir</button>
+                                    <button className="btn btn-danger btn-sm" onClick={() => confirmarExclusao(fase.id)}>Excluir</button>
                                 </td>
                             </tr>
                         ))
@@ -67,6 +86,12 @@ const ListaFases = () => {
                     )}
                 </tbody>
             </table>
+            <ExclusaoModal 
+                show={showModal} 
+                handleClose={handleClose} 
+                handleConfirm={handleConfirm} 
+                item={`Fase ${selectedItem}`} 
+            />
         </div>
     );
 }

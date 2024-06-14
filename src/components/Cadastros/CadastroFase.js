@@ -5,6 +5,7 @@ import apiFases from '../../services/apiFases/apiFases';
 import apiCursos from '../../services/apiCursos/ApiCursos';
 import ModalCadastros from '../modals/ModalCadastros';
 
+
 const CadFase = () => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const { id } = useParams();
@@ -82,6 +83,7 @@ const CadFase = () => {
             navigate('/fases');
         }
     };
+    
     return (
         <div className="container mt-5">
             <h1 className="mb-4">Cadastro de Fase</h1>
@@ -114,7 +116,9 @@ const CadFase = () => {
 
                 <button type="submit" className="btn btn-primary">Enviar</button>
             </form>
+            {/*Modal De feedback de cadastros */}
             <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
+            
         </div>
     );
 }
