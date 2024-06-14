@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import apiCursos from "../../services/apiCursos/ApiCursos";
 import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores";
 import { useNavigate } from 'react-router-dom';
+import ExclusaoModal from '../modals/ExclusaoModal';
 
 const ListaCursos = () => {
     const [cursos, setCursos] = useState([]);
     const [coordenadores, setCoordenadores] = useState({});
+    
+    const [showModal, setShowModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,14 +36,29 @@ const ListaCursos = () => {
         carregarDados();
     }, []);
 
-    const excluirCurso = (id) => {
-        try{
-            apiCursos.excludeCurso(id)
-            console.log('curso excluído com sucesso', id)
-        }catch(erro){
-            
+    const excluirCurso = async (id) => {
+        try {
+            await apiCursos.excludeCurso(id);
+            setCursos(cursos.filter(curso => curso.id !== id));
+        } catch (erro) {
+            console.log('erro na exclusão de cursos', erro);
         }
-    }
+        setShowModal(false); // Fecha o modal após a exclusão
+    };
+
+    const confirmarExclusao = (id) => {
+        setSelectedItem(id);
+        setShowModal(true);
+    };
+
+    const handleConfirm = () => {
+        excluirCurso(selectedItem);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+    };
+    
     
     const editarCurso = (id) => {
         navigate(`/editarCurso/${id}`);
@@ -72,7 +92,7 @@ const ListaCursos = () => {
                                     </button>
                                     <button
                                         className="btn btn-danger btn-sm"
-                                        onClick={() => excluirCurso(curso.id)}
+                                        onClick={() => confirmarExclusao(curso.id)}
                                     >
                                         Excluir
                                     </button>
@@ -86,6 +106,12 @@ const ListaCursos = () => {
                     )}
                 </tbody>
             </table>
+            <ExclusaoModal 
+                show={showModal} 
+                handleClose={handleClose} 
+                handleConfirm={handleConfirm} 
+                item={`Disciplina ${selectedItem}`} 
+            />
         </div>
     );
 }
