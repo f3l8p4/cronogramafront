@@ -15,6 +15,7 @@ import CadAgendaProfessor from '../components/Cadastros/CadastroAgendaProfessor'
 import CadFase from '../components/Cadastros/CadastroFase';
 import ListaDiaExcecao from '../components/views/listaDiaDeExcecao';
 import Home from '../components/views/TelaHome';
+import Layout from '../components/layouts/layout';
 import Login from '../pages/Login';
 
 const Routers = () => {
@@ -22,27 +23,27 @@ const Routers = () => {
     <Routes>
       <Route path="/" element={<Home/>} />
       <Route path="/login" element={<Login/>} />
-      <Route path='/professores' element={<ListaProfessores/>} />
-      <Route path='/coordenadores' element={<ListaCoordenadores/>}/>
-      <Route path='/disciplinas' element={<ListaDisciplinas/>} />
-      <Route path='/fases' element={<ListaFases/>}/>
-      <Route path='/cursos' element = {<ListaCurso/>}/>
-      <Route path='/diaExcecao' element = {<ListaDiaExcecao/>}/>
-      <Route path='/agendaprofessores' element = {<ListaAgendaProfessor/>}/>
-      <Route path="/cadastro/" element={<CadProfessor />} />
-      <Route path="/cadastroDiaExcecao/" element={<CadDiaExcecao />} />
-      <Route path="/editarProfessor/:id" element={<CadProfessor />} />
-      <Route path='/cadastroCoordenador' element={<CadCoordenador/>}/>
-      <Route path="/editarCoordenador/:id" element={<CadCoordenador />} />
-      <Route path='/cadastroDisciplina/' element={<CadDisciplina/>} />
-      <Route path='/cadastroCurso/' element={<CadCurso/>} />
-      <Route path='/cadastroAgendaProfessor/' element={<CadAgendaProfessor/>} />
-      <Route path='/editarDisciplina/:id' element={<CadDisciplina/>} />
-      <Route path='/cadastroFase' element={<CadFase/>} />
-      <Route path='/editarFase/:id' element={<CadFase/>} />
-      <Route path="/editarDiaExcecao/:id" element={<CadDiaExcecao />} />
-      <Route path='/editarCurso/:id' element={<CadCurso/>} />
-      <Route path='/editarAgendaProfessor/:id' element={<CadAgendaProfessor/>} />
+      <Route path='/professores' element={<Layout> <ListaProfessores/> </Layout>} />
+      <Route path='/coordenadores' element={<Layout> <ListaCoordenadores/> </Layout>}/>
+      <Route path='/disciplinas' element={<Layout> <ListaDisciplinas/> </Layout>} />
+      <Route path='/fases' element={<Layout> <ListaFases/> </Layout>}/>
+      <Route path='/cursos' element = {<Layout> <ListaCurso/> </Layout>}/>
+      <Route path='/diaExcecao' element = {<Layout> <ListaDiaExcecao/> </Layout>}/>
+      <Route path='/agendaprofessores' element = {<Layout> <ListaAgendaProfessor/> </Layout>}/>
+      <Route path="/cadastro/" element={<Layout> <CadProfessor/> </Layout>} />
+      <Route path="/cadastroDiaExcecao/" element={<Layout> <CadDiaExcecao/> </Layout>} />
+      <Route path="/editarProfessor/:id" element={<Layout> <CadProfessor/> </Layout>} />
+      <Route path='/cadastroCoordenador' element={<Layout> <CadCoordenador/> </Layout>}/>
+      <Route path="/editarCoordenador/:id" element={<Layout> <CadCoordenador/> </Layout>} />
+      <Route path='/cadastroDisciplina/' element={<Layout> <CadDisciplina/> </Layout>} />
+      <Route path='/cadastroCurso/' element={<Layout> <CadCurso/> </Layout>} />
+      <Route path='/cadastroAgendaProfessor/' element={<Layout> <CadAgendaProfessor/> </Layout>} />
+      <Route path='/editarDisciplina/:id' element={<Layout> <CadDisciplina/> </Layout>} />
+      <Route path='/cadastroFase' element={<Layout> <CadFase/> </Layout>} />
+      <Route path='/editarFase/:id' element={<Layout> <CadFase/> </Layout>} />
+      <Route path="/editarDiaExcecao/:id" element={<Layout> <CadDiaExcecao/> </Layout>} />
+      <Route path='/editarCurso/:id' element={<Layout> <CadCurso/> </Layout>} />
+      <Route path='/editarAgendaProfessor/:id' element={<Layout> <CadAgendaProfessor/> </Layout>} />
     </Routes>
   );
 };
