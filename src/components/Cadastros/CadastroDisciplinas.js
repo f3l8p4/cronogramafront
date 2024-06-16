@@ -109,59 +109,68 @@ const CadDisciplina = () => {
     };
 
     return (
-        <div>
+        <div className="">
             <h2>Cadastro de Disciplina</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <label htmlFor="nome">Nome da Disciplina:</label>
+            <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
+                <div className="mb-3">
+                    <label htmlFor="nome" className="form-label">Nome da Disciplina:</label>
                     <input
                         type="text"
                         id="nome"
+                        className={`form-control ${errors.nome ? 'is-invalid' : ''}`}
                         {...register("nome", { required: "O nome da disciplina é obrigatório" })}
                     />
-                    {errors.nome && <div>{errors.nome.message}</div>}
+                    {errors.nome && <div className="invalid-feedback">{errors.nome.message}</div>}
                 </div>
-                <div>
-                    <label htmlFor="cargaHoraria">Carga Horária:</label>
+                <div className="mb-3">
+                    <label htmlFor="cargaHoraria" className="form-label">Carga Horária:</label>
                     <input
                         type="number"
                         id="cargaHoraria"
+                        className={`form-control ${errors.cargaHoraria ? 'is-invalid' : ''}`}
                         {...register("cargaHoraria", { required: "A carga horária é obrigatória" })}
                     />
-                    {errors.cargaHoraria && <div>{errors.cargaHoraria.message}</div>}
+                    {errors.cargaHoraria && <div className="invalid-feedback">{errors.cargaHoraria.message}</div>}
                 </div>
-                
-                <div>
-                    <label htmlFor="codigoCor">Codigo da cor:</label>
+                <div className="mb-3">
+                    <label htmlFor="codigoCor" className="form-label">Código da cor:</label>
                     <input
                         type="color"
                         id="codigoCor"
+                        className={`form-control form-control-color ${errors.codigoCor ? 'is-invalid' : ''}`}
                         {...register("codigoCor", { required: "A cor que irá aparecer na tabela é obrigatória" })}
                     />
-                    {errors.codigoCor && <div>{errors.codigoCor.message}</div>}
+                    {errors.codigoCor && <div className="invalid-feedback">{errors.codigoCor.message}</div>}
                 </div>
-                
-                <div>
-                    <label htmlFor="fase">Fase:</label>
-                    <select id="fase" {...register("fase", { required: "A fase é obrigatória" })}>
+                <div className="mb-3">
+                    <label htmlFor="fase" className="form-label">Fase:</label>
+                    <select 
+                        id="fase" 
+                        className={`form-select ${errors.fase ? 'is-invalid' : ''}`}
+                        {...register("fase", { required: "A fase é obrigatória" })}
+                    >
                         <option value="">Selecione uma fase</option>
                         {fases.map((fase) => (
                             <option key={fase.id} value={fase.id}>{fase.numero}</option>
                         ))}
                     </select>
-                    {errors.fase && <div>{errors.fase.message}</div>}
+                    {errors.fase && <div className="invalid-feedback">{errors.fase.message}</div>}
                 </div>
-                <div>
-                    <label htmlFor="curso">Curso:</label>
-                    <select id="curso" {...register("curso", { required: "O curso é obrigatório" })}>
+                <div className="mb-3">
+                    <label htmlFor="curso" className="form-label">Curso:</label>
+                    <select 
+                        id="curso" 
+                        className={`form-select ${errors.curso ? 'is-invalid' : ''}`}
+                        {...register("curso", { required: "O curso é obrigatório" })}
+                    >
                         <option value="">Selecione um curso</option>
                         {cursos.map((curso) => (
                             <option key={curso.id} value={curso.id}>{curso.nome}</option>
                         ))}
                     </select>
-                    {errors.curso && <div>{errors.curso.message}</div>}
+                    {errors.curso && <div className="invalid-feedback">{errors.curso.message}</div>}
                 </div>
-                <button type="submit">Cadastrar Disciplina</button>
+                <button type="submit" className="btn btn-primary">Cadastrar Disciplina</button>
             </form>
             <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
         </div>
