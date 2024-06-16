@@ -105,6 +105,7 @@ const ListaDiaExcecao = () => {
                     )}
                 </tbody>
             </table>
+            <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroDiaExcecao/')}>Cadastrar novo dia especial</button>
             <ExclusaoModal 
                 show={showModal} 
                 handleClose={handleClose} 

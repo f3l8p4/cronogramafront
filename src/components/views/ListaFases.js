@@ -86,6 +86,7 @@ const ListaFases = () => {
                     )}
                 </tbody>
             </table>
+            <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroFase/')}>Cadastrar nova Fase</button>
             <ExclusaoModal 
                 show={showModal} 
                 handleClose={handleClose} 

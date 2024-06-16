@@ -106,6 +106,7 @@ const ListaCursos = () => {
                     )}
                 </tbody>
             </table>
+            <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroCurso/')}>Cadastrar novo curso</button>
             <ExclusaoModal 
                 show={showModal} 
                 handleClose={handleClose} 

@@ -47,10 +47,6 @@ const ListaAgendaProfessor = () => {
         setShowModal(false);
     };
 
-    const criarNovo = () => {
-        navigate('/cadastroAgendaProfessor')    
-    }
-    
     const editarAgenda = (id) => {
         navigate(`/editarAgendaProfessor/${id}`);
     };
@@ -91,7 +87,7 @@ const ListaAgendaProfessor = () => {
                 )}
             </tbody>
         </table>
-        <button onClick={() => criarNovo()}>Cadastrar nova agenda de professor</button>
+        <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroAgendaProfessor/')}>Cadastrar nova agenda de professor</button>
         
         <ExclusaoModal 
                 show={showModal} 

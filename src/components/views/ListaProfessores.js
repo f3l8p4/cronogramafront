@@ -83,6 +83,7 @@ const ListaProfessores = () => {
           )}
         </tbody>
       </table>
+      <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastro/')}>Cadastrar novo professor</button>
     </div>
   );
 }

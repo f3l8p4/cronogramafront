@@ -103,6 +103,7 @@ const ListaCoordenadores = () => {
         )}
       </tbody>
     </table>
+    <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroCoordenador/')}>Cadastrar novo usuário</button>
   </div>
   );
 }
