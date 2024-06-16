@@ -38,9 +38,9 @@ const ListaProfessores = () => {
 
 
   return (
-    <div>
+    <div className="container mt-5">
       <h2>Lista de Professores</h2>
-      <table className="table table-striped table-bordered">
+      <table className="table table-striped table-bordered mt-5">
         <thead>
           <tr>
             <th>ID</th>

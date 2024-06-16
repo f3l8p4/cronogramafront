@@ -66,7 +66,7 @@ const ListaDiaExcecao = () => {
     };
 
     return (
-        <div>
+        <div className="container mt-5">
             <h2>Lista de Dias de Exceção</h2>
             <table className="table table-striped table-bordered">
                 <thead>

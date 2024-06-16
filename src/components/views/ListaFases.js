@@ -55,7 +55,7 @@ const ListaFases = () => {
     };
 
     return (
-        <div className="container">
+        <div className="container mt-5">
             <h2 className="mb-4">Lista de Fases</h2>
             <table className="table table-striped table-bordered">
                 <thead className="thead-dark">

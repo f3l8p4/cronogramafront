@@ -78,7 +78,7 @@ const ListaDisciplinas = () => {
     };
 
     return (
-        <div>
+        <div className="container mt-5">
             <h2>Lista de Disciplinas</h2>
             <table className='table table-striped table-bordered'>
                 <thead className=''>
