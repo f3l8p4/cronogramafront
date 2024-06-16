@@ -14,7 +14,7 @@ import CadCurso from '../components/Cadastros/cadCurso';
 import CadAgendaProfessor from '../components/Cadastros/CadastroAgendaProfessor';
 import CadFase from '../components/Cadastros/CadastroFase';
 import ListaDiaExcecao from '../components/views/listaDiaDeExcecao';
-import Home from '../components/views/TelaHome';
+import Home from '../pages/TelaHome';
 import Layout from '../components/layouts/layout';
 import Login from '../pages/Login';
 
