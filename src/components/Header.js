@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../logo.svg'; // Substitua pelo caminho da sua imagem
+import LOGO from '../imgs/LOGO.png'; // Substitua pelo caminho da sua imagem
 
 const Header = () => {
   return (
@@ -8,7 +8,7 @@ const Header = () => {
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           <img
-            src={logo}
+            src={LOGO}
             alt="Logo"
             width="30"
             height="30"
