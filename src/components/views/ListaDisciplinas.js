@@ -101,7 +101,7 @@ const ListaDisciplinas = () => {
                                 <td>{disciplina.fase.numero}</td>
                                 <td>{disciplina.fase.curso.nome}</td>
                                 <td className=''>
-                                    <button onClick={() => editarDisciplina(disciplina.id)} className='btn btn-warning btn-sm text-white px-2 me-'>Editar</button>
+                                    <button onClick={() => editarDisciplina(disciplina.id)} className='btn btn-warning btn-sm text-white me-2'>Editar</button>
                                     
                                     <button onClick={() => confirmarExclusao(disciplina.id)} className='btn btn-sm btn-danger'>Excluir</button>
                                 </td>

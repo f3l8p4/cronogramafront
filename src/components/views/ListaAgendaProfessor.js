@@ -73,9 +73,7 @@ const ListaAgendaProfessor = () => {
                             <td>{agenda.diaDaSemana.descricao}</td>
                             <td>{agenda.disciplina.nome}</td>
                             <td>
-                                <button className="btn btn-primary" onClick={() => editarAgenda(agenda.id)}>Editar</button>
-                            </td>
-                            <td>
+                                <button className="btn btn-warning me-2" onClick={() => editarAgenda(agenda.id)}>Editar</button>
                                 <button className="btn btn-danger" onClick={() => confirmarExclusao(agenda.id)}>Excluir</button>
                             </td>
                         </tr>
