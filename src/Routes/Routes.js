@@ -17,6 +17,7 @@ import ListaDiaExcecao from '../components/views/listaDiaDeExcecao';
 import Home from '../pages/TelaHome';
 import Layout from '../components/layouts/layout';
 import Login from '../pages/Login';
+import GeradorCronograma from '../pages/GeradorCronograma';
 
 const Routers = () => {
   return (
@@ -44,6 +45,7 @@ const Routers = () => {
       <Route path="/editarDiaExcecao/:id" element={<Layout> <CadDiaExcecao/> </Layout>} />
       <Route path='/editarCurso/:id' element={<Layout> <CadCurso/> </Layout>} />
       <Route path='/editarAgendaProfessor/:id' element={<Layout> <CadAgendaProfessor/> </Layout>} />
+      <Route path='/geracaoCronograma/' element={<Layout> <GeradorCronograma/> </Layout>}/>
     </Routes>
   );
 };
