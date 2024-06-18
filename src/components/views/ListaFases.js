@@ -2,9 +2,14 @@ import React, { useEffect, useState } from 'react';
 import apiFases from "../../services/apiFases/apiFases";
 import { useNavigate } from 'react-router-dom';
 import ExclusaoModal from '../modals/ExclusaoModal';
+import Pagination from '../buttons/Paginacao';
 
 const ListaFases = () => {
     const [fases, setFases] = useState([]);
+    
+    //Paginacao
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);  // Número de itens por página
     
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -54,6 +59,14 @@ const ListaFases = () => {
         navigate(`/editarFase/${id}`);
     };
 
+      // Obter os itens atuais
+      const indexOfLastItem = currentPage * itemsPerPage;
+      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+      const currentItems = fases.slice(indexOfFirstItem, indexOfLastItem);
+    
+      // Alterar página
+      const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    
     return (
         <div className="container mt-5">
             <h2 className="mb-4">Lista de Fases</h2>
@@ -67,8 +80,8 @@ const ListaFases = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {fases.length > 0 ? (
-                        fases.map((fase) => (
+                    {currentItems.length > 0 ? (
+                        currentItems.map((fase) => (
                             <tr key={fase.id}>
                                 <td>{fase.id}</td>
                                 <td>{fase.numero}</td>
@@ -86,6 +99,8 @@ const ListaFases = () => {
                     )}
                 </tbody>
             </table>
+            <Pagination itemsPerPage={itemsPerPage} totalItems={fases.length} paginate={paginate} currentPage={currentPage} />
+            
             <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroFase/')}>Cadastrar nova Fase</button>
             <ExclusaoModal 
                 show={showModal} 

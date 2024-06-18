@@ -5,6 +5,7 @@ import apiFases from "../../services/apiFases/apiFases";
 import apiCursos from "../../services/apiCursos/ApiCursos";
 import { useNavigate } from 'react-router-dom';
 import ExclusaoModal from '../modals/ExclusaoModal';
+import Pagination from '../buttons/Paginacao';
 
 
 const ListaDisciplinas = () => {
@@ -13,6 +14,11 @@ const ListaDisciplinas = () => {
     const [fases, setFases] = useState({});
     const [cursos, setCursos] = useState({});
     
+    //Paginacao
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);  // Número de itens por página
+    
+    //Modal de exclusão
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     
@@ -77,6 +83,14 @@ const ListaDisciplinas = () => {
         navigate(`/editarDisciplina/${id}`);
     };
 
+    // Obter os itens atuais
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = disciplinas.slice(indexOfFirstItem, indexOfLastItem);
+  
+    // Alterar página
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    
     return (
         <div className="container mt-5">
             <h2>Lista de Disciplinas</h2>
@@ -92,8 +106,8 @@ const ListaDisciplinas = () => {
                     </tr>
                 </thead>
                 <tbody className=' table-group-divider '>
-                    {disciplinas.length > 0 ? (
-                        disciplinas.map((disciplina) => (
+                    {currentItems.length > 0 ? (
+                        currentItems.map((disciplina) => (
                             <tr key={disciplina.id} className='fs-6'>
                                 <td>{disciplina.id}</td>
                                 <td>{disciplina.nome}</td>
@@ -114,6 +128,8 @@ const ListaDisciplinas = () => {
                     )}
                 </tbody>
             </table>
+            <Pagination itemsPerPage={itemsPerPage} totalItems={disciplinas.length} paginate={paginate} currentPage={currentPage} />
+            
             <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroDisciplina/')}>Cadastrar nova disciplina</button>
             <ExclusaoModal 
                 show={showModal} 

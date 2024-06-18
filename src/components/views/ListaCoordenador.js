@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores";
 import { useNavigate } from 'react-router-dom';
+import Pagination from '../buttons/Paginacao';
 
 const ListaCoordenadores = () => {
   const [coordenadores, setCoordenadores] = useState([]);
+  
+  //Paginacao
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);  // Número de itens por página
+  
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -36,6 +42,14 @@ const ListaCoordenadores = () => {
     navigate(`/editarCoordenador/${id}`);
   };
   
+  // Obter os itens atuais
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = coordenadores.slice(indexOfFirstItem, indexOfLastItem);
+        
+  // Alterar página
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  
   return (
     <div className="container mt-5">
     <h2 className="mb-4">Lista de Coordenadores</h2>
@@ -53,8 +67,8 @@ const ListaCoordenadores = () => {
         </tr>
       </thead>
       <tbody>
-        {coordenadores.length > 0 ? (
-          coordenadores.map((coordenador) => (
+        {currentItems.length > 0 ? (
+          currentItems.map((coordenador) => (
             <tr key={coordenador.id}>
               <td>{coordenador.id}</td>
               <td>{coordenador.nome}</td>
@@ -103,6 +117,7 @@ const ListaCoordenadores = () => {
         )}
       </tbody>
     </table>
+    <Pagination itemsPerPage={itemsPerPage} totalItems={coordenadores.length} paginate={paginate} currentPage={currentPage} />
     <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroCoordenador/')}>Cadastrar novo usuário</button>
   </div>
   );

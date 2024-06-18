@@ -3,9 +3,14 @@ import apiAgendas from "../../services/apiAgendaProfessor/apiAgendaProfessor";
 import { useNavigate } from 'react-router-dom';
 import apiAgendaProfessor from '../../services/apiAgendaProfessor/apiAgendaProfessor';
 import ExclusaoModal from '../modals/ExclusaoModal';
+import Pagination from '../buttons/Paginacao';
 
 const ListaAgendaProfessor = () => {
     const [agendas, setAgendas] = useState([]);
+    
+    //Paginacao
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);  // Número de itens por página
     
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -51,6 +56,13 @@ const ListaAgendaProfessor = () => {
         navigate(`/editarAgendaProfessor/${id}`);
     };
 
+    // Obter os itens atuais
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = agendas.slice(indexOfFirstItem, indexOfLastItem);
+      
+    // Alterar página
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
     return (
         <div className="container mt-5">
         <h2 className="mb-4">Lista de Agenda de Professores</h2>
@@ -65,8 +77,8 @@ const ListaAgendaProfessor = () => {
                 </tr>
             </thead>
             <tbody>
-                {agendas.length > 0 ? (
-                    agendas.map((agenda) => (
+                {currentItems.length > 0 ? (
+                    currentItems.map((agenda) => (
                         <tr key={agenda.id}>
                             <td>{agenda.id}</td>
                             <td>{agenda.professor.nomeCompleto}</td>
@@ -85,6 +97,8 @@ const ListaAgendaProfessor = () => {
                 )}
             </tbody>
         </table>
+        <Pagination itemsPerPage={itemsPerPage} totalItems={agendas.length} paginate={paginate} currentPage={currentPage} />
+        
         <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroAgendaProfessor/')}>Cadastrar nova agenda de professor</button>
         
         <ExclusaoModal 

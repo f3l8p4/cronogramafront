@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import  apiProfessores   from "../../services/apiProfessores.js/ApiProfessores";
 import { useNavigate } from 'react-router-dom';
+import Pagination from '../buttons/Paginacao';
 
 const ListaProfessores = () => {
   const [professores, setProfessores] = useState([]);
+  
+  //Paginacao
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);  // Número de itens por página
+  
   const navigate = useNavigate()
   
   useEffect(() => {
@@ -36,6 +42,14 @@ const ListaProfessores = () => {
     }
   };
 
+  // Obter os itens atuais
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = professores.slice(indexOfFirstItem, indexOfLastItem);
+      
+  // Alterar página
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+      
 
   return (
     <div className="container mt-5">
@@ -54,8 +68,8 @@ const ListaProfessores = () => {
           </tr>
         </thead>
         <tbody>
-          {professores.length > 0 ? (
-            professores.map((professor) => (
+          {currentItems.length > 0 ? (
+            currentItems.map((professor) => (
               <tr key={professor.id}>
                 <td>{professor.id}</td>
                 <td>{professor.nomeCompleto}</td>
@@ -83,6 +97,7 @@ const ListaProfessores = () => {
           )}
         </tbody>
       </table>
+      <Pagination itemsPerPage={itemsPerPage} totalItems={professores.length} paginate={paginate} currentPage={currentPage} />
       <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastro/')}>Cadastrar novo professor</button>
     </div>
   );

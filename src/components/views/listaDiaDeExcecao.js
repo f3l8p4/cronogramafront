@@ -3,9 +3,14 @@ import React, { useEffect, useState } from 'react';
 import apiDiaExcecao from '../../services/apiDiaExcecao/apiDiaExcecao';
 import { useNavigate } from 'react-router-dom';
 import ExclusaoModal from '../modals/ExclusaoModal';
+import Pagination from '../buttons/Paginacao';
 
 const ListaDiaExcecao = () => {
     const [diasExcecao, setDiasExcecao] = useState([]);
+    
+    //Paginacao
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);  // Número de itens por página
     
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -65,6 +70,14 @@ const ListaDiaExcecao = () => {
         setShowModal(false);
     };
 
+    // Obter os itens atuais
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = diasExcecao.slice(indexOfFirstItem, indexOfLastItem);
+      
+    // Alterar página
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    
     return (
         <div className="container mt-5">
             <h2>Lista de Dias de Exceção</h2>
@@ -78,8 +91,8 @@ const ListaDiaExcecao = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {diasExcecao.length > 0 ? (
-                        diasExcecao.map((dia) => (
+                    {currentItems.length > 0 ? (
+                        currentItems.map((dia) => (
                             <tr key={dia.id}>
                                 <td>{dia.id}</td>
                                 <td>{new Date(dia.data).toLocaleDateString('pt-BR', {timeZone: 'UTC'})}</td>
@@ -105,6 +118,7 @@ const ListaDiaExcecao = () => {
                     )}
                 </tbody>
             </table>
+            <Pagination itemsPerPage={itemsPerPage} totalItems={diasExcecao.length} paginate={paginate} currentPage={currentPage} />
             <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroDiaExcecao/')}>Cadastrar novo dia especial</button>
             <ExclusaoModal 
                 show={showModal} 

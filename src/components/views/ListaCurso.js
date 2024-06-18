@@ -3,10 +3,15 @@ import apiCursos from "../../services/apiCursos/ApiCursos";
 import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores";
 import { useNavigate } from 'react-router-dom';
 import ExclusaoModal from '../modals/ExclusaoModal';
+import Pagination from '../buttons/Paginacao';
 
 const ListaCursos = () => {
     const [cursos, setCursos] = useState([]);
     const [coordenadores, setCoordenadores] = useState({});
+    
+    //Paginacao
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);  // Número de itens por página
     
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -64,6 +69,14 @@ const ListaCursos = () => {
         navigate(`/editarCurso/${id}`);
     };
 
+    // Obter os itens atuais
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = cursos.slice(indexOfFirstItem, indexOfLastItem);
+        
+    // Alterar página
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    
     return (
         <div className="container mt-5">
             <h2 className="mb-4">Lista de Cursos</h2>
@@ -77,8 +90,8 @@ const ListaCursos = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {cursos.length > 0 ? (
-                        cursos.map((curso) => (
+                    {currentItems.length > 0 ? (
+                        currentItems.map((curso) => (
                             <tr key={curso.id}>
                                 <td>{curso.id}</td>
                                 <td>{curso.nome}</td>
@@ -106,6 +119,8 @@ const ListaCursos = () => {
                     )}
                 </tbody>
             </table>
+            <Pagination itemsPerPage={itemsPerPage} totalItems={cursos.length} paginate={paginate} currentPage={currentPage} />
+            
             <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroCurso/')}>Cadastrar novo curso</button>
             <ExclusaoModal 
                 show={showModal} 
