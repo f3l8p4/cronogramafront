@@ -7,7 +7,9 @@ const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
     for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
-
+    if (pageNumbers.length <= 1) {
+        return null;
+    }
     return (
         <nav>
             <ul className="pagination">

@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
+import apiCronograma from "../services/apiGeracaoCronograma/apiGeracaoCronograma";
+import apiCurso from "../services/apiCursos/ApiCursos";
+
 const GeradorCronograma = () => {
-    
+    const [cursos, setCursos] = useState([]);
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = data => {
-        console.log(data);
-        // Lógica para gerar cronograma
+    useEffect(() => {
+        const carregarDados = async () => {
+            try {
+                const cursosResponse = await apiCurso.getCursos();
+                setCursos(cursosResponse.data);
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+            }
+        };
+        carregarDados();
+    }, []);
+
+    const onSubmit = async (data) => {
+        const nomeCurso = { nomeCurso: data.curso };
+        try {
+            const response = await apiCronograma.getCronograma(nomeCurso);
+            console.log(response);  
+        } catch (error) {
+            console.log('Houve erro ao gerar o cronograma',error);
+        }
     };
 
-    
     return (
         <div className="container mt-5">
             <div className="text-center mb-4">
@@ -37,7 +56,9 @@ const GeradorCronograma = () => {
                                 {...register("curso", { required: "O curso é obrigatório" })}
                             >
                                 <option value="">Selecione um curso</option>
-                                {/* Adicione aqui as opções de curso */}
+                                {cursos.map((curso) => (
+                                    <option key={curso.id} value={curso.nome}>{curso.nome}</option>
+                                ))}
                             </select>
                             {errors.curso && <div className="invalid-feedback">{errors.curso.message}</div>}
                         </div>
@@ -62,7 +83,7 @@ const GeradorCronograma = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default GeradorCronograma
+export default GeradorCronograma;
