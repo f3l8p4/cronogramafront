@@ -22,10 +22,10 @@ const Login = () => {
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
     <div className="card p-4" style={{ width: '700px' }}>
-        <h2 className="text-center mb-4">Sign In</h2>
+        <h2 className="text-center mb-4">LOGIN</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group mb-3">
-                <label htmlFor="email">Email:</label>
+                <label htmlFor="email">Email</label>
                 <input
                     type="email"
                     className={`form-control ${errors.email ? 'is-invalid' : ''}`}
@@ -36,7 +36,7 @@ const Login = () => {
                 {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
             </div>
             <div className="form-group mb-3">
-                <label htmlFor="password">Senha:</label>
+                <label htmlFor="password">Senha</label>
                 <input
                     type="password"
                     className={`form-control ${errors.password ? 'is-invalid' : ''}`}
