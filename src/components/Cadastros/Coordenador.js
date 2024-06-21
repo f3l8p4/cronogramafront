@@ -51,6 +51,7 @@ const CadCoordenador = () => {
         try {
             if (coordenador.id) {
                 await apiCoordenadores.updateCoordenador(coordenador.id, data);
+                console.log(data.nivelPermissao)
                 setSuccess(true)
                 setModalMessage('usuario atualizado com sucesso');
             } else {
@@ -74,41 +75,78 @@ const CadCoordenador = () => {
         }
     };
     return (
-        <div className="container mt-5">
-        <h1 className="mb-4">Cadastro de Coordenador</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-3">
+<div className='container d-flex justify-content-center align-items-center mt-5'>
+    <div className="">
+        <h1 className="text-center mb-4">Cadastro de Coordenador</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className='card p-4' style={{ width: '900px' }}>
+            <div className="form-group mb-3">
                 <label htmlFor="nome" className="form-label">Nome:</label>
-                <input type="text" id="nome" className={`form-control ${errors.nome ? 'is-invalid' : ''}`} {...register('nome', { required: "O nome do coordenador é obrigatório" })} />
+                <input 
+                    type="text" 
+                    id="nome" 
+                    className={`form-control ${errors.nome ? 'is-invalid' : ''}`} 
+                    {...register('nome', { required: "O nome do coordenador é obrigatório" })} 
+                />
                 {errors.nome && <div className="invalid-feedback">{errors.nome.message}</div>}
             </div>
             
             <div className="mb-3">
                 <label htmlFor="cpf" className="form-label">CPF:</label>
-                <input type="text" id="cpf" className={`form-control ${errors.cpf ? 'is-invalid' : ''}`} {...register('cpf', { required: "O CPF do coordenador é obrigatório", maxLength: { value: 11, message: "O CPF não pode ter mais de 11 dígitos" } })} />
+                <input 
+                    type="text" 
+                    id="cpf" 
+                    className={`form-control ${errors.cpf ? 'is-invalid' : ''}`} 
+                    {...register('cpf', { 
+                        required: "O CPF do coordenador é obrigatório", 
+                        maxLength: { value: 11, message: "O CPF não pode ter mais de 11 dígitos" } 
+                    })} 
+                />
                 {errors.cpf && <div className="invalid-feedback">{errors.cpf.message}</div>}
             </div>
             
             <div className="mb-3">
                 <label htmlFor="email" className="form-label">E-mail:</label>
-                <input type="email" id="email" className={`form-control ${errors.email ? 'is-invalid' : ''}`} {...register('email', { required: "O e-mail do coordenador é obrigatório" })} />
+                <input 
+                    type="email" 
+                    id="email" 
+                    className={`form-control ${errors.email ? 'is-invalid' : ''}`} 
+                    {...register('email', { required: "O e-mail do coordenador é obrigatório" })} 
+                />
                 {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
             </div>
             
             <div className="mb-3">
                 <label htmlFor="senha" className="form-label">Senha:</label>
-                <input type="password" id="senha" className={`form-control ${errors.senha ? 'is-invalid' : ''}`} {...register('senha', { required: "A senha é obrigatória" })} />
+                <input 
+                    type="password" 
+                    id="senha" 
+                    className={`form-control ${errors.senha ? 'is-invalid' : ''}`} 
+                    {...register('senha', { required: "A senha é obrigatória" })} 
+                />
                 {errors.senha && <div className="invalid-feedback">{errors.senha.message}</div>}
             </div>
             
             <div className="mb-3">
                 <label htmlFor="fotoPerfil" className="form-label">Foto de Perfil:</label>
-                <input type="text" id="fotoPerfil" className="form-control" {...register('urlFotoPerfil')} />
+                <input 
+                    type="text" 
+                    id="fotoPerfil" 
+                    className="form-control" 
+                    {...register('urlFotoPerfil')} 
+                />
             </div>
             
-            <div className="mb-3">
-                <label htmlFor="nivelPermissao" className="form-label">Nível de Permissão:</label>
-                <input type="text" id="nivelPermissao" className={`form-control ${errors.nivelPermissao ? 'is-invalid' : ''}`} {...register('nivelPermissao', { required: "O nível de permissão é obrigatório" })} />
+            <div className="form-group mb-3">
+                <label htmlFor="nivelPermissao">Nível de Permissão</label>
+                <select
+                    className={`form-control ${errors.nivelPermissao ? 'is-invalid' : ''}`}
+                    id="nivelPermissao"
+                    {...register('nivelPermissao', { required: 'Nível de Permissão é obrigatório' })}
+                >
+                    <option value="">Selecione o nível de permissão</option>
+                    <option value="ADMIN">Admin</option>
+                    <option value="COORDENADOR">Coordenador</option>
+                </select>
                 {errors.nivelPermissao && <div className="invalid-feedback">{errors.nivelPermissao.message}</div>}
             </div>
             
@@ -116,6 +154,8 @@ const CadCoordenador = () => {
         </form>
         <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
     </div>
+</div>
+
     );
 }
 
