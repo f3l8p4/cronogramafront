@@ -21,9 +21,10 @@ const GeradorCronograma = () => {
 
     const onSubmit = async (data) => {
         const nomeCurso = { nomeCurso: data.curso };
+        console.log(nomeCurso)
         try {
-            const response = await apiCronograma.getCronograma(nomeCurso);
-            console.log(response);  
+           const response = await apiCronograma.getCronograma(nomeCurso);  
+           console.log(response)
         } catch (error) {
             console.log('Houve erro ao gerar o cronograma',error);
         }
