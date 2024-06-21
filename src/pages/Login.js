@@ -20,31 +20,39 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            {...register('email', { required: 'O email é obrigatório' })}
-            className="form-input"
-          />
-          {errors.email && <p className="error-message">{errors.email.message}</p>}
+    <div className="container d-flex justify-content-center align-items-center vh-100">
+    <div className="card p-4" style={{ width: '700px' }}>
+        <h2 className="text-center mb-4">Sign In</h2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="form-group mb-3">
+                <label htmlFor="email">Email:</label>
+                <input
+                    type="email"
+                    className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                    id="email"
+                    placeholder="Enter email"
+                    {...register('email', { required: 'Email is required' })}
+                />
+                {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
+            </div>
+            <div className="form-group mb-3">
+                <label htmlFor="password">Senha:</label>
+                <input
+                    type="password"
+                    className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                    id="password"
+                    placeholder="Enter password"
+                    {...register('password', { required: 'Password is required' })}
+                />
+                {errors.password && <div className="invalid-feedback">{errors.password.message}</div>}
+            </div>
+            <button type="submit" className="btn btn-primary btn-block mt-4">Submit</button>
+        </form>
+        <div className="text-center mt-3">
+            <a href="#">Esqueceu <span className="text-primary">sua senha</span></a>
         </div>
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            {...register('password', { required: 'A senha é obrigatória' })}
-            className="form-input"
-          />
-          {errors.password && <p className="error-message">{errors.password.message}</p>}
-        </div>
-        <button type="submit" className="submit-button">Login</button>
-        {error && <p className="error-message">{error}</p>}
-      </form>
     </div>
+</div>
   );
 };
 
