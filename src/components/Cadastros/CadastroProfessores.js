@@ -72,52 +72,78 @@ const CadProfessor = () => {
     }
 };
   return (   
-    <div className="container mt-5">
-      <h1 className="mb-4">Cadastro de Professores</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+<div className="container mt-5">
+    <h1 className="mb-4">Cadastro de Professores</h1>
+    <form onSubmit={handleSubmit(onSubmit)} className="card p-4">
         <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="nome" className="form-label">Nome:</label>
-            <input type="text" id="nome" className={`form-control ${errors.nomeCompleto ? 'is-invalid' : ''}`} {...register('nomeCompleto', { required: "O campo não pode estar vazio" })} />
-            {errors.nomeCompleto && <div className="invalid-feedback">{errors.nomeCompleto.message}</div>}
-          </div>
+            <div className="col-md-6">
+                <label htmlFor="nome" className="form-label">Nome:</label>
+                <input
+                    type="text"
+                    id="nome"
+                    className={`form-control ${errors.nomeCompleto ? 'is-invalid' : ''}`}
+                    {...register('nomeCompleto', { required: "O campo não pode estar vazio" })}
+                />
+                {errors.nomeCompleto && <div className="invalid-feedback">{errors.nomeCompleto.message}</div>}
+            </div>
+            <div className="col-md-6">
+                <label htmlFor="telefone" className="form-label">Telefone:</label>
+                <input
+                    type="text"
+                    id="telefone"
+                    className={`form-control ${errors.telefone ? 'is-invalid' : ''}`}
+                    {...register('telefone', { required: "O telefone não pode estar vazio" })}
+                />
+                {errors.telefone && <div className="invalid-feedback">{errors.telefone.message}</div>}
+            </div>
         </div>
+        
         <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="telefone" className="form-label">Telefone:</label>
-            <input type="text" id="telefone" className={`form-control ${errors.telefone ? 'is-invalid' : ''}`} {...register('telefone', { required: "O telefone não pode estar vazio" })} />
-            {errors.telefone && <div className="invalid-feedback">{errors.telefone.message}</div>}
-          </div>
+            <div className="col-md-6">
+                <label htmlFor="cpf" className="form-label">CPF:</label>
+                <input
+                    type="text"
+                    id="cpf"
+                    className={`form-control ${errors.cpf ? 'is-invalid' : ''}`}
+                    {...register('cpf', {
+                        required: "O cpf não pode estar vazio",
+                        maxLength: { value: 11, message: "O cpf não pode ultrapassar o valor de 11 dígitos" }
+                    })}
+                />
+                {errors.cpf && <div className="invalid-feedback">{errors.cpf.message}</div>}
+            </div>
+            <div className="col-md-6">
+                <label htmlFor="qtdeDiasDeAula" className="form-label">Quantidade de Aulas Semanais:</label>
+                <input
+                    type="number"
+                    id="qtdeDiasDeAula"
+                    className={`form-control ${errors.qtdeDiasDeAula ? 'is-invalid' : ''}`}
+                    {...register('qtdeDiasDeAula', {
+                        required: 'Por favor, insira um número.',
+                        min: {
+                            value: 1,
+                            message: 'O professor deve dar ao mínimo 1 aula por semana'
+                        },
+                        max: {
+                            value: 6,
+                            message: 'O professor não pode dar mais de 6 dias de aula por semana.'
+                        }
+                    })}
+                />
+                {errors.qtdeDiasDeAula && <div className="invalid-feedback">{errors.qtdeDiasDeAula.message}</div>}
+            </div>
         </div>
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="cpf" className="form-label">CPF:</label>
-            <input type="text" id="cpf" className={`form-control ${errors.cpf ? 'is-invalid' : ''}`} {...register('cpf', { required: "O cpf não pode estar vazio", maxLength: { value: 11, message: "O cpf não pode ultrapassar o valor de 11 dígitos" } })} />
-            {errors.cpf && <div className="invalid-feedback">{errors.cpf.message}</div>}
-          </div>
+        
+        <div className="row">
+            <div className="col-md-12 d-flex justify-content-center">
+                <button type="submit" className="btn btn-primary">Enviar</button>
+            </div>
         </div>
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="qtdeDiasDeAula" className="form-label">Quantidade de Aulas Semanais:</label>
-            <input type="number" id="qtdeDiasDeAula" className={`form-control ${errors.qtdeDiasDeAula ? 'is-invalid' : ''}`} {...register('qtdeDiasDeAula', {
-              required: 'Por favor, insira um número.',
-              min: {
-                value: 1,
-                message: 'O professor deve dar ao mínimo 1 aula por semana'
-              },
-              max: {
-                value: 6,
-                message: 'O professor não pode dar mais de 6 dias de aula por semana.'
-              }
-            })} />
-            {errors.qtdeDiasDeAula && <div className="invalid-feedback">{errors.qtdeDiasDeAula.message}</div>}
-          </div>
-        </div>
-        <button type="submit" className="btn btn-primary">Enviar</button>
-      </form>
-      
-      <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
-    </div>
+    </form>
+    
+    <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
+</div>
+
   );
 };
 
