@@ -85,25 +85,27 @@ const CadFase = () => {
     };
     
     return (
-        <div className="container mt-5">
-            <h1 className="mb-4">Cadastro de Fase</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="mb-3">
-                    <label htmlFor="numero" className="form-label">Número:</label>
-                    <input 
-                        type="text" 
-                        id="numero" 
-                        className={`form-control ${errors.numero ? 'is-invalid' : ''}`} 
-                        {...register('numero', { required: "O número da fase é obrigatório" })} 
+<div class="container mt-5">
+    <div class="card p-4">
+        <h2 class="mb-4 text-center">Cadastro de Fase</h2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <div class="row mb-3">
+                <div class="col-md-6 mb-3">
+                    <label for="numero" class="form-label">Número:</label>
+                    <input
+                        type="text"
+                        id="numero"
+                        className={`form-control ${errors.numero ? 'is-invalid' : ''}`}
+                        {...register('numero', { required: "O número da fase é obrigatório" })}
                     />
                     {errors.numero && <div className="invalid-feedback">{errors.numero.message}</div>}
                 </div>
 
-                <div className="mb-3">
-                    <label htmlFor="curso" className="form-label">Curso:</label>
-                    <select 
-                        id="curso" 
-                        className={`form-select ${errors.curso ? 'is-invalid' : ''}`} 
+                <div class="col-md-6 mb-3">
+                    <label for="curso" class="form-label">Curso:</label>
+                    <select
+                        id="curso"
+                        className={`form-select ${errors.curso ? 'is-invalid' : ''}`}
                         {...register('curso', { required: "O curso é obrigatório" })}
                     >
                         <option value=''>Selecione...</option>
@@ -113,13 +115,17 @@ const CadFase = () => {
                     </select>
                     {errors.curso && <div className="invalid-feedback">{errors.curso.message}</div>}
                 </div>
+            </div>
 
-                <button type="submit" className="btn btn-primary">Enviar</button>
-            </form>
-            {/*Modal De feedback de cadastros */}
-            <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
-            
-        </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+        </form>
+    </div>
+    {/* Modal de feedback de cadastros */}
+    <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
+</div>
+
     );
 }
 

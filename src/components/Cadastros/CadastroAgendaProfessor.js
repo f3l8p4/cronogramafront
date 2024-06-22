@@ -109,12 +109,17 @@ const CadAgendaProfessor = () => {
         }
     };
     return (
-        <div className="container mt-5">
-        <h2 className="mb-4">Cadastro de Agenda de Professor</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="form-group mb-3">
-                <label htmlFor="professor">Professor:</label>
-                <select id="professor" className={`form-control ${errors.professor ? 'is-invalid' : ''}`} {...register("professor", { required: "O professor é obrigatório" })}>
+<div className="container mt-5">
+    <h2 className="mb-4">Cadastro de Agenda de Professor</h2>
+    <form onSubmit={handleSubmit(onSubmit)} className="needs-validation card p-4">
+        <div className="row mb-3">
+            <div className="col-md-6">
+                <label htmlFor="professor" className="form-label">Professor:</label>
+                <select 
+                    id="professor" 
+                    className={`form-control ${errors.professor ? 'is-invalid' : ''}`} 
+                    {...register("professor", { required: "O professor é obrigatório" })}
+                >
                     <option value="">Selecione um professor</option>
                     {professores.map(professor => (
                         <option key={professor.id} value={professor.id}>{professor.nomeCompleto}</option>
@@ -122,9 +127,13 @@ const CadAgendaProfessor = () => {
                 </select>
                 {errors.professor && <div className="invalid-feedback">{errors.professor.message}</div>}
             </div>
-            <div className="form-group mb-3">
-                <label htmlFor="diaDaSemana">Dia da Semana:</label>
-                <select id="diaDaSemana" className={`form-control ${errors.diaDaSemana ? 'is-invalid' : ''}`} {...register("diaDaSemana", { required: "O dia da semana é obrigatório" })}>
+            <div className="col-md-6">
+                <label htmlFor="diaDaSemana" className="form-label">Dia da Semana:</label>
+                <select 
+                    id="diaDaSemana" 
+                    className={`form-control ${errors.diaDaSemana ? 'is-invalid' : ''}`} 
+                    {...register("diaDaSemana", { required: "O dia da semana é obrigatório" })}
+                >
                     <option value="">Selecione um dia da semana</option>
                     {diasDaSemana.map(dia => (
                         <option key={dia.id} value={dia.id}>{dia.descricao}</option>
@@ -132,9 +141,16 @@ const CadAgendaProfessor = () => {
                 </select>
                 {errors.diaDaSemana && <div className="invalid-feedback">{errors.diaDaSemana.message}</div>}
             </div>
-            <div className="form-group mb-3">
-                <label htmlFor="disciplina">Disciplina:</label>
-                <select id="disciplina" className={`form-control ${errors.disciplina ? 'is-invalid' : ''}`} {...register("disciplina", { required: "A disciplina é obrigatória" })}>
+        </div>
+        
+        <div className="row mb-3">
+            <div className="col-md-12">
+                <label htmlFor="disciplina" className="form-label">Disciplina:</label>
+                <select 
+                    id="disciplina" 
+                    className={`form-control ${errors.disciplina ? 'is-invalid' : ''}`} 
+                    {...register("disciplina", { required: "A disciplina é obrigatória" })}
+                >
                     <option value="">Selecione uma disciplina</option>
                     {disciplinas.map(disciplina => (
                         <option key={disciplina.id} value={disciplina.id}>{disciplina.nome}</option>
@@ -142,10 +158,17 @@ const CadAgendaProfessor = () => {
                 </select>
                 {errors.disciplina && <div className="invalid-feedback">{errors.disciplina.message}</div>}
             </div>
-            <button type="submit" className="btn btn-primary">Cadastrar Agenda</button>
-        </form>
-        <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
-    </div>
+        </div>
+        
+        <div className="row">
+            <div className="col-md-12 d-flex justify-content-center">
+                <button type="submit" className="btn btn-primary">Cadastrar Agenda</button>
+            </div>
+        </div>
+    </form>
+    <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
+</div>
+
     );
 }
 

@@ -70,11 +70,13 @@ const CadDiaExcecao = () => {
         }
     };
     return (
-        <div className="container  mt-5s">
-            <h2 className="mb-4">Cadastro de Dia de Exceção</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="mb-3">
-                    <label htmlFor="data" className="form-label">Data:</label>
+<div class="container mt-5">
+    <div>
+        <h2 class="mb-4 text-center">Cadastro de Dia de Exceção</h2>
+        <form onSubmit={handleSubmit(onSubmit)} class="card p-4">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="data" class="form-label">Data:</label>
                     <input
                         type="date"
                         id="data"
@@ -83,8 +85,9 @@ const CadDiaExcecao = () => {
                     />
                     {errors.data && <div className="invalid-feedback">{errors.data.message}</div>}
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="motivo" className="form-label">Motivo:</label>
+                
+                <div class="col-md-6">
+                    <label for="motivo" class="form-label">Motivo:</label>
                     <textarea
                         id="motivo"
                         className={`form-control ${errors.motivo ? 'is-invalid' : ''}`}
@@ -92,10 +95,15 @@ const CadDiaExcecao = () => {
                     ></textarea>
                     {errors.motivo && <div className="invalid-feedback">{errors.motivo.message}</div>}
                 </div>
-                <button type="submit" className="btn btn-primary">Salvar</button>
-            </form>
-            <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
-        </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+    <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success} />
+</div>
+
     );
 }
 
