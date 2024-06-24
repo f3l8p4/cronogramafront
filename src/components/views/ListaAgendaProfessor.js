@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import apiAgendas from "../../services/apiAgendaProfessor/apiAgendaProfessor"; 
 import { useNavigate } from 'react-router-dom';
-import apiAgendaProfessor from '../../services/apiAgendaProfessor/apiAgendaProfessor';
 import ExclusaoModal from '../modals/ExclusaoModal';
 import Pagination from '../buttons/Paginacao';
+import BarraPesquisa from '../buttons/BarraPesquisa';
+import Ordenacao from '../buttons/OrdenacaoBotao';
 
 const ListaAgendaProfessor = () => {
     const [agendas, setAgendas] = useState([]);
-    const [sortOrder, setSortOrder] = useState('asc'); // Estado para controlar a ordenação
-    
-    // Paginação
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);  // Número de itens por página
-    
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [sortOrder, setSortOrder] = useState('asc'); // Estado para controlar a ordenação
     
     const navigate = useNavigate();
 
@@ -29,15 +28,15 @@ const ListaAgendaProfessor = () => {
         };
         carregarDados();
     }, []);
-    
+
     const excluirAgendaProfessor = async (id) => {
         try {
-            await apiAgendaProfessor.excludeAgendaProfessor(id);
+            await apiAgendas.excludeAgendaProfessor(id);
             setAgendas(agendas.filter(agenda => agenda.id !== id));
         } catch (erro) {
-            console.log('erro na exclusão de agenda do professor', erro);
+            console.log('Erro na exclusão de agenda do professor', erro);
         }
-        setShowModal(false); 
+        setShowModal(false); // Fechar modal após exclusão
     };
 
     const confirmarExclusao = (id) => {
@@ -57,8 +56,13 @@ const ListaAgendaProfessor = () => {
         navigate(`/editarAgendaProfessor/${id}`);
     };
 
+    // Filtrar agendas com base no termo de pesquisa
+    const filteredAgendas = agendas.filter(agenda =>
+        agenda.professor.nomeCompleto.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     // Ordenar agendas por ID
-    const sortedAgendas = agendas.sort((a, b) => {
+    const sortedAgendas = filteredAgendas.sort((a, b) => {
         if (sortOrder === 'asc') {
             return a.id - b.id;
         } else {
@@ -82,10 +86,13 @@ const ListaAgendaProfessor = () => {
     return (
         <div className="container mt-5">
             <h2 className="mb-4">Lista de Agenda de Professores</h2>
-            <div className="mb-3">
-                <button className="btn btn-secondary" onClick={toggleSortOrder}>
-                    Ordenar por ID ({sortOrder === 'asc' ? 'Crescente' : 'Decrescente'})
-                </button>
+            <div className="mb-3 d-flex justify-content-between align-items-center">
+                <div>
+                    <BarraPesquisa placeholder="Pesquisar por nome do professor..." onChange={setSearchTerm} />
+                </div>
+                <div>
+                    <Ordenacao direction={sortOrder} onClick={toggleSortOrder} />
+                </div>
             </div>
             <table className="table table-striped table-bordered">
                 <thead className="thead-dark">

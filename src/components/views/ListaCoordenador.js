@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores";
 import { useNavigate } from 'react-router-dom';
 import Pagination from '../buttons/Paginacao';
-
+import BarraPesquisa from '../buttons/BarraPesquisa';
+import Ordenacao from '../buttons/OrdenacaoBotao';
 const ListaCoordenadores = () => {
   const [coordenadores, setCoordenadores] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortDirection, setSortDirection] = useState('asc');
   
-  //Paginacao
+  // Paginação
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);  // Número de itens por página
   
@@ -31,95 +34,132 @@ const ListaCoordenadores = () => {
 
   const atualizarStatusCoordenador = async (id, novoStatus) => {
     try {
-        await apiCoordenadores.updateCoordenadorStatus(id, novoStatus);
-        setCoordenadores(coordenadores.map(cod => cod.id === id ? { ...cod, status: novoStatus } : cod));
+      await apiCoordenadores.updateCoordenadorStatus(id, novoStatus);
+      setCoordenadores(coordenadores.map(cod => cod.id === id ? { ...cod, status: novoStatus } : cod));
     } catch (error) {
-        console.error(`Erro ao atualizar status do coordenador para ${novoStatus}:`, error);
+      console.error(`Erro ao atualizar status do coordenador para ${novoStatus}:`, error);
     }
-};
+  };
   
   const editarCoordenador = (id) => {
     navigate(`/editarCoordenador/${id}`);
   };
+
+  // Filtrar coordenadores com base no termo de pesquisa
+  const filteredCoordenadores = coordenadores.filter(coordenador =>
+    coordenador.nome.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Ordenar coordenadores com base na direção de ordenação
+  const sortedCoordenadores = filteredCoordenadores.sort((a, b) => {
+    if (sortDirection === 'asc') {
+      return a.id - b.id;
+    } else {
+      return b.id - a.id;
+    }
+  });
   
-  // Obter os itens atuais
+  // Obter os itens atuais para paginação
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = coordenadores.slice(indexOfFirstItem, indexOfLastItem);
-        
+  const currentItems = sortedCoordenadores.slice(indexOfFirstItem, indexOfLastItem);
+
   // Alterar página
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Alternar a direção de ordenação
+  const toggleSortDirection = () => {
+    setSortDirection(prevDirection => (prevDirection === 'asc' ? 'desc' : 'asc'));
+  };
   
   return (
     <div className="container mt-5">
-    <h2 className="mb-4">Lista de Coordenadores</h2>
-    <table className="table table-striped table-bordered">
-      <thead className="thead-dark">
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Email</th>
-          <th>CPF</th>
-          <th>URL da Foto de Perfil</th>
-          <th>Status</th>
-          <th>Nível de Permissão</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        {currentItems.length > 0 ? (
-          currentItems.map((coordenador) => (
-            <tr key={coordenador.id}>
-              <td>{coordenador.id}</td>
-              <td>{coordenador.nome}</td>
-              <td>{coordenador.email}</td>
-              <td>{coordenador.cpf}</td>
-              <td>
-                <img 
-                  src={coordenador.urlFotoPerfil} 
-                  alt={coordenador.nome} 
-                  className="img-thumbnail" 
-                  width="50" 
-                  height="50" 
-                />
-              </td>
-              <td>{coordenador.status}</td>
-              <td>{coordenador.nivelPermissao}</td>
-              <td>
-                <button 
-                  onClick={() => editarCoordenador(coordenador.id)} 
-                  className="btn btn-warning btn-sm text-white me-2"
-                >
-                  Editar
-                </button>
-                {coordenador.status === 'ATIVO' ? (
-                  <button 
-                    onClick={() => atualizarStatusCoordenador(coordenador.id, 'INATIVO')} 
-                    className="btn btn-danger btn-sm"
-                  >
-                    Desativar
-                  </button>
-                ) : (
-                  <button 
-                    onClick={() => atualizarStatusCoordenador(coordenador.id, 'ATIVO')} 
-                    className="btn btn-success btn-sm"
-                  >
-                    Ativar
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))
-        ) : (
+      <h2 className="mb-4">Lista de Coordenadores</h2>
+      <div className="mb-3 d-flex justify-content-between align-items-center">
+        <div>
+          <BarraPesquisa placeholder="Pesquisar por nome de coordenador..." onChange={setSearchTerm} />
+        </div>
+        <div>
+          <Ordenacao onClick={toggleSortDirection} direction={sortDirection} />
+        </div>
+      </div>
+      <table className="table table-striped table-bordered">
+        <thead className="thead-dark">
           <tr>
-            <td colSpan="8" className="text-center">Nenhum coordenador encontrado.</td>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>CPF</th>
+            <th>URL da Foto de Perfil</th>
+            <th>Status</th>
+            <th>Nível de Permissão</th>
+            <th>Ações</th>
           </tr>
-        )}
-      </tbody>
-    </table>
-    <Pagination itemsPerPage={itemsPerPage} totalItems={coordenadores.length} paginate={paginate} currentPage={currentPage} />
-    <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroCoordenador/')}>Cadastrar novo usuário</button>
-  </div>
+        </thead>
+        <tbody>
+          {currentItems.length > 0 ? (
+            currentItems.map((coordenador) => (
+              <tr key={coordenador.id}>
+                <td>{coordenador.id}</td>
+                <td>{coordenador.nome}</td>
+                <td>{coordenador.email}</td>
+                <td>{coordenador.cpf}</td>
+                <td>
+                  <img 
+                    src={coordenador.urlFotoPerfil} 
+                    alt={coordenador.nome} 
+                    className="img-thumbnail" 
+                    width="50" 
+                    height="50" 
+                  />
+                </td>
+                <td>{coordenador.status}</td>
+                <td>{coordenador.nivelPermissao}</td>
+                <td>
+                  <button 
+                    onClick={() => editarCoordenador(coordenador.id)} 
+                    className="btn btn-warning btn-sm text-white me-2"
+                  >
+                    Editar
+                  </button>
+                  {coordenador.status === 'ATIVO' ? (
+                    <button 
+                      onClick={() => atualizarStatusCoordenador(coordenador.id, 'INATIVO')} 
+                      className="btn btn-danger btn-sm"
+                    >
+                      Desativar
+                    </button>
+                  ) : (
+                    <button 
+                      onClick={() => atualizarStatusCoordenador(coordenador.id, 'ATIVO')} 
+                      className="btn btn-success btn-sm"
+                    >
+                      Ativar
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="8" className="text-center">Nenhum coordenador encontrado.</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+      <Pagination 
+        itemsPerPage={itemsPerPage} 
+        totalItems={filteredCoordenadores.length} 
+        paginate={paginate} 
+        currentPage={currentPage} 
+      />
+      <button 
+        className='btn btn-lg btn-primary' 
+        onClick={() => navigate('/cadastroCoordenador/')}
+      >
+        Cadastrar novo usuário
+      </button>
+    </div>
   );
 }
 
