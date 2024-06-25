@@ -2,11 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import apiCronograma from "../services/apiGeracaoCronograma/apiGeracaoCronograma";
 import apiCurso from "../services/apiCursos/ApiCursos";
+import TelaErro from "../components/views/TelaError";
 
 const GeradorCronograma = () => {
     const [cursos, setCursos] = useState([]);
     const { register, handleSubmit, formState: { errors } } = useForm();
-
+    
+    const error = {
+                professor: { message: 'professores não conseguem fechar o horario' },
+                curso: { message: 'Erro no curso' },
+                disciplina: { message: 'erro de disciplina sem professores'}
+    }
     useEffect(() => {
         const carregarDados = async () => {
             try {
@@ -67,18 +73,7 @@ const GeradorCronograma = () => {
                     </form>
                 </div>
                 <div className="col-md-8">
-                    <div className="error-box bg-light p-3 rounded">
-                        <h4>ERROS</h4>
-                        <ul className="list-unstyled">
-                            <li>1 | ERRO NO COORDENADOR</li>
-                            <li>2 | ERRO NO PROFESSOR</li>
-                            <li>3 | ERRO NO CURSO</li>
-                            <li>4 | ERRO NA DISCIPLINA</li>
-                        </ul>
-                        <div className="error-count mt-3">
-                            <p>TOTAL DE ERROS: 04</p>
-                        </div>
-                    </div>
+                    <TelaErro errors={error}/>
                     <button type="button" className="btn btn-primary mt-3" disabled>DOWNLOAD</button>
                     <p className="mt-2">DOWNLOAD SERÁ LIBERADO APENAS QUANDO NÃO ESTIVER ERRO.</p>
                 </div>
