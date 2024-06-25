@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import apiDisciplinas from "../../services/apiDisciplinas/apiDisciplinas";
-import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores";
 import apiFases from "../../services/apiFases/apiFases";
 import apiCursos from "../../services/apiCursos/ApiCursos";
 import { useNavigate } from 'react-router-dom';
 import ExclusaoModal from '../modals/ExclusaoModal';
 import Pagination from '../buttons/Paginacao';
-
+import BarraPesquisa from '../buttons/BarraPesquisa'; // Importação da BarraPesquisa
+import Ordenacao from '../buttons/OrdenacaoBotao'; // Importação da Ordenacao
 
 const ListaDisciplinas = () => {
     const [disciplinas, setDisciplinas] = useState([]);
     const [coordenadores, setCoordenadores] = useState({});
     const [fases, setFases] = useState({});
     const [cursos, setCursos] = useState({});
-    
-    //Paginacao
+  //campo de busca
+        const [searchTerm, setSearchTerm] = useState('');
+        const [sortDirection, setSortDirection] = useState('asc');
+    // Paginação
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);  // Número de itens por página
     
-    //Modal de exclusão
+    // Modal de exclusão
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     
@@ -83,17 +85,49 @@ const ListaDisciplinas = () => {
         navigate(`/editarDisciplina/${id}`);
     };
 
+    // Ordenar disciplinas por ID
+    const sortedDisciplinas = [...disciplinas].sort((a, b) => {
+        if (sortDirection === 'asc') {
+            return a.id - b.id;
+        } else {
+            return b.id - a.id;
+        }
+    });
+
+    // Filtrar disciplinas pelo termo de busca
+    const filteredDisciplinas = sortedDisciplinas.filter(disciplina =>
+        disciplina.nome.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     // Obter os itens atuais
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = disciplinas.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredDisciplinas.slice(indexOfFirstItem, indexOfLastItem);
   
     // Alterar página
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    // Alternar a ordenação
+    const toggleSortDirection = () => {
+        setSortDirection(prevDirection => (prevDirection === 'asc' ? 'desc' : 'asc'));
+      };
     
+    // Atualizar o termo de busca
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+    };
+
     return (
         <div className="container mt-5">
             <h2>Lista de Disciplinas</h2>
+            <div className="mb-3 d-flex justify-content-between align-items-center">
+                <div>
+                    <BarraPesquisa placeholder="Pesquisar por nome de disciplina..." onChange={setSearchTerm} />
+                </div>
+                <div>
+                    <Ordenacao onClick={toggleSortDirection} direction={sortDirection} />
+                </div>
+      </div>
             <table className='table table-striped table-bordered'>
                 <thead className=''>
                     <tr className='fs-5 mb-2'>
@@ -128,7 +162,7 @@ const ListaDisciplinas = () => {
                     )}
                 </tbody>
             </table>
-            <Pagination itemsPerPage={itemsPerPage} totalItems={disciplinas.length} paginate={paginate} currentPage={currentPage} />
+            <Pagination itemsPerPage={itemsPerPage} totalItems={filteredDisciplinas.length} paginate={paginate} currentPage={currentPage} />
             
             <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroDisciplina/')}>Cadastrar nova disciplina</button>
             <ExclusaoModal 
