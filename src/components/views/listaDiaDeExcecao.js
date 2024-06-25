@@ -1,14 +1,19 @@
-// src/components/ListaDiaExcecao.js
 import React, { useEffect, useState } from 'react';
 import apiDiaExcecao from '../../services/apiDiaExcecao/apiDiaExcecao';
 import { useNavigate } from 'react-router-dom';
 import ExclusaoModal from '../modals/ExclusaoModal';
 import Pagination from '../buttons/Paginacao';
+import BarraPesquisa from '../buttons/BarraPesquisa'; // Importação da BarraPesquisa
+import Ordenacao from '../buttons/OrdenacaoBotao'; // Importação da Ordenacao
 
 const ListaDiaExcecao = () => {
     const [diasExcecao, setDiasExcecao] = useState([]);
+
+        //campo de busca
+        const [searchTerm, setSearchTerm] = useState('');
+        const [sortDirection, setSortDirection] = useState('asc');
     
-    //Paginacao
+    // Paginação
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);  // Número de itens por página
     
@@ -33,7 +38,6 @@ const ListaDiaExcecao = () => {
         };
         carregarDiasExcecao();
     }, []);
-    
     
     const formatarData = (data) => {
         const dataObj = new Date(data);
@@ -70,17 +74,49 @@ const ListaDiaExcecao = () => {
         setShowModal(false);
     };
 
+    // Ordenar dias de exceção por ID
+    const sortedDiasExcecao = [...diasExcecao].sort((a, b) => {
+        if (sortDirection === 'asc') {
+            return a.id - b.id;
+        } else {
+            return b.id - a.id;
+        }
+    });
+
+    // Filtrar dias de exceção pelo termo de busca
+    const filteredDiasExcecao = sortedDiasExcecao.filter(dia =>
+        dia.motivo.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     // Obter os itens atuais
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = diasExcecao.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredDiasExcecao.slice(indexOfFirstItem, indexOfLastItem);
       
     // Alterar página
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    // Alternar a ordenação
+    const toggleSortOrder = () => {
+        setSortDirection(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
+    };
     
+    // Atualizar o termo de busca
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+    };
+
     return (
         <div className="container mt-5">
             <h2>Lista de Dias de Exceção</h2>
+            <div className="mb-3 d-flex justify-content-between align-items-center">
+                <div>
+                    <BarraPesquisa placeholder="Pesquisar por nome de disciplina..." onChange={setSearchTerm} />
+                </div>
+                <div>
+                    <Ordenacao onClick={toggleSortOrder} direction={sortDirection} />
+                </div>
+            </div>
             <table className="table table-striped table-bordered">
                 <thead>
                     <tr>
@@ -118,7 +154,7 @@ const ListaDiaExcecao = () => {
                     )}
                 </tbody>
             </table>
-            <Pagination itemsPerPage={itemsPerPage} totalItems={diasExcecao.length} paginate={paginate} currentPage={currentPage} />
+            <Pagination itemsPerPage={itemsPerPage} totalItems={filteredDiasExcecao.length} paginate={paginate} currentPage={currentPage} />
             <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroDiaExcecao/')}>Cadastrar novo dia especial</button>
             <ExclusaoModal 
                 show={showModal} 
