@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import InputMask from 'react-input-mask';
 import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
 import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores";
@@ -92,14 +93,14 @@ const CadCoordenador = () => {
             
                 <div className="col-md-6 form-group mb-3">
                     <label htmlFor="cpf" className="form-label">CPF:</label>
-                    <input 
-                        type="text" 
-                        id="cpf" 
-                        className={`form-control ${errors.cpf ? 'is-invalid' : ''}`} 
-                        {...register('cpf', { 
-                            required: "O CPF do coordenador é obrigatório", 
-                            maxLength: { value: 11, message: "O CPF não pode ter mais de 11 dígitos" } 
-                        })} 
+                    <InputMask
+                    mask="999.999.999-99"
+                    id="cpf"
+                    className={`form-control ${errors.cpf ? 'is-invalid' : ''}`}
+                    {...register('cpf', { 
+                        required: "O CPF do coordenador é obrigatório", 
+                        pattern: { value: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/, message: "Formato de CPF inválido" }
+                    })}
                     />
                     {errors.cpf && <div className="invalid-feedback">{errors.cpf.message}</div>}
                 </div>

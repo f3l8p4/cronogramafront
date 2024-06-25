@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import InputMask from "react-input-mask";
 import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
 import apiProfessores from "../../services/apiProfessores.js/ApiProfessores";
@@ -88,11 +89,16 @@ const CadProfessor = () => {
             </div>
             <div className="col-md-6">
                 <label htmlFor="telefone" className="form-label">Telefone:</label>
-                <input
-                    type="text"
-                    id="telefone"
-                    className={`form-control ${errors.telefone ? 'is-invalid' : ''}`}
-                    {...register('telefone', { required: "O telefone não pode estar vazio" })}
+                <InputMask
+                mask="(99) 99999-9999"
+                className={`form-control ${errors.telefone ? 'is-invalid' : ''}`}
+                {...register('telefone', { 
+                    required: "O telefone não pode estar vazio",
+                    pattern: {
+                        value: /^\(\d{2}\) \d{5}-\d{4}$/,
+                        message: "Telefone inválido"
+                    }
+                })}
                 />
                 {errors.telefone && <div className="invalid-feedback">{errors.telefone.message}</div>}
             </div>
@@ -101,13 +107,13 @@ const CadProfessor = () => {
         <div className="row mb-3">
             <div className="col-md-6">
                 <label htmlFor="cpf" className="form-label">CPF:</label>
-                <input
-                    type="text"
+                <InputMask
+                    mask="999.999.999-99"
                     id="cpf"
                     className={`form-control ${errors.cpf ? 'is-invalid' : ''}`}
-                    {...register('cpf', {
-                        required: "O cpf não pode estar vazio",
-                        maxLength: { value: 11, message: "O cpf não pode ultrapassar o valor de 11 dígitos" }
+                    {...register('cpf', { 
+                        required: "O CPF do coordenador é obrigatório", 
+                        pattern: { value: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/, message: "Formato de CPF inválido" }
                     })}
                 />
                 {errors.cpf && <div className="invalid-feedback">{errors.cpf.message}</div>}

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Pagination from '../buttons/Paginacao';
 import BarraPesquisa from '../buttons/BarraPesquisa';
 import Ordenacao from '../buttons/OrdenacaoBotao';
+import FormatarTelefone from '../Formatações/FormatarTelefone';
+import FormatarCPF from '../Formatações/FormatarCPF';
 
 const ListaProfessores = () => {
   const [professores, setProfessores] = useState([]);
@@ -101,8 +103,8 @@ const ListaProfessores = () => {
               <tr key={professor.id}>
                 <td>{professor.id}</td>
                 <td>{professor.nomeCompleto}</td>
-                <td>{professor.telefone}</td>
-                <td>{professor.cpf}</td>
+                <td>{FormatarTelefone(professor.telefone)}</td>
+                <td>{FormatarCPF(professor.cpf)}</td>
                 <td>{professor.qtdeDiasDeAula}</td>
                 <td>{professor.status}</td>
                 <td>

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Pagination from '../buttons/Paginacao';
 import BarraPesquisa from '../buttons/BarraPesquisa';
 import Ordenacao from '../buttons/OrdenacaoBotao';
+import FormatarCPF from '../Formatações/FormatarCPF';
 const ListaCoordenadores = () => {
   const [coordenadores, setCoordenadores] = useState([]);
 
@@ -104,7 +105,7 @@ const ListaCoordenadores = () => {
                 <td>{coordenador.id}</td>
                 <td>{coordenador.nome}</td>
                 <td>{coordenador.email}</td>
-                <td>{coordenador.cpf}</td>
+                <td>{FormatarCPF(coordenador.cpf)}</td>
                 <td>{coordenador.status}</td>
                 <td>{coordenador.nivelPermissao}</td>
                 <td>
