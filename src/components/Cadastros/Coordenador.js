@@ -51,7 +51,6 @@ const CadCoordenador = () => {
         try {
             if (coordenador.id) {
                 await apiCoordenadores.updateCoordenador(coordenador.id, data);
-                console.log(data.nivelPermissao)
                 setSuccess(true)
                 setModalMessage('usuario atualizado com sucesso');
             } else {
@@ -105,7 +104,7 @@ const CadCoordenador = () => {
                     {errors.cpf && <div className="invalid-feedback">{errors.cpf.message}</div>}
                 </div>
                 
-                <div className="col-md-12 form-group mb-3">
+                <div className="col-md-6 form-group mb-3">
                     <label htmlFor="email" className="form-label">E-mail:</label>
                     <input 
                         type="email" 
@@ -127,30 +126,7 @@ const CadCoordenador = () => {
                     {errors.senha && <div className="invalid-feedback">{errors.senha.message}</div>}
                 </div>
                 
-                <div className="col-md-6 form-group mb-3">
-                    <label htmlFor="fotoPerfil" className="form-label">Foto de Perfil:</label>
-                    <input 
-                        type="text" 
-                        id="fotoPerfil" 
-                        className="form-control" 
-                        {...register('urlFotoPerfil')} 
-                    />
-                </div>
-                
-                <div className="col-md-12 form-group mb-3">
-                    <label htmlFor="nivelPermissao">Nível de Permissão</label>
-                    <select
-                        className={`form-control ${errors.nivelPermissao ? 'is-invalid' : ''}`}
-                        id="nivelPermissao"
-                        {...register('nivelPermissao', { required: 'Nível de Permissão é obrigatório' })}
-                    >
-                        <option value="">Selecione o nível de permissão</option>
-                        <option value="ADMIN">Admin</option>
-                        <option value="COORDENADOR">Coordenador</option>
-                    </select>
-                    {errors.nivelPermissao && <div className="invalid-feedback">{errors.nivelPermissao.message}</div>}
-                </div>
-                
+                    
                 <div className="col-md-12 d-flex justify-content-center">
                     <button type="submit" className="btn btn-primary">Enviar</button>
                 </div>

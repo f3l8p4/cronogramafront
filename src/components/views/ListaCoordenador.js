@@ -6,6 +6,8 @@ import BarraPesquisa from '../buttons/BarraPesquisa';
 import Ordenacao from '../buttons/OrdenacaoBotao';
 const ListaCoordenadores = () => {
   const [coordenadores, setCoordenadores] = useState([]);
+
+  //campo de busca
   const [searchTerm, setSearchTerm] = useState('');
   const [sortDirection, setSortDirection] = useState('asc');
   
@@ -90,7 +92,6 @@ const ListaCoordenadores = () => {
             <th>Nome</th>
             <th>Email</th>
             <th>CPF</th>
-            <th>URL da Foto de Perfil</th>
             <th>Status</th>
             <th>Nível de Permissão</th>
             <th>Ações</th>
@@ -104,15 +105,6 @@ const ListaCoordenadores = () => {
                 <td>{coordenador.nome}</td>
                 <td>{coordenador.email}</td>
                 <td>{coordenador.cpf}</td>
-                <td>
-                  <img 
-                    src={coordenador.urlFotoPerfil} 
-                    alt={coordenador.nome} 
-                    className="img-thumbnail" 
-                    width="50" 
-                    height="50" 
-                  />
-                </td>
                 <td>{coordenador.status}</td>
                 <td>{coordenador.nivelPermissao}</td>
                 <td>

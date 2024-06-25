@@ -92,7 +92,6 @@ const ListaProfessores = () => {
             <th>CPF</th>
             <th>Quantidade de Dias de Aula</th>
             <th>Status</th>
-            <th>Foto de Perfil</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -106,9 +105,6 @@ const ListaProfessores = () => {
                 <td>{professor.cpf}</td>
                 <td>{professor.qtdeDiasDeAula}</td>
                 <td>{professor.status}</td>
-                <td>
-                  <img src={professor.urlFotoPerfil} alt={professor.nomeCompleto} width="50" height="50" />
-                </td>
                 <td>
                   <button onClick={() => editarProfessor(professor.id)} className="btn btn-sm btn-warning px-2 me-2">Editar</button>
                   {professor.status === 'ATIVO' ? (
