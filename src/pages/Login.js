@@ -48,9 +48,6 @@ const Login = () => {
             </div>
             <button type="submit" className="btn btn-primary btn-block mt-4">Submit</button>
         </form>
-        <div className="text-center mt-3">
-            <a href="#">Esqueceu <span className="text-primary">sua senha</span></a>
-        </div>
     </div>
 </div>
   );
