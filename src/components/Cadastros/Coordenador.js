@@ -21,8 +21,6 @@ const CadCoordenador = () => {
         cpf:'',
         email: '',
         senha: '',
-        urlFotoPerfil: '',
-        nivelPermissao: '',
         status: 'ATIVO'
     });
 
@@ -37,8 +35,6 @@ const CadCoordenador = () => {
                     setValue('cpf',dadosCoordenador.cpf)
                     setValue('email', dadosCoordenador.email)
                     setValue('senha',dadosCoordenador.senha)
-                    setValue('urlFotoPerfil',dadosCoordenador.urlFotoPerfil)
-                    setValue('nivelPermissao', dadosCoordenador.nivelPermissao)
                 } catch (error) {
                     console.error('Erro ao carregar dados do coordenador:', error)
                 }
@@ -49,6 +45,8 @@ const CadCoordenador = () => {
     }, [id, setValue]);
 
     const onSubmit = async (data) => {
+        // Remove a pontuação do CPF antes de enviar
+        data.cpf = data.cpf.replace(/[^\d]/g, '');
         try {
             if (coordenador.id) {
                 await apiCoordenadores.updateCoordenador(coordenador.id, data);

@@ -48,6 +48,9 @@ const CadProfessor = () => {
   }, [id, setValue]);
 
   const onSubmit = async (data) => {
+    // Remove a pontuação do CPF antes de enviar
+    data.cpf = data.cpf.replace(/[^\d]/g, '');
+    data.telefone = data.telefone.replace(/[^\d]/g, '');
     try {
       if (professor.id) {
         await apiProfessores.updateProfessores(professor.id, data);
