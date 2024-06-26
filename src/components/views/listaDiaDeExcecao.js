@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import apiDiaExcecao from '../../services/apiDiaExcecao/apiDiaExcecao';
 import { useNavigate } from 'react-router-dom';
 import ExclusaoModal from '../modals/ExclusaoModal';
+import ModalCadastros from '../modals/ModalCadastros';
 import Pagination from '../buttons/Paginacao';
 import BarraPesquisa from '../buttons/BarraPesquisa'; // Importação da BarraPesquisa
 import Ordenacao from '../buttons/OrdenacaoBotao'; // Importação da Ordenacao
 
 const ListaDiaExcecao = () => {
     const [diasExcecao, setDiasExcecao] = useState([]);
-
-        //campo de busca
-        const [searchTerm, setSearchTerm] = useState('');
-        const [sortDirection, setSortDirection] = useState('asc');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [sortDirection, setSortDirection] = useState('asc');
     
     // Paginação
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,7 +18,12 @@ const ListaDiaExcecao = () => {
     
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-    
+
+    // Feedback modal states
+    const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+    const [feedbackMessage, setFeedbackMessage] = useState('');
+    const [feedbackSuccess, setFeedbackSuccess] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -55,10 +59,16 @@ const ListaDiaExcecao = () => {
         try {
             await apiDiaExcecao.excludeDiaExcecao(id);
             setDiasExcecao(diasExcecao.filter(diaExcecao => diaExcecao.id !== id));
+            setFeedbackSuccess(true);
+            setFeedbackMessage('Dia de exceção excluído com sucesso.');
         } catch (erro) {
-            console.log('erro na exclusão de dia de exceção', erro);
+            console.log('Erro na exclusão de dia de exceção', erro);
+            setFeedbackSuccess(false);
+            setFeedbackMessage('Erro ao excluir dia de exceção.');
+        } finally {
+            setShowFeedbackModal(true);
+            setShowModal(false);
         }
-        setShowModal(false); // Fecha o modal após a exclusão
     };
 
     const confirmarExclusao = (id) => {
@@ -72,6 +82,10 @@ const ListaDiaExcecao = () => {
 
     const handleClose = () => {
         setShowModal(false);
+    };
+
+    const handleFeedbackClose = () => {
+        setShowFeedbackModal(false);
     };
 
     // Ordenar dias de exceção por ID
@@ -111,7 +125,7 @@ const ListaDiaExcecao = () => {
             <h2>Lista de Dias de Exceção</h2>
             <div className="mb-3 d-flex justify-content-between align-items-center">
                 <div>
-                    <BarraPesquisa placeholder="Pesquisar por nome de disciplina..." onChange={setSearchTerm} />
+                    <BarraPesquisa placeholder="Pesquisar por motivo..." onChange={handleSearch} />
                 </div>
                 <div>
                     <Ordenacao onClick={toggleSortOrder} direction={sortDirection} />
@@ -161,6 +175,12 @@ const ListaDiaExcecao = () => {
                 handleClose={handleClose} 
                 handleConfirm={handleConfirm} 
                 item={`DiaExcecao ${selectedItem}`} 
+            />
+            <ModalCadastros
+                show={showFeedbackModal}
+                handleClose={handleFeedbackClose}
+                message={feedbackMessage}
+                success={feedbackSuccess}
             />
         </div>
     );
