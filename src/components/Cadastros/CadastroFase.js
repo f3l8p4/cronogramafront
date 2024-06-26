@@ -87,7 +87,9 @@ const CadFase = () => {
     return (
 <div class="container mt-5">
     <div class="card p-4">
-        <h2 class="mb-4 text-center">Cadastro de Fase</h2>
+        <h2 class="mb-4 text-center">
+            {id ? 'Editar fase' : 'Cadastro de fase'}
+        </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
             <div class="row mb-3">
                 <div class="col-md-6 mb-3">

@@ -75,7 +75,9 @@ const CadCoordenador = () => {
     return (
 <div className='container d-flex justify-content-center align-items-center mt-5'>
     <div className="">
-        <h1 className="text-center mb-4">Cadastro de usuário</h1>
+        <h1 className="text-center mb-4">
+            {id ? 'Editar Coordenador' : 'Cadastro de Coordenador'}
+        </h1>
         <form onSubmit={handleSubmit(onSubmit)} className='card p-4' style={{ width: '900px' }}>
             <div className='row'>
                 <div className="col-md-6 form-group mb-3">
@@ -96,8 +98,7 @@ const CadCoordenador = () => {
                     id="cpf"
                     className={`form-control ${errors.cpf ? 'is-invalid' : ''}`}
                     {...register('cpf', { 
-                        required: "O CPF do coordenador é obrigatório", 
-                        pattern: { value: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/, message: "Formato de CPF inválido" }
+                        required: "O CPF do coordenador é obrigatório"
                     })}
                     />
                     {errors.cpf && <div className="invalid-feedback">{errors.cpf.message}</div>}

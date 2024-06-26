@@ -115,7 +115,9 @@ const CadDisciplina = () => {
     };
     return (
 <div className="container mt-5">
-    <h2 className="mb-4">Cadastro de Disciplina</h2>
+    <h2 className="mb-4">
+        {id ? 'Editar disciplina' : 'Cadastro de disciplina'}
+    </h2>
     <form onSubmit={handleSubmit(onSubmit)} className="needs-validation card p-4" noValidate>
         <div className="row mb-3">
             <div className="col-md-6">

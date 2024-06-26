@@ -93,7 +93,6 @@ const ListaCoordenadores = () => {
             <th>Nome</th>
             <th>Email</th>
             <th>CPF</th>
-            <th>Status</th>
             <th>Nível de Permissão</th>
             <th>Ações</th>
           </tr>
@@ -107,7 +106,6 @@ const ListaCoordenadores = () => {
                 <td>{coordenador.email}</td>
                 <td>{FormatarCPF(coordenador.cpf)}</td>
                 <td>{coordenador.status}</td>
-                <td>{coordenador.nivelPermissao}</td>
                 <td>
                   <button 
                     onClick={() => editarCoordenador(coordenador.id)} 

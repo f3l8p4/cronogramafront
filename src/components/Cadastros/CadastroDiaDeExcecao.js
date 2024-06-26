@@ -72,7 +72,9 @@ const CadDiaExcecao = () => {
     return (
 <div class="container mt-5">
     <div>
-        <h2 class="mb-4 text-center">Cadastro de Dia de Exceção</h2>
+        <h2 class="mb-4 text-center">
+            {id ? 'Editar dia de exceção' : 'Cadastro dia de exceção'}
+        </h2>
         <form onSubmit={handleSubmit(onSubmit)} class="card p-4">
             <div class="row mb-3">
                 <div class="col-md-6">

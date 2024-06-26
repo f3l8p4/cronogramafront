@@ -110,7 +110,9 @@ const CadAgendaProfessor = () => {
     };
     return (
 <div className="container mt-5">
-    <h2 className="mb-4">Cadastro de Agenda de Professor</h2>
+    <h2 className="mb-4">
+        {id ? 'Editar Agenda professor' : 'Cadastro de agenda professor'}
+    </h2>
     <form onSubmit={handleSubmit(onSubmit)} className="needs-validation card p-4">
         <div className="row mb-3">
             <div className="col-md-6">

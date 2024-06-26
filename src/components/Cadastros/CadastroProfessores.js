@@ -77,7 +77,9 @@ const CadProfessor = () => {
 };
   return (   
 <div className="container mt-5">
-    <h1 className="mb-4">Cadastro de Professores</h1>
+    <h1 className="mb-4">
+      {id ? 'Editar professor' : 'Cadastro de professor'}
+    </h1>
     <form onSubmit={handleSubmit(onSubmit)} className="card p-4">
         <div className="row mb-3">
             <div className="col-md-6">
@@ -96,11 +98,7 @@ const CadProfessor = () => {
                 mask="(99) 99999-9999"
                 className={`form-control ${errors.telefone ? 'is-invalid' : ''}`}
                 {...register('telefone', { 
-                    required: "O telefone não pode estar vazio",
-                    pattern: {
-                        value: /^\(\d{2}\) \d{5}-\d{4}$/,
-                        message: "Telefone inválido"
-                    }
+                    required: "O telefone não pode estar vazio"
                 })}
                 />
                 {errors.telefone && <div className="invalid-feedback">{errors.telefone.message}</div>}
@@ -115,8 +113,7 @@ const CadProfessor = () => {
                     id="cpf"
                     className={`form-control ${errors.cpf ? 'is-invalid' : ''}`}
                     {...register('cpf', { 
-                        required: "O CPF do coordenador é obrigatório", 
-                        pattern: { value: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/, message: "Formato de CPF inválido" }
+                        required: "O CPF do coordenador é obrigatório"
                     })}
                 />
                 {errors.cpf && <div className="invalid-feedback">{errors.cpf.message}</div>}
