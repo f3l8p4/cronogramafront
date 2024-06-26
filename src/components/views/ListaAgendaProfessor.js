@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import apiAgendas from "../../services/apiAgendaProfessor/apiAgendaProfessor"; 
 import { useNavigate } from 'react-router-dom';
 import ExclusaoModal from '../modals/ExclusaoModal';
+import ModalCadastros from '../modals/ModalCadastros';
 import Pagination from '../buttons/Paginacao';
 import BarraPesquisa from '../buttons/BarraPesquisa';
 import Ordenacao from '../buttons/OrdenacaoBotao';
@@ -14,7 +15,10 @@ const ListaAgendaProfessor = () => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortOrder, setSortOrder] = useState('asc'); // Estado para controlar a ordenação
-    
+    const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+    const [feedbackMessage, setFeedbackMessage] = useState('');
+    const [feedbackSuccess, setFeedbackSuccess] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,8 +37,14 @@ const ListaAgendaProfessor = () => {
         try {
             await apiAgendas.excludeAgendaProfessor(id);
             setAgendas(agendas.filter(agenda => agenda.id !== id));
+            setFeedbackSuccess(true);
+            setFeedbackMessage('Agenda excluída com sucesso.');
+            setShowFeedbackModal(true);
         } catch (erro) {
             console.log('Erro na exclusão de agenda do professor', erro);
+            setFeedbackSuccess(false);
+            setFeedbackMessage('Erro ao excluir agenda.');
+            setShowFeedbackModal(true);
         }
         setShowModal(false); // Fechar modal após exclusão
     };
@@ -52,16 +62,26 @@ const ListaAgendaProfessor = () => {
         setShowModal(false);
     };
 
+    const handleCloseFeedbackModal = () => {
+        setShowFeedbackModal(false);
+        if (feedbackSuccess) {
+            const reloadAgendas = async () => {
+                try {
+                    const agendasResponse = await apiAgendas.getAgendaProfessores(); 
+                    setAgendas(agendasResponse);
+                } catch (error) {
+                    console.error('Erro ao recarregar dados após exclusão:', error);
+                }
+            };
+            reloadAgendas();
+        }
+    };
     const editarAgenda = (id) => {
         navigate(`/editarAgendaProfessor/${id}`);
     };
-
-    // Filtrar agendas com base no termo de pesquisa
     const filteredAgendas = agendas.filter(agenda =>
         agenda.professor.nomeCompleto.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
-    // Ordenar agendas por ID
     const sortedAgendas = filteredAgendas.sort((a, b) => {
         if (sortOrder === 'asc') {
             return a.id - b.id;
@@ -134,6 +154,13 @@ const ListaAgendaProfessor = () => {
                 handleClose={handleClose} 
                 handleConfirm={handleConfirm} 
                 item={`agendaProfessor ${selectedItem}`} 
+            />
+
+            <ModalCadastros
+                show={showFeedbackModal}
+                handleClose={handleCloseFeedbackModal}
+                message={feedbackMessage}
+                success={feedbackSuccess}
             />
         </div>
     );

@@ -3,19 +3,20 @@ import apiCursos from "../../services/apiCursos/ApiCursos";
 import apiCoordenadores from "../../services/apiCoordenadores/apiCoordenadores";
 import { useNavigate } from 'react-router-dom';
 import ExclusaoModal from '../modals/ExclusaoModal';
+import ModalCadastros from '../modals/ModalCadastros'; // Importe o componente ModalCadastros aqui
 import Pagination from '../buttons/Paginacao';
 
 const ListaCursos = () => {
     const [cursos, setCursos] = useState([]);
     const [coordenadores, setCoordenadores] = useState({});
-    
-    //Paginacao
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);  // Número de itens por página
-    
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-    
+    const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+    const [feedbackMessage, setFeedbackMessage] = useState('');
+    const [feedbackSuccess, setFeedbackSuccess] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,12 +28,10 @@ const ListaCursos = () => {
                 ]);
 
                 setCursos(cursosResponse.data);
-                console.log(cursosResponse)
                 const coordenadoresMap = coordenadoresResponse.data.reduce((acc, coordenador) => {
                     acc[coordenador.id] = coordenador.nome;
                     return acc;
                 }, {});
-                console.log('Coordenadores Map:', coordenadoresMap);
                 setCoordenadores(coordenadoresMap);
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
@@ -45,10 +44,16 @@ const ListaCursos = () => {
         try {
             await apiCursos.excludeCurso(id);
             setCursos(cursos.filter(curso => curso.id !== id));
+            setFeedbackSuccess(true);
+            setFeedbackMessage('Curso excluído com sucesso.');
+            setShowFeedbackModal(true);
         } catch (erro) {
-            console.log('erro na exclusão de cursos', erro);
+            console.log('Erro na exclusão de curso', erro);
+            setFeedbackSuccess(false);
+            setFeedbackMessage('Erro ao excluir curso.');
+            setShowFeedbackModal(true); // Mostra o modal de feedback de erro
         }
-        setShowModal(false); // Fecha o modal após a exclusão
+        setShowModal(false); // Fechar modal após a exclusão
     };
 
     const confirmarExclusao = (id) => {
@@ -63,20 +68,32 @@ const ListaCursos = () => {
     const handleClose = () => {
         setShowModal(false);
     };
-    
-    
+
+    const handleCloseFeedbackModal = () => {
+        setShowFeedbackModal(false);
+        if (feedbackSuccess) {
+            const reloadCursos = async () => {
+                try {
+                    const cursosResponse = await apiCursos.getCursos();
+                    setCursos(cursosResponse.data);
+                } catch (error) {
+                    console.error('Erro ao recarregar dados após exclusão:', error);
+                }
+            };
+            reloadCursos();
+        }
+    };
+
     const editarCurso = (id) => {
         navigate(`/editarCurso/${id}`);
     };
 
-    // Obter os itens atuais
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = cursos.slice(indexOfFirstItem, indexOfLastItem);
-        
-    // Alterar página
+
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
-    
+
     return (
         <div className="container mt-5">
             <h2 className="mb-4">Lista de Cursos</h2>
@@ -97,18 +114,8 @@ const ListaCursos = () => {
                                 <td>{curso.nome}</td>
                                 <td>{curso.usuarioCoordenador.nome}</td>
                                 <td>
-                                    <button
-                                        className="btn btn-warning btn-sm me-2"
-                                        onClick={() => editarCurso(curso.id)}
-                                    >
-                                        Editar
-                                    </button>
-                                    <button
-                                        className="btn btn-danger btn-sm"
-                                        onClick={() => confirmarExclusao(curso.id)}
-                                    >
-                                        Excluir
-                                    </button>
+                                    <button className="btn btn-warning btn-sm me-2" onClick={() => editarCurso(curso.id)}>Editar</button>
+                                    <button className="btn btn-danger btn-sm" onClick={() => confirmarExclusao(curso.id)}>Excluir</button>
                                 </td>
                             </tr>
                         ))
@@ -122,11 +129,19 @@ const ListaCursos = () => {
             <Pagination itemsPerPage={itemsPerPage} totalItems={cursos.length} paginate={paginate} currentPage={currentPage} />
             
             <button className='btn btn-lg btn-primary' onClick={() => navigate('/cadastroCurso/')}>Cadastrar novo curso</button>
+            
             <ExclusaoModal 
                 show={showModal} 
                 handleClose={handleClose} 
                 handleConfirm={handleConfirm} 
                 item={`curso ${selectedItem}`} 
+            />
+
+            <ModalCadastros
+                show={showFeedbackModal}
+                handleClose={handleCloseFeedbackModal}
+                message={feedbackMessage}
+                success={feedbackSuccess}
             />
         </div>
     );
