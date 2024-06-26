@@ -93,7 +93,7 @@ const ListaCoordenadores = () => {
             <th>Nome</th>
             <th>Email</th>
             <th>CPF</th>
-            <th>Nível de Permissão</th>
+            <th>Status</th>
             <th>Ações</th>
           </tr>
         </thead>

@@ -162,30 +162,13 @@ const CadDisciplina = () => {
                 >
                     <option value="">Selecione uma fase</option>
                     {fases.map((fase) => (
-                        <option key={fase.id} value={fase.id}>{fase.numero}</option>
+                        <option key={fase.id} value={fase.id}>fase {fase.numero} de {fase.curso.nome}</option>
                     ))}
                 </select>
                 {errors.fase && <div className="invalid-feedback">{errors.fase.message}</div>}
             </div>
         </div>
-        
-        <div className="row mb-3">
-            <div className="col-md-12">
-                <label htmlFor="curso" className="form-label">Curso:</label>
-                <select
-                    id="curso"
-                    className={`form-select ${errors.curso ? 'is-invalid' : ''}`}
-                    {...register("curso", { required: "O curso é obrigatório" })}
-                >
-                    <option value="">Selecione um curso</option>
-                    {cursos.map((curso) => (
-                        <option key={curso.id} value={curso.id}>{curso.nome}</option>
-                    ))}
-                </select>
-                {errors.curso && <div className="invalid-feedback">{errors.curso.message}</div>}
-            </div>
-        </div>
-        
+                
         <div className="row">
             <div className="col-md-12 d-flex justify-content-center">
                 <button type="submit" className="btn btn-primary">Enviar</button>
