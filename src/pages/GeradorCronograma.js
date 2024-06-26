@@ -46,10 +46,17 @@ const GeradorCronograma = () => {
                 <div className="col-md-4">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-group">
-                            <label htmlFor="dataCriacao">Data de Criação</label>
+                            <label htmlFor="dataFim">Data de inicio</label>
                             <input 
                                 type="date" 
-                                className={`form-control ${errors.dataCriacao ? 'is-invalid' : ''}`} 
+                                className={`form-control mb-2 ${errors.dataCriacao ? 'is-invalid' : ''}`} 
+                                id="dataCriacao" 
+                                {...register("dataCriacao", { required: "A data de criação é obrigatória" })}
+                            />
+                            <label htmlFor="dataFim">Data de fim</label>
+                            <input 
+                                type="date" 
+                                className={`form-control mb-2 ${errors.dataCriacao ? 'is-invalid' : ''}`} 
                                 id="dataCriacao" 
                                 {...register("dataCriacao", { required: "A data de criação é obrigatória" })}
                             />
@@ -58,7 +65,7 @@ const GeradorCronograma = () => {
                         <div className="form-group">
                             <label htmlFor="curso">Curso</label>
                             <select 
-                                className={`form-control ${errors.curso ? 'is-invalid' : ''}`} 
+                                className={`form-control mb-2 ${errors.curso ? 'is-invalid' : ''}`} 
                                 id="curso" 
                                 {...register("curso", { required: "O curso é obrigatório" })}
                             >

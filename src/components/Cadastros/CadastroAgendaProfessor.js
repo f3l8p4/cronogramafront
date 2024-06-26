@@ -118,7 +118,7 @@ const CadAgendaProfessor = () => {
                 <select 
                     id="professor" 
                     className={`form-control ${errors.professor ? 'is-invalid' : ''}`} 
-                    {...register("professor", { required: "O professor é obrigatório" })}
+                    {...register("professor")}
                 >
                     <option value="">Selecione um professor</option>
                     {professores.map(professor => (
@@ -149,7 +149,7 @@ const CadAgendaProfessor = () => {
                 <select 
                     id="disciplina" 
                     className={`form-control ${errors.disciplina ? 'is-invalid' : ''}`} 
-                    {...register("disciplina", { required: "A disciplina é obrigatória" })}
+                    {...register("disciplina")}
                 >
                     <option value="">Selecione uma disciplina</option>
                     {disciplinas.map(disciplina => (

@@ -107,7 +107,12 @@ const CadDisciplina = () => {
             navigate('/disciplinas');
         }
     };
-
+    
+    const validarCor = (value) => {
+        if(value == "#ffffff"){
+            return "A cor definida não pode ser branca"
+        }
+    };
     return (
 <div className="container mt-5">
     <h2 className="mb-4">Cadastro de Disciplina</h2>
@@ -119,7 +124,7 @@ const CadDisciplina = () => {
                     type="text"
                     id="nome"
                     className={`form-control ${errors.nome ? 'is-invalid' : ''}`}
-                    {...register("nome", { required: "O nome da disciplina é obrigatório" })}
+                    {...register("nome", { required: "O nome da disciplina é obrigatório"})}
                 />
                 {errors.nome && <div className="invalid-feedback">{errors.nome.message}</div>}
             </div>
@@ -136,17 +141,17 @@ const CadDisciplina = () => {
         </div>
         
         <div className="row mb-3">
-            <div className="col-md-6">
+            <div className="col-md-4">
                 <label htmlFor="codigoCor" className="form-label">Código da cor:</label>
                 <input
                     type="color"
                     id="codigoCor"
                     className={`form-control  ${errors.codigoCor ? 'is-invalid' : ''}`}
-                    {...register("codigoCor", { required: "A cor que irá aparecer na tabela é obrigatória" })}
+                    {...register("codigoCor", {validate: validarCor})}
                 />
                 {errors.codigoCor && <div className="invalid-feedback">{errors.codigoCor.message}</div>}
             </div>
-            <div className="col-md-6">
+            <div className="col-md-8">
                 <label htmlFor="fase" className="form-label">Fase:</label>
                 <select
                     id="fase"

@@ -10,10 +10,10 @@ const TelaErro = ({ errors }) => {
     }, [errors]);
 
     return (
-        <div className="error-box bg-light p-3 rounded">
+        <div className="error-box bg-light p-4 rounded">
             <h4>ERROS</h4>
             <textarea
-                className="form-control"
+                className="form-control form-control-lg"
                 rows={errorList.length > 4 ? 4 : errorList.length}
                 readOnly
                 value={errorList.join('\n')}
