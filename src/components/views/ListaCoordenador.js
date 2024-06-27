@@ -149,7 +149,7 @@ const ListaCoordenadores = () => {
         className='btn btn-lg btn-primary' 
         onClick={() => navigate('/cadastroCoordenador/')}
       >
-        Cadastrar novo usuário
+        Cadastrar novo coordenador
       </button>
     </div>
   );
