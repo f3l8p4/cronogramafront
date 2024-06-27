@@ -54,6 +54,7 @@ const CadCoordenador = () => {
                 setModalMessage('usuario atualizado com sucesso');
             } else {
                 data.status = 'ATIVO'
+                data.nivelPermissao = 'COORDENADOR'
                 await apiCoordenadores.addCoordenador(data);
                 setSuccess(true)
                 setModalMessage('Usuario adicionado com sucesso')

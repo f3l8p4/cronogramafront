@@ -8,7 +8,6 @@ const Layout = ({ children }) => {
 
     return (
         <div className="container mt-5">
-            {/* Renderiza o botão de "Voltar" em todas as páginas exceto a principal */}
             {location.pathname !== '/' && <BackButton />}
             {children}
         </div>

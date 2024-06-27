@@ -22,9 +22,10 @@ const ListaCoordenadores = () => {
     const carregarCoordenadores = async () => {
       try {
         const data = await apiCoordenadores.getCoordenadores();
-       
+        console.log(data)
         if (Array.isArray(data)) {
-          setCoordenadores(data);
+          const coordenadores = data.filter(coordenador => coordenador.nivelPermissao === 'COORDENADOR');
+          setCoordenadores(coordenadores);
         } else {
           console.error('Não há coordenadores cadastrados no sistema:', data);
         }
