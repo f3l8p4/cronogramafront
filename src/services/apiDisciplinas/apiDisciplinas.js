@@ -24,7 +24,6 @@ const getDisciplina = async (id) => {
   const addDisciplinas = async (data) => {
     try {
       const response = await axios.post(`${apiUrl}disciplina/`,data);
-      console.log('Disciplina adicionada com sucesso',response);
     } catch (error) {
       console.error('Erro ao adicionar disciplina:', error);
     }
@@ -33,7 +32,6 @@ const getDisciplina = async (id) => {
   const excludeDisciplinas = async(id) => { 
     try{
         const response = await axios.delete(`${apiUrl}disciplina/${id}`);
-        console.log('Disciplinas excluídas com sucesso:', response.data);
     }catch(erro){
         console.error('erro ao excluir a disciplinas',erro)
     }
@@ -42,6 +40,7 @@ const getDisciplina = async (id) => {
   const updateDisciplinas = async(id,dadosAtualizados) => {
     try{
         const response = await axios.put(`${apiUrl}disciplina/${id}`, dadosAtualizados);
+        console.log(response.data)
     }catch(error){
         console.error('Erro ao atualizar disciplina:', error);
     }
