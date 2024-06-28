@@ -3,6 +3,7 @@ import apiFases from "../../services/apiFases/apiFases";
 import { useNavigate } from 'react-router-dom';
 import ExclusaoModal from '../modals/ExclusaoModal';
 import Pagination from '../buttons/Paginacao';
+import ModalCadastros from '../modals/ModalCadastros';
 
 const ListaFases = () => {
     const [fases, setFases] = useState([]);
@@ -13,6 +14,10 @@ const ListaFases = () => {
     
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+    const [feedbackMessage, setFeedbackMessage] = useState('');
+    const [feedbackSuccess, setFeedbackSuccess] = useState(false);
+
     
     const navigate = useNavigate();
 
@@ -36,8 +41,13 @@ const ListaFases = () => {
         try {
             await apiFases.excludeFase(id);
             setFases(fases.filter(fase => fase.id !== id));
+            setFeedbackSuccess(true);
+            setFeedbackMessage('fase excluída com sucesso.');
+            setShowFeedbackModal(true);
         } catch (erro) {
-            console.log('erro na exclusão de fases', erro);
+            setFeedbackSuccess(false);
+            setFeedbackMessage('Erro ao excluir curso.');
+            setShowFeedbackModal(true);
         }
         setShowModal(false); // Fecha o modal após a exclusão
     };
@@ -53,6 +63,21 @@ const ListaFases = () => {
 
     const handleClose = () => {
         setShowModal(false);
+    };
+    
+    const handleCloseFeedbackModal = () => {
+        setShowFeedbackModal(false);
+        if (feedbackSuccess) {
+            const reloadFases = async () => {
+                try {
+                    const fasesResponse = await apiFases.getFases()
+                    setFases(fasesResponse.data)
+                } catch (error) {
+                    console.error('Erro ao recarregar dados após exclusão:', error);
+                }
+            };
+            reloadFases();
+        }
     };
     
     const editarFase = (id) => {
@@ -107,6 +132,12 @@ const ListaFases = () => {
                 handleClose={handleClose} 
                 handleConfirm={handleConfirm} 
                 item={`Fase ${selectedItem}`} 
+            />
+            <ModalCadastros
+                show={showFeedbackModal}
+                handleClose={handleCloseFeedbackModal}
+                message={feedbackMessage}
+                success={feedbackSuccess}
             />
         </div>
     );

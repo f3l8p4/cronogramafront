@@ -48,12 +48,11 @@ const ListaCursos = () => {
             setFeedbackMessage('Curso excluído com sucesso.');
             setShowFeedbackModal(true);
         } catch (erro) {
-            console.log('Erro na exclusão de curso', erro);
             setFeedbackSuccess(false);
             setFeedbackMessage('Erro ao excluir curso.');
-            setShowFeedbackModal(true); // Mostra o modal de feedback de erro
+            setShowFeedbackModal(true);
         }
-        setShowModal(false); // Fechar modal após a exclusão
+        setShowModal(false); 
     };
 
     const confirmarExclusao = (id) => {

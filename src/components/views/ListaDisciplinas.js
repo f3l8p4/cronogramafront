@@ -5,14 +5,20 @@ import apiCursos from "../../services/apiCursos/ApiCursos";
 import { useNavigate } from 'react-router-dom';
 import ExclusaoModal from '../modals/ExclusaoModal';
 import Pagination from '../buttons/Paginacao';
-import BarraPesquisa from '../buttons/BarraPesquisa'; // Importação da BarraPesquisa
-import Ordenacao from '../buttons/OrdenacaoBotao'; // Importação da Ordenacao
+import BarraPesquisa from '../buttons/BarraPesquisa';
+import Ordenacao from '../buttons/OrdenacaoBotao'; 
+import ModalCadastros from '../modals/ModalCadastros';
 
 const ListaDisciplinas = () => {
     const [disciplinas, setDisciplinas] = useState([]);
     const [coordenadores, setCoordenadores] = useState({});
     const [fases, setFases] = useState({});
     const [cursos, setCursos] = useState({});
+    //Confirmação de modal cadastros
+    const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+    const [feedbackMessage, setFeedbackMessage] = useState('');
+    const [feedbackSuccess, setFeedbackSuccess] = useState(false);
+    
   //campo de busca
         const [searchTerm, setSearchTerm] = useState('');
         const [sortDirection, setSortDirection] = useState('asc');
@@ -62,10 +68,15 @@ const ListaDisciplinas = () => {
         try {
             await apiDisciplinas.excludeDisciplinas(id);
             setDisciplinas(disciplinas.filter(disciplina => disciplina.id !== id));
+            setFeedbackSuccess(true);
+            setFeedbackMessage('disciplina excluída com sucesso.');
+            setShowFeedbackModal(true);
         } catch (erro) {
-            console.log('erro na exclusão de disicplinas', erro);
+            setFeedbackSuccess(false);
+            setFeedbackMessage('Erro ao excluir curso.');
+            setShowFeedbackModal(true); 
         }
-        setShowModal(false); // Fecha o modal após a exclusão
+        setShowModal(false); 
     };
 
     const confirmarExclusao = (id) => {
@@ -79,6 +90,22 @@ const ListaDisciplinas = () => {
 
     const handleClose = () => {
         setShowModal(false);
+    };
+    
+    
+    const handleCloseFeedbackModal = () => {
+        setShowFeedbackModal(false);
+        if (feedbackSuccess) {
+            const reloadDisciplinas = async () => {
+                try {
+                    const disciplinasResponse = await apiDisciplinas.getDisciplinas()
+                    setCursos(disciplinasResponse.data);
+                } catch (error) {
+                    console.error('Erro ao recarregar dados após exclusão:', error);
+                }
+            };
+            reloadDisciplinas();
+        }
     };
     
     const editarDisciplina = (id) => {
@@ -170,6 +197,13 @@ const ListaDisciplinas = () => {
                 handleClose={handleClose} 
                 handleConfirm={handleConfirm} 
                 item={`Disciplina ${selectedItem}`} 
+            />
+            
+            <ModalCadastros
+                show={showFeedbackModal}
+                handleClose={handleCloseFeedbackModal}
+                message={feedbackMessage}
+                success={feedbackSuccess}
             />
         </div>
     );
