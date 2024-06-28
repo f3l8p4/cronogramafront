@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import apiDiaExcecao from "../../services/apiDiaExcecao/apiDiaExcecao";
 import ModalCadastros from "../modals/ModalCadastros";
+import formatarData from "../Formatações/FormataData";
 
 const CadDiaExcecao = () => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -40,8 +41,9 @@ const CadDiaExcecao = () => {
     }, [id, setValue]);
 
     const onSubmit = async (data) => {
+        const dataFormatada = new Date(data.data)
         const dadosDiaExcecao = {
-            data: data.data,
+            data: dataFormatada.toLocaleDateString('pt-BR', {timeZone: 'UTC'}),
             motivo: data.motivo
         };
         try {

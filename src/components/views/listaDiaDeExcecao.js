@@ -11,7 +11,7 @@ const ListaDiaExcecao = () => {
     const [diasExcecao, setDiasExcecao] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortDirection, setSortDirection] = useState('asc');
-    
+
     // Paginação
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);  // Número de itens por página
@@ -43,14 +43,6 @@ const ListaDiaExcecao = () => {
         carregarDiasExcecao();
     }, []);
     
-    const formatarData = (data) => {
-        const dataObj = new Date(data);
-        const dia = String(dataObj.getDate()).padStart(2, '0');
-        const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
-        const ano = dataObj.getFullYear();
-        return `${dia}/${mes}/${ano}`;
-    };
-
     const editarDiaExcecao = (id) => {
         navigate(`/editarDiaExcecao/${id}`);
     };
@@ -145,7 +137,7 @@ const ListaDiaExcecao = () => {
                         currentItems.map((dia) => (
                             <tr key={dia.id}>
                                 <td>{dia.id}</td>
-                                <td>{new Date(dia.data).toLocaleDateString('pt-BR', {timeZone: 'UTC'})}</td>
+                                <td>{dia.data}</td>
                                 <td>{dia.motivo}</td>
                                 <td>
                                     <button 
