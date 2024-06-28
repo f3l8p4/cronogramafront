@@ -26,11 +26,20 @@ const GeradorCronograma = () => {
     }, []);
 
     const onSubmit = async (data) => {
-        const nomeCurso = { nomeCurso: data.curso };
-        console.log(nomeCurso)
+        const dataFormatadaInicio = new Date(data.dataInicio)
+        const dataFormatadaFim = new Date(data.dataFim)
+        
+        const reqCronograma = 
+        { 
+            nomeCurso: data.curso, 
+            dataInicio: dataFormatadaInicio.toLocaleDateString('pt-BR', {timeZone: 'UTC'}), 
+            dataFim: dataFormatadaFim.toLocaleDateString('pt-br', {timeZone: 'UTC'}) 
+        };
+        
+        console.log(reqCronograma)
         try {
-           const response = await apiCronograma.getCronograma(nomeCurso);  
-           console.log(response)
+           const response = await apiCronograma.getCronograma(reqCronograma);  
+           console.log(response.data)
         } catch (error) {
             console.log('Houve erro ao gerar o cronograma',error);
         }
@@ -49,18 +58,18 @@ const GeradorCronograma = () => {
                             <label htmlFor="dataFim">Data de inicio</label>
                             <input 
                                 type="date" 
-                                className={`form-control mb-2 ${errors.dataCriacao ? 'is-invalid' : ''}`} 
-                                id="dataCriacao" 
-                                {...register("dataCriacao", { required: "A data de criação é obrigatória" })}
+                                className={`form-control mb-2 ${errors.dataInicio ? 'is-invalid' : ''}`} 
+                                id="dataInicio" 
+                                {...register("dataInicio", { required: "A data de inicio é obrigatória" })}
                             />
                             <label htmlFor="dataFim">Data de fim</label>
                             <input 
                                 type="date" 
-                                className={`form-control mb-2 ${errors.dataCriacao ? 'is-invalid' : ''}`} 
-                                id="dataCriacao" 
-                                {...register("dataCriacao", { required: "A data de criação é obrigatória" })}
+                                className={`form-control mb-2 ${errors.dataFim ? 'is-invalid' : ''}`} 
+                                id="dataFim" 
+                                {...register("dataFim", { required: "A data de fim é obrigatória" })}
                             />
-                            {errors.dataCriacao && <div className="invalid-feedback">{errors.dataCriacao.message}</div>}
+                            {errors.dataCriacao && <div className="invalid-feedback">{errors.dataFim.message}</div>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="curso">Curso</label>
