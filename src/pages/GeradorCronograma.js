@@ -6,13 +6,9 @@ import TelaErro from "../components/views/TelaError";
 
 const GeradorCronograma = () => {
     const [cursos, setCursos] = useState([]);
+    const [error, setError] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm();
     
-    const error = {
-                professor: { message: 'professores não conseguem fechar o horario' },
-                curso: { message: 'Erro no curso' },
-                disciplina: { message: 'erro de disciplina sem professores'}
-    }
     useEffect(() => {
         const carregarDados = async () => {
             try {
@@ -26,22 +22,22 @@ const GeradorCronograma = () => {
     }, []);
 
     const onSubmit = async (data) => {
-        const dataFormatadaInicio = new Date(data.dataInicio)
-        const dataFormatadaFim = new Date(data.dataFim)
+        const dataFormatadaInicio = new Date(data.dataInicio);
+        const dataFormatadaFim = new Date(data.dataFim);
         
-        const reqCronograma = 
-        { 
+        const reqCronograma = { 
             nomeCurso: data.curso, 
             dataInicio: dataFormatadaInicio.toLocaleDateString('pt-BR', {timeZone: 'UTC'}), 
-            dataFim: dataFormatadaFim.toLocaleDateString('pt-br', {timeZone: 'UTC'}) 
+            dataFim: dataFormatadaFim.toLocaleDateString('pt-BR', {timeZone: 'UTC'}) 
         };
         
-        console.log(reqCronograma)
+        console.log(reqCronograma);
         try {
-           const response = await apiCronograma.getCronograma(reqCronograma);  
-           console.log(response.data)
+           const response = await apiCronograma.getCronograma(reqCronograma);
+           setError(response.data);
         } catch (error) {
-            console.log('Houve erro ao gerar o cronograma',error);
+            console.log('Houve erro ao gerar o cronograma', error);
+            setError('Houve erro ao gerar o cronograma');
         }
     };
 
@@ -55,7 +51,7 @@ const GeradorCronograma = () => {
                 <div className="col-md-4">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-group">
-                            <label htmlFor="dataFim">Data de inicio</label>
+                            <label htmlFor="dataInicio">Data de inicio</label>
                             <input 
                                 type="date" 
                                 className={`form-control mb-2 ${errors.dataInicio ? 'is-invalid' : ''}`} 
@@ -69,7 +65,7 @@ const GeradorCronograma = () => {
                                 id="dataFim" 
                                 {...register("dataFim", { required: "A data de fim é obrigatória" })}
                             />
-                            {errors.dataCriacao && <div className="invalid-feedback">{errors.dataFim.message}</div>}
+                            {errors.dataFim && <div className="invalid-feedback">{errors.dataFim.message}</div>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="curso">Curso</label>
@@ -89,9 +85,8 @@ const GeradorCronograma = () => {
                     </form>
                 </div>
                 <div className="col-md-8">
-                    <TelaErro errors={error}/>
+                    <TelaErro message={error} />
                     <button type="button" className="btn btn-primary mt-3" disabled>DOWNLOAD</button>
-                    <p className="mt-2">DOWNLOAD SERÁ LIBERADO APENAS QUANDO NÃO ESTIVER ERRO.</p>
                 </div>
             </div>
         </div>
