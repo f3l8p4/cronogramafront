@@ -18,35 +18,37 @@ import Home from '../pages/TelaHome';
 import Layout from '../components/layouts/layout';
 import Login from '../pages/Login';
 import GeradorCronograma from '../pages/GeradorCronograma';
+import PrivateRoute from './PrivateRoute';
 
 const Routers = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home/>} />
-      <Route path="/login" element={<Login/>} />
-      <Route path='/professores' element={<Layout> <ListaProfessores/> </Layout>} />
-      <Route path='/coordenadores' element={<Layout> <ListaCoordenadores/> </Layout>}/>
-      <Route path='/disciplinas' element={<Layout> <ListaDisciplinas/> </Layout>} />
-      <Route path='/fases' element={<Layout> <ListaFases/> </Layout>}/>
-      <Route path='/cursos' element = {<Layout> <ListaCurso/> </Layout>}/>
-      <Route path='/diaExcecao' element = {<Layout> <ListaDiaExcecao/> </Layout>}/>
-      <Route path='/agendaprofessores' element = {<Layout> <ListaAgendaProfessor/> </Layout>}/>
-      <Route path="/cadastro/" element={<Layout> <CadProfessor/> </Layout>} />
-      <Route path="/cadastroDiaExcecao/" element={<Layout> <CadDiaExcecao/> </Layout>} />
-      <Route path="/editarProfessor/:id" element={<Layout> <CadProfessor/> </Layout>} />
-      <Route path='/cadastroCoordenador' element={<Layout> <CadCoordenador/> </Layout>}/>
-      <Route path="/editarCoordenador/:id" element={<Layout> <CadCoordenador/> </Layout>} />
-      <Route path='/cadastroDisciplina/' element={<Layout> <CadDisciplina/> </Layout>} />
-      <Route path='/cadastroCurso/' element={<Layout> <CadCurso/> </Layout>} />
-      <Route path='/cadastroAgendaProfessor/' element={<Layout> <CadAgendaProfessor/> </Layout>} />
-      <Route path='/editarDisciplina/:id' element={<Layout> <CadDisciplina/> </Layout>} />
-      <Route path='/cadastroFase' element={<Layout> <CadFase/> </Layout>} />
-      <Route path='/editarFase/:id' element={<Layout> <CadFase/> </Layout>} />
-      <Route path="/editarDiaExcecao/:id" element={<Layout> <CadDiaExcecao/> </Layout>} />
-      <Route path='/editarCurso/:id' element={<Layout> <CadCurso/> </Layout>} />
-      <Route path='/editarAgendaProfessor/:id' element={<Layout> <CadAgendaProfessor/> </Layout>} />
-      <Route path='/geracaoCronograma/' element={<Layout> <GeradorCronograma/> </Layout>}/>
-    </Routes>
+      <Route path="/" element={<PrivateRoute element={<Home/>} />}  /> 
+      <Route path="/login" element={<Login />} />
+      <Route path="/professores" element={<PrivateRoute element={<Layout><ListaProfessores /></Layout>} />} />
+      <Route path="/coordenadores" element={<PrivateRoute element={<Layout><ListaCoordenadores /></Layout>} />} />
+      <Route path="/disciplinas" element={<PrivateRoute element={<Layout><ListaDisciplinas /></Layout>} />} />
+      <Route path="/fases" element={<PrivateRoute element={<Layout><ListaFases /></Layout>} />} />
+      <Route path="/cursos" element={<PrivateRoute element={<Layout><ListaCurso /></Layout>} />} />
+      <Route path="/diaExcecao" element={<PrivateRoute element={<Layout><ListaDiaExcecao /></Layout>} />} />
+      <Route path="/agendaprofessores" element={<PrivateRoute element={<Layout><ListaAgendaProfessor /></Layout>} />} />
+      <Route path="/cadastro" element={<PrivateRoute element={<Layout><CadProfessor /></Layout>} />} />
+      <Route path="/cadastroDiaExcecao" element={<PrivateRoute element={<Layout><CadDiaExcecao /></Layout>} />} />
+      <Route path="/editarProfessor/:id" element={<PrivateRoute element={<Layout><CadProfessor /></Layout>} />} />
+      <Route path="/cadastroCoordenador" element={<PrivateRoute element={<Layout><CadCoordenador /></Layout>} />} />
+      <Route path="/editarCoordenador/:id" element={<PrivateRoute element={<Layout><CadCoordenador /></Layout>} />} />
+      <Route path="/cadastroDisciplina" element={<PrivateRoute element={<Layout><CadDisciplina /></Layout>} />} />
+      <Route path="/cadastroCurso" element={<PrivateRoute element={<Layout><CadCurso /></Layout>} />} />
+      <Route path="/cadastroAgendaProfessor" element={<PrivateRoute element={<Layout><CadAgendaProfessor /></Layout>} />} />
+      <Route path="/editarDisciplina/:id" element={<PrivateRoute element={<Layout><CadDisciplina /></Layout>} />} />
+      <Route path="/cadastroFase" element={<PrivateRoute element={<Layout><CadFase /></Layout>} />} />
+      <Route path="/editarFase/:id" element={<PrivateRoute element={<Layout><CadFase /></Layout>} />} />
+      <Route path="/editarDiaExcecao/:id" element={<PrivateRoute element={<Layout><CadDiaExcecao /></Layout>} />} />
+      <Route path="/editarCurso/:id" element={<PrivateRoute element={<Layout><CadCurso /></Layout>} />} />
+      <Route path="/editarAgendaProfessor/:id" element={<PrivateRoute element={<Layout><CadAgendaProfessor /></Layout>} />} />
+      <Route path="/geracaoCronograma" element={<PrivateRoute element={<Layout><GeradorCronograma /></Layout>} />} />
+
+</Routes>
   );
 };
 
