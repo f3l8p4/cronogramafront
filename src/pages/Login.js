@@ -24,11 +24,9 @@ const Login = () => {
       const response = await apiLogin(data)
       setSuccess(true)
       setModalMessage("Usuario logado com sucesso")
-      console.log(response.data)
     } catch (error) {
       setSuccess(false)
       setModalMessage("Email ou senha invalidos")
-      console.log(error)
     }
     setShowModal(true)
   };
@@ -38,6 +36,7 @@ const Login = () => {
     setShowModal(false);
     if (success) {
         navigate('/diaExcecao');
+        window.location.reload();
     }
   };
 

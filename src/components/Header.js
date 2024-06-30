@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 import LOGO from '../imgs/LOGO.png'; // Substitua pelo caminho da sua imagem
 
 const Header = () => {
+  const isLoggedIn = localStorage.getItem('isLoggedIn') !== null;
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn'); 
+    window.location.reload();
+  }
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -54,6 +59,12 @@ const Header = () => {
               <Link className="nav-link" to="/agendaprofessores">Agenda professores</Link>
             </li>
           </ul>
+          {isLoggedIn && (
+                        <div className="d-flex">
+                            <button className="btn btn-outline-danger me-2" onClick={handleLogout}>Sair</button>
+                            {/* Aqui você pode adicionar mais itens no menu do usuário */}
+                        </div>
+                    )}
         </div>
       </div>
     </nav>
