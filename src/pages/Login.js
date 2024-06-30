@@ -1,21 +1,43 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
+import apiLogin from '../services/Login/Login';
+import ModalCadastros from '../components/modals/ModalCadastros';
 import axios from 'axios';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  // Funcionamento do modal
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('')
+  const [success, setSuccess] = useState(false);
+  
   const [error, setError] = useState('');
 
+  
   const onSubmit = async (data) => {
+    console.log(data)
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/login', data);
-      const token = response.data.token;
-      localStorage.setItem('jwt', token); // Armazena o token no localStorage
-      setError('Login bem-sucedido');
-      console.log('JWT token:', token);
+      const response = await apiLogin(data)
+      setSuccess(true)
+      setModalMessage("Usuario logado com sucesso")
+      console.log(response.data)
     } catch (error) {
-      setError('Senha ou email errados.');
-      console.error('Erro de login:', error);
+      setSuccess(false)
+      setModalMessage("Email ou senha invalidos")
+      console.log(error)
+    }
+    setShowModal(true)
+  };
+  
+  
+  const handleCloseModal = () => {
+    setShowModal(false);
+    if (success) {
+        navigate('/diaExcecao');
     }
   };
 
@@ -30,8 +52,8 @@ const Login = () => {
                     type="email"
                     className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                     id="email"
-                    placeholder="Enter email"
-                    {...register('email', { required: 'Email is required' })}
+                    placeholder="digite o email"
+                    {...register('email', { required: 'o email é necessário' })}
                 />
                 {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
             </div>
@@ -40,15 +62,16 @@ const Login = () => {
                 <input
                     type="password"
                     className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                    id="password"
-                    placeholder="Enter password"
-                    {...register('password', { required: 'Password is required' })}
+                    id="senha"
+                    placeholder="digite a senha"
+                    {...register('senha', { required: 'A senha é necesária' })}
                 />
-                {errors.password && <div className="invalid-feedback">{errors.password.message}</div>}
+                {errors.senha && <div className="invalid-feedback">{errors.senha.message}</div>}
             </div>
-            <button type="submit" className="btn btn-primary btn-block mt-4">Submit</button>
+            <button type="submit" className="btn btn-primary btn-block mt-4">Entrar</button>
         </form>
     </div>
+    <ModalCadastros show={showModal} handleClose={handleCloseModal} message={modalMessage} success={success}/>
 </div>
   );
 };

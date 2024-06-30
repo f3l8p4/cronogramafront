@@ -1,22 +1,20 @@
 import axios from 'axios';
 
-const apiAuth = process.env.REACT_API_URL
+const apiUrl = process.env.REACT_APP_API_URL;
 
-export const login = async (credentials) => {
-  try {
-    const response = await apiAuth.post('/auth/login', credentials);
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
-  }
+export const apiLogin = async (data) => {
+    try {
+        const response = await axios.post(`${apiUrl}usuario/login/`, data);
+        localStorage.setItem('isLoggedIn', 'true'); 
+        return response;
+    } catch (error) {
+        throw error.response.data;
+    }
 };
 
-export const setAuthToken = (token) => {
-  if (token) {
-    apiAuth.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  } else {
-    delete apiAuth.defaults.headers.common['Authorization'];
-  }
+export const logout = () => {
+    localStorage.removeItem('isLoggedIn'); // Remover estado de autenticação
 };
 
-export default apiAuth;
+export default apiLogin;
+
